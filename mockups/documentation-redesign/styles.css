@@ -1,0 +1,412 @@
+:root {
+  --navy: #04145f;
+  --navy-2: #21306f;
+  --sky: #dfe5ef;
+  --panel: #f8fafc;
+  --card: #ffffff;
+  --text: #182132;
+  --muted: #61708b;
+  --border: #d8dee9;
+  --accent: #2fb4d2;
+  --accent-soft: #e8f8fb;
+  --shadow: 0 16px 40px rgba(18, 32, 74, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #eef2f7;
+  color: var(--text);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+body {
+  padding: 22px;
+}
+
+.app-shell {
+  min-height: calc(100vh - 44px);
+  display: grid;
+  grid-template-columns: 248px 1fr;
+  background: var(--sky);
+  border: 1px solid rgba(4, 20, 95, 0.08);
+  box-shadow: var(--shadow);
+}
+
+.sidebar {
+  background: var(--navy);
+  color: #fff;
+  padding: 26px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo-block {
+  margin-bottom: 30px;
+}
+
+.logo-mark {
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+}
+
+.logo-mark span {
+  font-weight: 600;
+}
+
+.logo-mark.small {
+  font-size: 1.7rem;
+}
+
+.logo-subtitle {
+  margin-top: 2px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.nav-item,
+.support-link {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.82);
+  padding: 14px 16px;
+  border-radius: 10px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-item:hover,
+.support-link:hover,
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.support-link {
+  align-self: flex-start;
+}
+
+.main-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.45);
+  border-bottom: 1px solid rgba(4, 20, 95, 0.08);
+}
+
+.breadcrumb {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-actions a {
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(4, 20, 95, 0.08);
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.hero-card,
+.content-section,
+.page-footer {
+  margin: 22px 24px 0;
+  background: var(--panel);
+  border: 1px solid rgba(4, 20, 95, 0.08);
+}
+
+.hero-card {
+  padding: 34px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  letter-spacing: -0.04em;
+}
+
+.hero-copy,
+.section-heading p,
+.resource-card p,
+.tutorial-copy p,
+.page-footer p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.search-field {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+
+.search-field svg {
+  width: 22px;
+  height: 22px;
+  fill: #8b98af;
+  flex: 0 0 auto;
+}
+
+.search-field input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.quick-links button {
+  border: 1px solid #bcc7d8;
+  background: #fff;
+  color: var(--navy-2);
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.content-section {
+  padding: 26px;
+}
+
+.section-heading {
+  margin-bottom: 18px;
+}
+
+.section-heading h2 {
+  margin-bottom: 6px;
+  font-size: 1.55rem;
+  letter-spacing: -0.03em;
+}
+
+.resource-grid,
+.tutorial-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.resource-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.resource-card,
+.tutorial-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.resource-card {
+  display: grid;
+  gap: 16px;
+}
+
+.resource-card h3,
+.tutorial-copy h3 {
+  margin-bottom: 8px;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+}
+
+.resource-card a {
+  color: var(--navy);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.icon-wrap {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  background: #f0f2f7;
+}
+
+.icon-wrap svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--navy);
+}
+
+.icon-book {
+  background: #eef3ff;
+}
+
+.icon-glossary {
+  background: #f2f0ff;
+}
+
+.icon-upload {
+  background: var(--accent-soft);
+}
+
+.tutorial-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tutorial-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.video-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #061762 0%, #2fb4d2 100%);
+  display: grid;
+  place-items: center;
+}
+
+.video-thumb::before {
+  content: "MD Ranger tutorial";
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.16);
+  color: white;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.play-button {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  position: relative;
+  backdrop-filter: blur(2px);
+}
+
+.play-button::before {
+  content: "";
+  position: absolute;
+  left: 36px;
+  top: 28px;
+  width: 0;
+  height: 0;
+  border-top: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+  border-left: 26px solid #fff;
+}
+
+.tutorial-copy {
+  padding: 20px;
+}
+
+.page-footer {
+  margin-bottom: 24px;
+  background: #4b5388;
+  color: #fff;
+  padding: 28px 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.page-footer p,
+.footer-meta {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1120px) {
+  .resource-grid,
+  .tutorial-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  body {
+    padding: 0;
+  }
+
+  .app-shell {
+    grid-template-columns: 1fr;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    gap: 20px;
+  }
+
+  .page-footer,
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
