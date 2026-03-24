@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MD Ranger Account Settings Redesign</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div>
+          <div class="logo-block">
+            <div class="logo-mark">MD<span>RANGER</span></div>
+            <div class="logo-subtitle">Powered by ECG</div>
+          </div>
+
+          <nav class="sidebar-nav" aria-label="Primary">
+            <a class="nav-item active" href="#">Home</a>
+            <a class="nav-item" href="#">Benchmarks</a>
+            <a class="nav-item" href="#">Documentation</a>
+            <a class="nav-item" href="#">Contracts</a>
+            <a class="nav-item" href="#">Analytics</a>
+            <a class="nav-item" href="#">Trends</a>
+          </nav>
+        </div>
+
+        <a class="support-link" href="#">Support</a>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div>
+            <div class="breadcrumb">Home / Account</div>
+            <h1>Account settings</h1>
+          </div>
+          <div class="topbar-actions">
+            <span class="user-pill">Juan Cuartas</span>
+            <a href="#">Help</a>
+          </div>
+        </header>
+
+        <section class="layout-grid">
+          <div class="main-column">
+            <section class="settings-card">
+              <div class="section-header">
+                <div>
+                  <p class="eyebrow">Profile</p>
+                  <h2>Account information</h2>
+                </div>
+                <span class="badge">Customer use only</span>
+              </div>
+
+              <div class="org-block">
+                <span class="field-label">Organization</span>
+                <div class="org-name">MD Ranger Customer Use Only</div>
+              </div>
+
+              <div class="form-grid two-col">
+                <label class="field">
+                  <span class="field-label">First name</span>
+                  <input type="text" value="Juan" />
+                </label>
+                <label class="field">
+                  <span class="field-label">Last name</span>
+                  <input type="text" value="Cuartas" />
+                </label>
+                <label class="field">
+                  <span class="field-label">Telephone</span>
+                  <input type="tel" placeholder="Add phone number" />
+                </label>
+                <label class="field">
+                  <span class="field-label">Email</span>
+                  <input type="email" placeholder="name@organization.com" />
+                </label>
+              </div>
+            </section>
+
+            <section class="settings-card">
+              <div class="section-header stacked">
+                <div>
+                  <p class="eyebrow">Preferences</p>
+                  <h2>Benchmark and report preferences</h2>
+                  <p class="section-copy">Keep all current settings, but surface them in a cleaner format that is easier to scan and update.</p>
+                </div>
+              </div>
+
+              <div class="preference-block">
+                <h3>Search</h3>
+                <div class="choice-grid">
+                  <label class="choice-card selected">
+                    <input type="radio" name="search-setting" checked />
+                    <div>
+                      <strong>Default: All Benchmarks</strong>
+                      <span>Show the full benchmark set by default.</span>
+                    </div>
+                  </label>
+
+                  <label class="choice-card">
+                    <input type="radio" name="search-setting" />
+                    <div>
+                      <strong>Customize Benchmarks</strong>
+                      <span>Choose which facility characteristics should shape the default search experience.</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="preference-block surface-block">
+                <div class="block-header">
+                  <div>
+                    <h3>Facility characteristic benchmarks</h3>
+                    <p>Select the same criteria currently available on the legacy settings page.</p>
+                  </div>
+                </div>
+
+                <div class="checkbox-grid">
+                  <label class="check-chip"><input type="checkbox" /> <span>All Hospitals</span></label>
+                  <label class="check-chip selected"><input type="checkbox" checked /> <span>Trauma Status</span></label>
+                  <label class="check-chip selected"><input type="checkbox" checked /> <span>Bed Size</span></label>
+                  <label class="check-chip selected"><input type="checkbox" checked /> <span>Urban/Rural</span></label>
+                  <label class="check-chip selected"><input type="checkbox" checked /> <span>ADC</span></label>
+                  <label class="check-chip selected"><input type="checkbox" checked /> <span>Teaching Status</span></label>
+                </div>
+
+                <label class="field compact-field">
+                  <span class="field-label">Match my facility</span>
+                  <select>
+                    <option selected>Select facility match</option>
+                    <option>Primary hospital</option>
+                    <option>Teaching hospital</option>
+                    <option>Regional medical center</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="preference-block">
+                <h3>Rate comparison report</h3>
+                <div class="choice-grid compact-grid">
+                  <label class="choice-card compact selected">
+                    <input type="radio" name="rate-report" checked />
+                    <div>
+                      <strong>75th percentile</strong>
+                      <span>Use the current preferred percentile.</span>
+                    </div>
+                  </label>
+                  <label class="choice-card compact">
+                    <input type="radio" name="rate-report" />
+                    <div>
+                      <strong>50th percentile</strong>
+                      <span>Use the midpoint benchmark instead.</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <label class="toggle-row">
+                <input type="checkbox" checked />
+                <div>
+                  <strong>Automatically archive expired arrangements in Contracts</strong>
+                  <p>Preserves the existing behavior while making the setting more visible.</p>
+                </div>
+              </label>
+            </section>
+
+            <section class="settings-card">
+              <div class="section-header stacked">
+                <div>
+                  <p class="eyebrow">Security</p>
+                  <h2>Change password</h2>
+                </div>
+              </div>
+
+              <div class="form-grid password-grid">
+                <label class="field">
+                  <span class="field-label">Current password</span>
+                  <input type="password" placeholder="Enter current password" />
+                </label>
+                <label class="field">
+                  <span class="field-label">New password</span>
+                  <input type="password" placeholder="At least 8 characters" />
+                </label>
+                <label class="field">
+                  <span class="field-label">Confirm password</span>
+                  <input type="password" placeholder="Re-enter new password" />
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button class="secondary-btn">Cancel</button>
+                <button class="primary-btn">Save changes</button>
+              </div>
+            </section>
+          </div>
+
+          <aside class="side-column">
+            <section class="insight-card">
+              <p class="eyebrow">Summary</p>
+              <h3>What changed in the redesign</h3>
+              <ul>
+                <li>Grouped profile, preferences, and security into clear cards.</li>
+                <li>Replaced dense form stacking with visual hierarchy and spacing.</li>
+                <li>Converted legacy benchmark choices into easier-to-scan cards and chips.</li>
+                <li>Made primary actions clearer and more consistent with the newer app direction.</li>
+              </ul>
+            </section>
+
+            <section class="insight-card muted-card">
+              <p class="eyebrow">Design direction</p>
+              <h3>Consistent with the newer mockup language</h3>
+              <p>This page uses the same shell, spacing, card structure, and stronger form treatment introduced in the redesigned documentation concept.</p>
+            </section>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
