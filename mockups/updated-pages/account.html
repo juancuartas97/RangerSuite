@@ -7,6 +7,119 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="doc-shell">
+      <aside class="doc-sidebar">
+        <div>
+          <div class="logo">MD<span>RANGER</span></div>
+          <div class="logo-sub">Powered by ECG</div>
+
+          <nav class="doc-nav" aria-label="Primary">
+            <a class="doc-link" href="#">Home</a>
+            <a class="doc-link" href="#">Benchmarks</a>
+            <a class="doc-link" href="documentation.html">Documentation</a>
+            <a class="doc-link" href="#">Contracts</a>
+            <a class="doc-link" href="survey-demographics.html">Trends</a>
+          </nav>
+        </div>
+
+        <a class="doc-support" href="#">Support</a>
+      </aside>
+
+      <main class="doc-main">
+        <header class="doc-topbar">
+          <h1>Account</h1>
+          <div class="user-actions">
+            <span>jcuartas</span>
+            <span>Help</span>
+          </div>
+        </header>
+
+        <section class="doc-content">
+          <section class="card form-card" style="box-shadow:none;">
+            <div class="row">
+              <div>
+                <div class="label">Organization</div>
+              </div>
+              <div>MD Ranger Customer Use Only</div>
+            </div>
+
+            <div class="row">
+              <div class="label">First Name</div>
+              <div><input class="text-field" value="Juan" /></div>
+            </div>
+
+            <div class="row">
+              <div class="label">Last Name</div>
+              <div><input class="text-field" value="Cuartas" /></div>
+            </div>
+
+            <div class="row">
+              <div class="label">Telephone</div>
+              <div><input class="text-field" placeholder="Enter telephone" /></div>
+            </div>
+
+            <div class="row">
+              <div class="label">Email</div>
+              <div><input class="text-field" placeholder="Enter email" /></div>
+            </div>
+
+            <div class="row">
+              <div>
+                <div class="label">Preferences</div>
+                <p class="help">Search</p>
+              </div>
+              <div>
+                <div style="display:grid; gap:10px; margin-bottom:12px;">
+                  <label><input type="radio" name="search" checked /> Default: All Benchmarks</label>
+                  <label><input type="radio" name="search" /> Customize Benchmarks</label>
+                </div>
+
+                <div class="choice-wrap">
+                  <label><input type="radio" name="facility" /> Display facility characteristic benchmarks</label>
+                  <div class="check-grid">
+                    <label><input type="checkbox" /> All Hospitals</label>
+                    <label><input type="checkbox" checked /> Trauma Status</label>
+                    <label><input type="checkbox" checked /> Bed Size</label>
+                    <label><input type="checkbox" checked /> Urban/Rural</label>
+                    <label><input type="checkbox" checked /> ADC</label>
+                    <label><input type="checkbox" checked /> Teaching Status</label>
+                  </div>
+
+                  <label><input type="radio" name="facility" /> Match my Facility</label>
+                  <select class="select-field">
+                    <option>Select facility</option>
+                    <option>Primary Hospital</option>
+                    <option>Regional Center</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="label">Rate Comparison Report</div>
+              <div style="display:grid; gap:8px;">
+                <label><input type="radio" name="rate" /> 50th percentile</label>
+                <label><input type="radio" name="rate" checked /> 75th percentile</label>
+                <label style="margin-top:6px;"><input type="checkbox" checked /> Automatically archive expired arrangements in Contracts</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="label">Change Password</div>
+              <div style="display:grid; gap:10px;">
+                <input class="text-field" type="password" placeholder="Current password" />
+                <input class="text-field" type="password" placeholder="New password" />
+                <input class="text-field" type="password" placeholder="Confirm password" />
+                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:4px;">
+                  <button style="padding:10px 14px; border:1px solid #bac8dd; border-radius:6px; background:#fff;">Cancel</button>
+                  <button style="padding:10px 14px; border:1px solid #031254; border-radius:6px; background:#031254; color:#fff;">Save</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
     <header class="top-nav">
       <div>
         <div class="logo">MD<span>RANGER</span></div>

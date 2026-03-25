@@ -345,3 +345,81 @@ input, button, select { font: inherit; }
   .check-grid { grid-template-columns: 1fr; }
   .doc-video-grid { grid-template-columns: 1fr; }
 }
+
+
+.table-footer {
+  margin: 10px 0 0;
+  color: #4c5e79;
+  font-size: 0.9rem;
+}
+
+.facility-card {
+  padding: 20px;
+}
+
+.facility-section-title {
+  margin: 6px 0 14px;
+  font-size: 1.35rem;
+}
+
+.facility-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.facility-grid label {
+  display: grid;
+  grid-template-columns: 1fr 130px;
+  align-items: center;
+  gap: 12px;
+}
+
+.facility-grid label span {
+  color: #2d4f95;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.facility-options {
+  display: grid;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.inline-choice-group {
+  display: flex;
+  gap: 28px;
+}
+
+.inline-choice-group label {
+  display: block;
+  margin-top: 6px;
+}
+
+.save-note {
+  color: #dd2f2f;
+  font-weight: 600;
+  margin: 4px 0 10px;
+}
+
+.submit-btn {
+  border: 1px solid #031254;
+  background: #031254;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+@media (max-width: 1000px) {
+  .facility-grid label {
+    grid-template-columns: 1fr;
+  }
+
+  .inline-choice-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
