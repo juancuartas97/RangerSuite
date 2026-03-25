@@ -11,11 +11,11 @@ Mock websites for design exploration.
   - Documentation (`documentation.html`)
   - Account (`account.html`)
   - Survey Demographics (`survey-demographics.html`)
-  - Quick launcher (`preview.html`)
+  - Quick launcher (`preview.html`) -> points to standalone download files
 
 ## Download-ready HTML files
 
-Standalone HTML files (with CSS inlined) are available in:
+Use these standalone files (CSS inlined):
 
 - `mockups/updated-pages/downloads/documentation-download.html`
 - `mockups/updated-pages/downloads/account-download.html`
