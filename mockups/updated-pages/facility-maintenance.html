@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Facility Maintenance</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="doc-shell">
+      <aside class="doc-sidebar">
+        <div>
+          <div class="logo">MD<span>RANGER</span></div>
+          <div class="logo-sub">Powered by ECG</div>
+
+          <nav class="doc-nav" aria-label="Primary">
+            <a class="doc-link" href="#">Home</a>
+            <a class="doc-link" href="#">Benchmarks</a>
+            <a class="doc-link" href="documentation.html">Documentation</a>
+            <a class="doc-link" href="#">Contracts</a>
+            <a class="doc-link" href="survey-demographics.html">Trends</a>
+            <a class="doc-link active" href="facility-maintenance.html">Facility Maintenance</a>
+          </nav>
+        </div>
+
+        <a class="doc-support" href="#">Support</a>
+      </aside>
+
+      <main class="doc-main">
+        <header class="doc-topbar">
+          <h1>Facility Maintenance</h1>
+          <div class="user-actions">
+            <span>jcuartas</span>
+            <span>Help</span>
+          </div>
+        </header>
+
+        <section class="doc-content">
+          <p class="subtle" style="margin-bottom:14px; max-width:640px;">We have collected the following information below from public sources. Please correct any missing or incorrect items.</p>
+
+          <section class="card facility-card">
+            <label class="label">Facility</label>
+            <select class="select-field" style="max-width:360px; margin-bottom:20px;">
+              <option>Select facility</option>
+              <option>Hospital A</option>
+              <option>Hospital B</option>
+            </select>
+
+            <h2 class="facility-section-title">Hospital Volume Measures</h2>
+            <div class="facility-grid">
+              <label> <span>Beds: total licensed general care beds</span> <input class="text-field" type="number" /> </label>
+              <label> <span>Average Daily Census</span> <input class="text-field" type="number" /> </label>
+              <label> <span>Total Emergency Department Visits (annual)</span> <input class="text-field" type="number" /> </label>
+              <label> <span>Surgeries - total annual count</span> <input class="text-field" type="number" /> </label>
+              <label> <span>ICU ADC</span> <input class="text-field" type="number" /> </label>
+              <label> <span>ICU Beds: count of licensed acute care beds</span> <input class="text-field" type="number" /> </label>
+              <label> <span>NICU ADC</span> <input class="text-field" type="number" /> </label>
+              <label> <span>NICU Beds: count of licensed neonatal acute care beds</span> <input class="text-field" type="number" /> </label>
+              <label> <span>Births: annual count of live births</span> <input class="text-field" type="number" /> </label>
+              <label> <span>Medicare Percentage</span> <input class="text-field" type="number" /> </label>
+              <label> <span>Medicaid Percentage</span> <input class="text-field" type="number" /> </label>
+            </div>
+
+            <div class="facility-options">
+              <label class="label">Trauma Center Classification</label>
+              <select class="select-field" style="max-width:220px;">
+                <option>None</option>
+                <option>Level I</option>
+                <option>Level II</option>
+                <option>Level III</option>
+              </select>
+
+              <div class="inline-choice-group">
+                <div>
+                  <div class="label">Teaching Hospital</div>
+                  <label><input type="radio" name="teaching" /> Yes</label>
+                  <label><input type="radio" name="teaching" checked /> No</label>
+                </div>
+                <div>
+                  <div class="label">Stroke Center</div>
+                  <label><input type="radio" name="stroke" /> Yes</label>
+                  <label><input type="radio" name="stroke" checked /> No</label>
+                </div>
+              </div>
+            </div>
+
+            <p class="save-note">Press submit to save the changes</p>
+            <button class="submit-btn">Submit</button>
+          </section>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
