@@ -230,6 +230,31 @@ input, button, select { font: inherit; }
 
 .doc-quick-nav {
   margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.doc-quick-card {
+  background: #fff;
+  border: 1px solid #c5d4ea;
+  border-radius: 12px;
+  padding: 14px;
+  min-height: 112px;
+  box-shadow: 0 8px 18px rgba(6, 20, 95, 0.06);
+}
+
+.doc-quick-card h3 {
+  margin: 0 0 8px;
+  color: #1f356f;
+  font-size: 1rem;
+}
+
+.doc-quick-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
@@ -342,6 +367,10 @@ input, button, select { font: inherit; }
   .doc-video-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .doc-quick-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 1000px) {
@@ -351,6 +380,7 @@ input, button, select { font: inherit; }
   .row { grid-template-columns: 1fr; }
   .check-grid { grid-template-columns: 1fr; }
   .doc-video-grid { grid-template-columns: 1fr; }
+  .doc-quick-nav { grid-template-columns: 1fr; }
 }
 
 
@@ -445,6 +475,8 @@ input, button, select { font: inherit; }
             <a class="doc-link" href="#">Benchmarks</a>
             <a class="doc-link active" href="documentation.html">Documentation</a>
             <a class="doc-link" href="#">Contracts</a>
+            <a class="doc-link" href="survey-demographics.html">Trends</a>
+            <a class="doc-link" href="facility-maintenance.html">Facility Maintenance</a>
             <a class="doc-link" href="#">Trends</a>
           </nav>
         </div>
@@ -465,6 +497,22 @@ input, button, select { font: inherit; }
           <input class="search" type="search" placeholder="Search benchmarks, guides, and tutorials" />
 
           <div class="doc-quick-nav" aria-label="Documentation quick navigation">
+            <article class="doc-quick-card">
+              <h3>User Guide</h3>
+              <p>Core walkthrough and navigation help.</p>
+            </article>
+            <article class="doc-quick-card">
+              <h3>Glossary</h3>
+              <p>Definitions for key benchmarking terms.</p>
+            </article>
+            <article class="doc-quick-card">
+              <h3>Submitting Data</h3>
+              <p>How to submit and validate data updates.</p>
+            </article>
+            <article class="doc-quick-card">
+              <h3>Contract Guidelines</h3>
+              <p>Best practices for contract documentation.</p>
+            </article>
             <button>User Guide</button>
             <button>Glossary</button>
             <button>Submitting Data</button>
