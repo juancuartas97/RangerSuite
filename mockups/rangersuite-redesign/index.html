@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RangerSuite Redesign Concepts</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div>
+          <div class="logo">
+            <div class="logo-mark">MD<span>RANGER</span></div>
+            <div class="logo-sub">Powered by ECG</div>
+          </div>
+
+          <nav class="nav-group" aria-label="Primary">
+            <a class="nav-item active" href="index.html">Home</a>
+            <a class="nav-item" href="benchmarks.html">Benchmarks</a>
+            <a class="nav-item" href="comp-report.html">Comp Report Builder</a>
+            <a class="nav-item" href="analytics.html">Analytics</a>
+            <a class="nav-item" href="flows.html">Recommended Flows</a>
+          </nav>
+        </div>
+
+        <a class="support" href="#">Support</a>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <span class="breadcrumb">Home / Overview</span>
+          <span class="user">Izabela</span>
+        </header>
+
+        <section class="page">
+          <div class="title-row">
+            <div>
+              <h1>RangerSuite redesign starter</h1>
+              <p class="subtle">A cohesive visual system and page set inspired by your reference examples.</p>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <article class="card">
+              <h3>Search benchmarks</h3>
+              <p class="subtle">Move from nested menus into a two-panel search + filter pattern.</p>
+              <p><a href="benchmarks.html">Open concept →</a></p>
+            </article>
+
+            <article class="card">
+              <h3>Total compensation</h3>
+              <p class="subtle">Turn the long form into a guided multi-step builder with progress and validation.</p>
+              <p><a href="comp-report.html">Open concept →</a></p>
+            </article>
+
+            <article class="card">
+              <h3>Analytics</h3>
+              <p class="subtle">Create faster executive readouts with summary cards and cleaner chart surfaces.</p>
+              <p><a href="analytics.html">Open concept →</a></p>
+            </article>
+          </div>
+
+          <section class="card">
+            <h2>Design principles used</h2>
+            <ul class="list">
+              <li>Preserve familiar left navigation and palette for continuity with existing users.</li>
+              <li>Increase scannability through card hierarchy and tighter typography rhythm.</li>
+              <li>Reduce cognitive load by grouping actions and exposing only relevant controls per step.</li>
+              <li>Use contextual hints (percentile badges, progress indicators, warnings) near user inputs.</li>
+            </ul>
+          </section>
+
+          <section class="flow-note">
+            Need deeper flow proposals? Open <a href="flows.html"><strong>Recommended Flows</strong></a> for end-to-end UX suggestions.
+          </section>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
