@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics Redesign</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div>
+          <div class="logo">
+            <div class="logo-mark">MD<span>RANGER</span></div>
+            <div class="logo-sub">Powered by ECG</div>
+          </div>
+          <nav class="nav-group">
+            <a class="nav-item" href="index.html">Home</a>
+            <a class="nav-item" href="benchmarks.html">Benchmarks</a>
+            <a class="nav-item" href="comp-report.html">Comp Report Builder</a>
+            <a class="nav-item active" href="analytics.html">Analytics</a>
+            <a class="nav-item" href="flows.html">Recommended Flows</a>
+          </nav>
+        </div>
+        <a class="support" href="#">Support</a>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <span class="breadcrumb">Analytics / Executive View</span>
+          <span class="user">Izabela</span>
+        </header>
+
+        <section class="page">
+          <div class="title-row">
+            <div>
+              <h1>Analytics</h1>
+              <p class="subtle">Executive overview first, then deep-dive by facility and service.</p>
+            </div>
+            <div class="pill-row">
+              <span class="pill active">All facilities</span>
+              <span class="pill">Individual facility</span>
+            </div>
+          </div>
+
+          <section class="grid-3">
+            <article class="metric">
+              <span class="subtle">Annual spend</span>
+              <strong>$46.2M</strong>
+              <span class="badge warning">+8.2% YoY</span>
+            </article>
+            <article class="metric">
+              <span class="subtle">Contracts expiring (12 mo)</span>
+              <strong>27</strong>
+              <span class="badge warning">9 high-risk</span>
+            </article>
+            <article class="metric">
+              <span class="subtle">Services above target</span>
+              <strong>14</strong>
+              <span class="badge success">Improved from 19</span>
+            </article>
+          </section>
+
+          <section class="card">
+            <h2>Top service spend (sample)</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Spend</th>
+                  <th>vs benchmark</th>
+                  <th>Opportunity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Plastic and Hand Surgery</td>
+                  <td>$1.8M</td>
+                  <td>+12%</td>
+                  <td>$215k</td>
+                </tr>
+                <tr>
+                  <td>Neurosurgery</td>
+                  <td>$1.45M</td>
+                  <td>+8%</td>
+                  <td>$122k</td>
+                </tr>
+                <tr>
+                  <td>Orthopedic Surgery</td>
+                  <td>$1.31M</td>
+                  <td>+4%</td>
+                  <td>$64k</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="flow-note">
+            <strong>Flow upgrade:</strong> Clicking any service opens a drill-down timeline and linked contracts to support immediate action planning.
+          </section>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
