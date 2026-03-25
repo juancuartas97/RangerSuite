@@ -84,6 +84,7 @@ input, button, select { font: inherit; }
   width: min(780px, 100%);
   border: 1px solid #adcdd7;
   border-radius: 8px;
+  border-radius: 4px;
   padding: 12px 16px;
   background: #fff;
 }
@@ -511,5 +512,47 @@ input, button, select { font: inherit; }
         </section>
       </main>
     </div>
+    <header class="top-nav">
+      <div>
+        <div class="logo">MD<span>RANGER</span></div>
+        <div class="logo-sub">Powered by ECG</div>
+      </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#">Home</a>
+        <a href="#">Benchmarks</a>
+        <a href="documentation.html">Documentation</a>
+        <a href="#">Contracts</a>
+        <a class="active" href="survey-demographics.html">Trends</a>
+      </nav>
+      <div class="user-actions">
+        <span>jcuartas</span>
+        <span>Help</span>
+      </div>
+    </header>
+
+    <main class="form-page" style="margin-top:40px;">
+      <h1 class="page-title">Survey Demographics</h1>
+      <p class="subtle">National overview</p>
+
+      <section class="card chart-shell">
+        <h2 style="margin:0;">Facilities by National Region</h2>
+
+        <table class="bar-table">
+          <thead>
+            <tr>
+              <th>Region</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Midwest</td><td>43</td></tr>
+            <tr><td>Northeast</td><td>19</td></tr>
+            <tr><td>South</td><td>54</td></tr>
+            <tr><td>West</td><td>268</td></tr>
+            <tr><td><strong>Total</strong></td><td><strong>384</strong></td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
   </body>
 </html>
