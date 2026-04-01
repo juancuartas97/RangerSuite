@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subscriber Detail</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="menu-icon">☰</span>
+      <div class="user-meta"><span>🔔</span><span>Super User</span></div>
+    </header>
+
+    <main class="page">
+      <div class="action-bar">
+        <button class="btn-primary">Save</button>
+        <button class="btn-muted">Delete Subscriber</button>
+        <button class="btn-muted">Checklist URLs</button>
+      </div>
+
+      <h1>Subscriber Profile</h1>
+
+      <section class="panel form-wrap">
+        <div class="form-grid">
+          <div class="form-row"><label>Subscriber Name</label><input class="field" value="Acadiana Management Group" /></div>
+          <div class="form-row"><label>ID</label><input class="field" value="88" /></div>
+          <div class="form-row"><label>Short Name</label><input class="field" value="AMG" /></div>
+          <div class="form-row"><label>Type</label><select class="select"><option>General Acute Care Hospital</option></select></div>
+          <div class="form-row"><label>Start Year</label><input class="field" value="2018" /></div>
+          <div class="form-row"><label>Look-Up Year</label><input class="field" value="" placeholder="Optional" /></div>
+          <div class="form-row"><label>Account Executive</label><input class="field" value="SAyala@ecgmc.com" /></div>
+
+          <div class="form-row">
+            <label>Access Flags</label>
+            <div class="check-matrix">
+              <label><input type="checkbox" checked /> Subscriber?</label>
+              <label><input type="checkbox" checked /> Portal access?</label>
+              <label><input type="checkbox" checked /> Reportable?</label>
+              <label><input type="checkbox" checked /> Customer?</label>
+              <label><input type="checkbox" /> Coverage ONLY?</label>
+              <label><input type="checkbox" /> MD/AD/LE ONLY?</label>
+              <label><input type="checkbox" /> Salary Data?</label>
+              <label><input type="checkbox" /> Demo?</label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>Special User Fields</label>
+            <div class="inline-grid-2">
+              <input class="field" placeholder="User Field 1" />
+              <input class="field" placeholder="User Field 2" />
+              <input class="field" placeholder="User Field 3" />
+              <input class="field" placeholder="User Field 4" />
+              <input class="field" placeholder="User Field 5" />
+              <input class="field" placeholder="User Field 6" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" style="margin-top:14px;">
+        <div class="section-head"><div class="title-line"><h2>Associated Users</h2></div></div>
+        <div style="padding:14px; color:#4e6181;">ahankton · jhargrave · mstelly · spyle · swallis · tfontenot</div>
+      </section>
+
+      <section class="panel" style="margin-top:14px;">
+        <div class="section-head"><div class="title-line"><h2>Facilities (Contract Entry)</h2></div></div>
+        <table class="table">
+          <thead><tr><th>Del</th><th>mdr_id</th><th>Name</th><th>Checklist URL</th><th>Owned</th></tr></thead>
+          <tbody>
+            <tr><td>⛔</td><td>LA193097</td><td>AMG Physical Rehabilitation Hospital - Covington</td><td><a href="#">link</a></td><td>☑</td></tr>
+            <tr><td>⛔</td><td>NM322003</td><td>AMG Specialty Hospital - Albuquerque</td><td><a href="#">link</a></td><td>☑</td></tr>
+            <tr><td>⛔</td><td>IN152025</td><td>AMG Specialty Hospital - Central Indiana</td><td><a href="#">link</a></td><td>☑</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

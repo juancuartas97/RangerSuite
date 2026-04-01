@@ -138,6 +138,34 @@ button, input, select { font: inherit; }
   .form-row { grid-template-columns: 1fr; gap: 10px; }
 }
 
+
+.inline-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.check-matrix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+  color: #324d85;
+  font-weight: 600;
+}
+
+.check-matrix label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 1100px) {
+  .inline-grid-2,
+  .check-matrix {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
   </head>
   <body>
@@ -170,6 +198,8 @@ button, input, select { font: inherit; }
             </tr>
           </thead>
           <tbody>
+            <tr><td><a href="user-detail.html">Admin Capyba</a></td><td>admin@capyba.com</td><td>Capyba Subscriber</td><td class="role">ADMIN</td><td>⋮</td></tr>
+            <tr><td>Blend Admin</td><td>blenduser1@blend.com</td><td><a href="subscriber-detail.html">Blend Subscriber</a></td><td class="role">ADMIN</td><td>⋮</td></tr>
             <tr><td>Admin Capyba</td><td>admin@capyba.com</td><td>Capyba Subscriber</td><td class="role">ADMIN</td><td>⋮</td></tr>
             <tr><td>Blend Admin</td><td>blenduser1@blend.com</td><td>Blend Subscriber</td><td class="role">ADMIN</td><td>⋮</td></tr>
             <tr><td>Blend Standard</td><td>blenduser2@blend.com</td><td>Blend Subscriber</td><td class="role">STANDARD</td><td>⋮</td></tr>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Detail</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="menu-icon">☰</span>
+      <div class="user-meta"><span>🔔</span><span>Super User</span></div>
+    </header>
+
+    <main class="page">
+      <div class="action-bar">
+        <button class="btn-muted">Delete User</button>
+        <button class="btn-muted">Unblock User</button>
+        <button class="btn-muted">Copy User</button>
+        <button class="btn-primary">Submit</button>
+      </div>
+
+      <h1>User Profile</h1>
+
+      <section class="panel form-wrap">
+        <div class="form-grid">
+          <div class="form-row"><label>ID</label><input class="field" value="1364" /></div>
+          <div class="form-row"><label>User ID</label><input class="field" value="sayala" /></div>
+          <div class="form-row"><label>Demo Lookup Count</label><input class="field" value="-1" /></div>
+          <div class="form-row"><label>Mr/Ms/Dr</label><input class="field" /></div>
+          <div class="form-row"><label>First Name</label><input class="field" value="Stephanie" /></div>
+          <div class="form-row"><label>Last Name</label><input class="field" value="Ayala" /></div>
+          <div class="form-row"><label>Telephone</label><input class="field" /></div>
+          <div class="form-row"><label>Email</label><input class="field" value="sayala@ecgmc.com" /></div>
+          <div class="form-row"><label>Contact Info</label><input class="field" value="elamontagne@rchsd.org" /></div>
+          <div class="form-row"><label>Subscriber</label><select class="select"><option>MD Ranger Customer Use Only</option></select></div>
+          <div class="form-row"><label>Role</label><select class="select"><option>MDR Staff</option></select></div>
+          <div class="form-row"><label>State</label><input class="field" /></div>
+
+          <div class="form-row">
+            <label>Regional Benchmarks</label>
+            <select class="select" multiple style="min-height:140px;">
+              <option>All Acute Hospitals</option>
+              <option>All Facility Types</option>
+              <option>All Acute Trauma</option>
+              <option>All Acute Non-Trauma</option>
+              <option>All Facilities Trauma</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label>Permissions</label>
+            <div class="check-matrix">
+              <label><input type="checkbox" checked /> DataTool?</label>
+              <label><input type="checkbox" checked /> Edit?</label>
+              <label><input type="checkbox" checked /> Certify?</label>
+              <label><input type="checkbox" checked /> Invalidate?</label>
+              <label><input type="checkbox" checked /> Notify?</label>
+              <label><input type="checkbox" checked /> 90th Percentile?</label>
+              <label><input type="checkbox" /> Analytics/Custom BM Rpt?</label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div style="margin-top:12px;"><button class="btn-primary">Spoof as sayala</button></div>
+    </main>
+  </body>
+</html>
