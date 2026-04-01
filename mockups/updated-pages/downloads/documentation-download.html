@@ -255,6 +255,18 @@ input, button, select { font: inherit; }
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.4;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.doc-quick-nav button {
+  border: 1px solid #c5d4ea;
+  background: #fff;
+  border-radius: 999px;
+  padding: 9px 14px;
+  color: #24407d;
+  font-weight: 600;
 }
 
 .doc-content {
@@ -465,6 +477,7 @@ input, button, select { font: inherit; }
             <a class="doc-link" href="#">Contracts</a>
             <a class="doc-link" href="survey-demographics.html">Trends</a>
             <a class="doc-link" href="facility-maintenance.html">Facility Maintenance</a>
+            <a class="doc-link" href="#">Trends</a>
           </nav>
         </div>
 
@@ -484,11 +497,34 @@ input, button, select { font: inherit; }
           <input class="search" type="search" placeholder="Search benchmarks, guides, and tutorials" />
 
           
+          <div class="doc-quick-nav" aria-label="Documentation quick navigation">
+            <article class="doc-quick-card">
+              <h3>User Guide</h3>
+              <p>Core walkthrough and navigation help.</p>
+            </article>
+            <article class="doc-quick-card">
+              <h3>Glossary</h3>
+              <p>Definitions for key benchmarking terms.</p>
+            </article>
+            <article class="doc-quick-card">
+              <h3>Submitting Data</h3>
+              <p>How to submit and validate data updates.</p>
+            </article>
+            <article class="doc-quick-card">
+              <h3>Contract Guidelines</h3>
+              <p>Best practices for contract documentation.</p>
+            </article>
+            <button>User Guide</button>
+            <button>Glossary</button>
+            <button>Submitting Data</button>
+            <button>Contract Guidelines</button>
+          </div>
         </section>
 
         <section class="doc-content">
           <div class="doc-section-header">
             <h2>Tutorial videos</h2>
+            <a href="#">View all</a>
           </div>
 
           <div class="doc-video-grid">
