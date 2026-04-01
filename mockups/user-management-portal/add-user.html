@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add User</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="menu-icon">☰</span>
+      <div class="user-meta"><span>🔔</span><span>Super User</span></div>
+    </header>
+
+    <main class="page">
+      <div class="action-bar">
+        <button class="btn-primary">Create</button>
+        <button class="btn-muted" onclick="history.back()">←</button>
+        <button class="btn-muted">Sync from MD Ranger</button>
+      </div>
+
+      <h1>Add User</h1>
+
+      <section class="form-wrap panel">
+        <div class="form-grid">
+          <div class="form-row"><label>First Name</label><input class="field" placeholder="Enter users First Name" /></div>
+          <div class="form-row"><label>Last Name</label><input class="field" placeholder="Enter users Last Name" /></div>
+          <div class="form-row"><label>Username</label><input class="field" placeholder="Enter users unique Username" /></div>
+          <div class="form-row"><label>Email</label><input class="field" placeholder="Enter users Email Address" /></div>
+          <div class="form-row"><label>Subscriber</label><select class="select"><option>Select Subscriber</option><option>ECG Subscriber</option><option>Capyba Subscriber</option></select></div>
+          <div class="form-row"><label>Role</label><select class="select"><option>Select Role</option><option>Admin</option><option>Standard</option><option>Restricted</option></select></div>
+          <div class="form-row"><label>Permissions</label><select class="select"><option>Select...</option></select></div>
+          <div class="form-row"><label>Hospital Roles</label><div><p class="hint">No hospital roles assigned. Click "Add Hospital" to add one.</p><a href="#">+ Add Hospital</a></div></div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

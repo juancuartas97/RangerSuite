@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subscriber Detail</title>
+    <style>
+:root {
+  --bg: #f2f4f8;
+  --surface: #ffffff;
+  --border: #e2e7f0;
+  --text: #18233a;
+  --muted: #76839a;
+  --navy: #0c1b63;
+  --navy-soft: #2f3d7b;
+  --row: #f8fafc;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; }
+
+.topbar {
+  height: 68px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+}
+.menu-icon { color: #909db5; font-size: 1.2rem; }
+.user-meta { display: flex; align-items: center; gap: 16px; color: var(--navy); font-weight: 700; }
+
+.page { padding: 18px; }
+.page h1 { margin: 0 0 14px; font-size: 2rem; }
+
+.tabs { display: flex; gap: 10px; margin-bottom: 14px; }
+.tab {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-weight: 700;
+  color: #223467;
+}
+.tab.active { background: var(--navy); color: #fff; }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.title-line { display: flex; align-items: baseline; gap: 10px; }
+.title-line h2 { margin: 0; font-size: 1.9rem; }
+.title-line span { color: var(--muted); font-weight: 600; }
+
+.search {
+  width: min(760px, 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f4f7fc;
+  padding: 10px 14px;
+}
+
+.btn-primary {
+  border: 1px solid var(--navy-soft);
+  background: var(--navy-soft);
+  color: #fff;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-weight: 700;
+}
+
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { border-bottom: 1px solid var(--border); padding: 13px 14px; text-align: left; }
+.table th { color: #263f77; font-size: 0.95rem; }
+.table td { color: #4f6282; }
+.table td.role { color: #2f477f; font-weight: 700; }
+
+.footer-pager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  color: #2c416f;
+  font-weight: 700;
+}
+
+.btn-muted {
+  border: 1px solid var(--border);
+  background: #f8fbff;
+  color: #8392aa;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 700;
+}
+
+.form-wrap { padding: 16px; }
+.form-grid { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.form-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 20px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+}
+.form-row:last-child { border-bottom: 0; }
+.form-row label { color: #253d73; font-weight: 700; }
+.form-row .hint { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+.field, .select {
+  width: 100%;
+  border: 1px solid #cfd8e8;
+  background: #f4f7fc;
+  border-radius: 6px;
+  min-height: 40px;
+  padding: 9px 12px;
+}
+
+.action-bar { display: flex; justify-content: flex-end; gap: 10px; margin: 0 0 12px; }
+
+.audit-title { margin: 14px 0 0; font-size: 2rem; }
+
+@media (max-width: 1100px) {
+  .section-head { flex-direction: column; align-items: stretch; }
+  .form-row { grid-template-columns: 1fr; gap: 10px; }
+}
+
+
+.inline-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.check-matrix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+  color: #324d85;
+  font-weight: 600;
+}
+
+.check-matrix label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 1100px) {
+  .inline-grid-2,
+  .check-matrix {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="menu-icon">☰</span>
+      <div class="user-meta"><span>🔔</span><span>Super User</span></div>
+    </header>
+
+    <main class="page">
+      <div class="action-bar">
+        <button class="btn-primary">Save</button>
+        <button class="btn-muted">Delete Subscriber</button>
+        <button class="btn-muted">Checklist URLs</button>
+      </div>
+
+      <h1>Subscriber Profile</h1>
+
+      <section class="panel form-wrap">
+        <div class="form-grid">
+          <div class="form-row"><label>Subscriber Name</label><input class="field" value="Acadiana Management Group" /></div>
+          <div class="form-row"><label>ID</label><input class="field" value="88" /></div>
+          <div class="form-row"><label>Short Name</label><input class="field" value="AMG" /></div>
+          <div class="form-row"><label>Type</label><select class="select"><option>General Acute Care Hospital</option></select></div>
+          <div class="form-row"><label>Start Year</label><input class="field" value="2018" /></div>
+          <div class="form-row"><label>Look-Up Year</label><input class="field" value="" placeholder="Optional" /></div>
+          <div class="form-row"><label>Account Executive</label><input class="field" value="SAyala@ecgmc.com" /></div>
+
+          <div class="form-row">
+            <label>Access Flags</label>
+            <div class="check-matrix">
+              <label><input type="checkbox" checked /> Subscriber?</label>
+              <label><input type="checkbox" checked /> Portal access?</label>
+              <label><input type="checkbox" checked /> Reportable?</label>
+              <label><input type="checkbox" checked /> Customer?</label>
+              <label><input type="checkbox" /> Coverage ONLY?</label>
+              <label><input type="checkbox" /> MD/AD/LE ONLY?</label>
+              <label><input type="checkbox" /> Salary Data?</label>
+              <label><input type="checkbox" /> Demo?</label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>Special User Fields</label>
+            <div class="inline-grid-2">
+              <input class="field" placeholder="User Field 1" />
+              <input class="field" placeholder="User Field 2" />
+              <input class="field" placeholder="User Field 3" />
+              <input class="field" placeholder="User Field 4" />
+              <input class="field" placeholder="User Field 5" />
+              <input class="field" placeholder="User Field 6" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" style="margin-top:14px;">
+        <div class="section-head"><div class="title-line"><h2>Associated Users</h2></div></div>
+        <div style="padding:14px; color:#4e6181;">ahankton · jhargrave · mstelly · spyle · swallis · tfontenot</div>
+      </section>
+
+      <section class="panel" style="margin-top:14px;">
+        <div class="section-head"><div class="title-line"><h2>Facilities (Contract Entry)</h2></div></div>
+        <table class="table">
+          <thead><tr><th>Del</th><th>mdr_id</th><th>Name</th><th>Checklist URL</th><th>Owned</th></tr></thead>
+          <tbody>
+            <tr><td>⛔</td><td>LA193097</td><td>AMG Physical Rehabilitation Hospital - Covington</td><td><a href="#">link</a></td><td>☑</td></tr>
+            <tr><td>⛔</td><td>NM322003</td><td>AMG Specialty Hospital - Albuquerque</td><td><a href="#">link</a></td><td>☑</td></tr>
+            <tr><td>⛔</td><td>IN152025</td><td>AMG Specialty Hospital - Central Indiana</td><td><a href="#">link</a></td><td>☑</td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>
