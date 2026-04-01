@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - Users</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="menu-icon">☰</span>
+      <div class="user-meta"><span>🔔</span><span>Super User</span></div>
+    </header>
+
+    <main class="page">
+      <h1>Settings</h1>
+      <nav class="tabs">
+        <a class="tab" href="#">My Account</a>
+        <a class="tab active" href="users.html">Users</a>
+        <a class="tab" href="#">Preferences</a>
+        <a class="tab" href="subscribers.html">Subscribers</a>
+        <a class="tab" href="maintenance.html">Maintenance</a>
+      </nav>
+
+      <section class="panel">
+        <div class="section-head">
+          <div class="title-line"><h2>Users</h2><span>(21 registered)</span></div>
+          <input class="search" placeholder="Search for a User" />
+          <button class="btn-primary" onclick="location.href='add-user.html'">+ Add User</button>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Email</th><th>Subscriber</th><th>Access type</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Admin Capyba</td><td>admin@capyba.com</td><td>Capyba Subscriber</td><td class="role">ADMIN</td><td>⋮</td></tr>
+            <tr><td>Blend Admin</td><td>blenduser1@blend.com</td><td>Blend Subscriber</td><td class="role">ADMIN</td><td>⋮</td></tr>
+            <tr><td>Blend Standard</td><td>blenduser2@blend.com</td><td>Blend Subscriber</td><td class="role">STANDARD</td><td>⋮</td></tr>
+            <tr><td>Blend Restricted</td><td>blenduser3@blend.com</td><td>Blend Subscriber</td><td class="role">RESTRICTED</td><td>⋮</td></tr>
+            <tr><td>Capyba Approver</td><td>capybapprover@capybapprover.com</td><td>Capyba Subscriber</td><td class="role">STANDARD</td><td>⋮</td></tr>
+            <tr><td>ECG Reviewer</td><td>ecgreviewer@ecgreviewer.com</td><td>ECG Subscriber</td><td class="role">STANDARD</td><td>⋮</td></tr>
+          </tbody>
+        </table>
+
+        <div class="footer-pager"><button class="btn-muted">Previous</button><span>Page 1 of 3</span><button class="btn-muted">Next</button></div>
+      </section>
+
+      <h2 class="audit-title">Audit Trail</h2>
+    </main>
+  </body>
+</html>
