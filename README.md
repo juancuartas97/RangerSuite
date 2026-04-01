@@ -21,3 +21,19 @@ Standalone files (CSS inlined):
 
 - `mockups/updated-pages/downloads/preview-download.html`
 - `mockups/user-management-portal/downloads/preview-download.html`
+- `mockups/updated-pages`: refreshed previews for:
+  - Documentation (`documentation.html`)
+  - Account (`account.html`)
+  - Survey Demographics (`survey-demographics.html`)
+  - Facility Maintenance (`facility-maintenance.html`)
+  - Quick launcher (`preview.html`) -> points to standalone download files
+
+## Download-ready HTML files
+
+Use these standalone files (CSS inlined):
+
+- `mockups/updated-pages/downloads/documentation-download.html`
+- `mockups/updated-pages/downloads/account-download.html`
+- `mockups/updated-pages/downloads/survey-demographics-download.html`
+- `mockups/updated-pages/downloads/facility-maintenance-download.html`
+- `mockups/updated-pages/downloads/preview-download.html`
