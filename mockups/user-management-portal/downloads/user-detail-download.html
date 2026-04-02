@@ -5,168 +5,692 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Detail</title>
     <style>
-:root {
-  --bg: #f2f4f8;
-  --surface: #ffffff;
-  --border: #e2e7f0;
-  --text: #18233a;
-  --muted: #76839a;
-  --navy: #0c1b63;
-  --navy-soft: #2f3d7b;
-  --row: #f8fafc;
-}
+      :root {
+        --bg: #f2f4f8;
+        --surface: #ffffff;
+        --border: #e2e7f0;
+        --text: #18233a;
+        --muted: #76839a;
+        --navy: #0c1b63;
+        --navy-soft: #2f3d7b;
+        --row: #f8fafc;
+      }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
-a { color: inherit; text-decoration: none; }
-button, input, select { font: inherit; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+      a { color: inherit; text-decoration: none; }
+      button, input, select { font: inherit; }
+      textarea { font: inherit; }
 
-.topbar {
-  height: 68px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 22px;
-}
-.menu-icon { color: #909db5; font-size: 1.2rem; }
-.user-meta { display: flex; align-items: center; gap: 16px; color: var(--navy); font-weight: 700; }
+      .topbar {
+        height: 68px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 22px;
+      }
+      .menu-icon { color: #909db5; font-size: 1.2rem; }
+      .user-meta { display: flex; align-items: center; gap: 16px; color: var(--navy); font-weight: 700; }
 
-.page { padding: 18px; }
-.page h1 { margin: 0 0 14px; font-size: 2rem; }
+      .page { padding: 18px; }
+      .page h1 { margin: 0 0 14px; font-size: 2rem; }
 
-.tabs { display: flex; gap: 10px; margin-bottom: 14px; }
-.tab {
-  border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 9px 14px;
-  font-weight: 700;
-  color: #223467;
-}
-.tab.active { background: var(--navy); color: #fff; }
+      .breadcrumbs {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
 
-.panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-}
+      .breadcrumbs a {
+        color: #27417a;
+      }
 
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-}
+      .breadcrumbs span {
+        color: #9aa5ba;
+      }
 
-.title-line { display: flex; align-items: baseline; gap: 10px; }
-.title-line h2 { margin: 0; font-size: 1.9rem; }
-.title-line span { color: var(--muted); font-weight: 600; }
+      .tabs { display: flex; gap: 10px; margin-bottom: 14px; }
+      .tab {
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 9px 14px;
+        font-weight: 700;
+        color: #223467;
+      }
+      .tab.active { background: var(--navy); color: #fff; }
 
-.search {
-  width: min(760px, 100%);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: #f4f7fc;
-  padding: 10px 14px;
-}
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: visible;
+      }
 
-.btn-primary {
-  border: 1px solid var(--navy-soft);
-  background: var(--navy-soft);
-  color: #fff;
-  border-radius: 8px;
-  padding: 9px 16px;
-  font-weight: 700;
-}
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+      }
 
-.table { width: 100%; border-collapse: collapse; }
-.table th, .table td { border-bottom: 1px solid var(--border); padding: 13px 14px; text-align: left; }
-.table th { color: #263f77; font-size: 0.95rem; }
-.table td { color: #4f6282; }
-.table td.role { color: #2f477f; font-weight: 700; }
+      .title-line { display: flex; align-items: baseline; gap: 10px; }
+      .title-line h2 { margin: 0; font-size: 1.9rem; }
+      .title-line span { color: var(--muted); font-weight: 600; }
 
-.footer-pager {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px;
-  color: #2c416f;
-  font-weight: 700;
-}
+      .search {
+        width: min(760px, 100%);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #f4f7fc;
+        padding: 10px 14px;
+      }
 
-.btn-muted {
-  border: 1px solid var(--border);
-  background: #f8fbff;
-  color: #8392aa;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-weight: 700;
-}
+      .btn-primary {
+        border: 1px solid var(--navy-soft);
+        background: var(--navy-soft);
+        color: #fff;
+        border-radius: 8px;
+        padding: 9px 16px;
+        font-weight: 700;
+      }
 
-.form-wrap { padding: 16px; }
-.form-grid { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.form-row {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 20px;
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-  background: #fff;
-}
-.form-row:last-child { border-bottom: 0; }
-.form-row label { color: #253d73; font-weight: 700; }
-.form-row .hint { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
-.field, .select {
-  width: 100%;
-  border: 1px solid #cfd8e8;
-  background: #f4f7fc;
-  border-radius: 6px;
-  min-height: 40px;
-  padding: 9px 12px;
-}
+      .btn-soft {
+        border: 1px solid #bfd7e3;
+        background: #edf7fb;
+        color: #164f64;
+        border-radius: 8px;
+        padding: 9px 16px;
+        font-weight: 700;
+      }
 
-.action-bar { display: flex; justify-content: flex-end; gap: 10px; margin: 0 0 12px; }
+      .table { width: 100%; border-collapse: collapse; }
+      .table th, .table td { border-bottom: 1px solid var(--border); padding: 13px 14px; text-align: left; }
+      .table th { color: #263f77; font-size: 0.95rem; }
+      .table td { color: #4f6282; }
+      .table td.role { color: #2f477f; font-weight: 700; }
 
-.audit-title { margin: 14px 0 0; font-size: 2rem; }
+      .footer-pager {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px;
+        color: #2c416f;
+        font-weight: 700;
+      }
 
-@media (max-width: 1100px) {
-  .section-head { flex-direction: column; align-items: stretch; }
-  .form-row { grid-template-columns: 1fr; gap: 10px; }
-}
+      .btn-muted {
+        border: 1px solid var(--border);
+        background: #f8fbff;
+        color: #8392aa;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-weight: 700;
+      }
+
+      .btn-danger {
+        border: 1px solid #ebc1c6;
+        background: #fff5f6;
+        color: #a13a49;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-weight: 700;
+      }
+
+      .form-wrap { padding: 16px; }
+      .form-grid { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+      .form-row {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 20px;
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        background: #fff;
+      }
+      .form-row:last-child { border-bottom: 0; }
+      .form-row label { color: #253d73; font-weight: 700; }
+      .form-row .hint { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+      .field, .select {
+        width: 100%;
+        border: 1px solid #cfd8e8;
+        background: #f4f7fc;
+        border-radius: 6px;
+        min-height: 40px;
+        padding: 9px 12px;
+      }
+
+      .field:disabled,
+      .select:disabled,
+      .textarea:disabled {
+        background: #eef2f8;
+        color: #65758f;
+        cursor: not-allowed;
+      }
+
+      .field-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #253d73;
+        font-weight: 700;
+      }
+
+      .info-icon {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border: 1px solid #bfd0eb;
+        border-radius: 999px;
+        background: #edf4ff;
+        color: #365b92;
+        font-size: 0.72rem;
+        font-weight: 700;
+        cursor: help;
+      }
+
+      .info-icon::after,
+      .info-icon::before {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 140ms ease, transform 140ms ease;
+        position: absolute;
+        z-index: 30;
+      }
+
+      .info-icon::after {
+        content: attr(data-tooltip);
+        left: 50%;
+        bottom: calc(100% + 10px);
+        transform: translateX(-50%) translateY(6px);
+        width: min(260px, 52vw);
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #10265c;
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 600;
+        line-height: 1.45;
+        text-align: left;
+        white-space: normal;
+        box-shadow: 0 14px 30px rgba(16, 38, 92, 0.22);
+      }
+
+      .info-icon::before {
+        content: "";
+        left: 50%;
+        bottom: calc(100% + 2px);
+        transform: translateX(-50%) translateY(6px);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 8px solid #10265c;
+      }
+
+      .info-icon:hover::after,
+      .info-icon:hover::before,
+      .info-icon:focus-visible::after,
+      .info-icon:focus-visible::before {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .info-icon:focus-visible {
+        outline: 2px solid var(--navy-soft);
+        outline-offset: 2px;
+      }
+
+      .action-bar { display: flex; justify-content: flex-end; gap: 10px; margin: 0 0 12px; }
+
+      .audit-title { margin: 14px 0 0; font-size: 2rem; }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .page-copy {
+        max-width: 720px;
+        margin: 8px 0 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .page-toolbar {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 14px;
+      }
+
+      .action-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-end;
+      }
+
+      .action-bar.wrap {
+        margin: 0;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .action-bar.tight {
+        margin: 0;
+        gap: 8px;
+      }
+
+      .detail-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.95fr);
+        gap: 18px;
+      }
+
+      .detail-main,
+      .detail-stack {
+        display: grid;
+        gap: 18px;
+      }
+
+      .detail-panel {
+        padding: 20px;
+        border-radius: 16px;
+      }
+
+      .detail-panel h2 {
+        margin: 0 0 6px;
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+      }
+
+      .detail-panel p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .detail-fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .detail-field {
+        display: grid;
+        gap: 7px;
+      }
+
+      .detail-field label {
+        color: #253d73;
+        font-weight: 700;
+      }
+
+      .detail-field.full {
+        grid-column: 1 / -1;
+      }
+
+      .detail-note {
+        margin: 0 0 14px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .stack-card {
+        padding: 20px;
+      }
+
+      .selector-panel {
+        margin-bottom: 14px;
+        padding: 20px;
+      }
+
+      .selector-panel .detail-field {
+        max-width: 420px;
+      }
+
+      .selector-copy {
+        max-width: 560px;
+      }
+
+      .selector-note {
+        margin: 6px 0 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .selector-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .selector-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-left: auto;
+      }
+
+      .textarea {
+        width: 100%;
+        min-height: 112px;
+        border: 1px solid #cfd8e8;
+        background: #f4f7fc;
+        border-radius: 6px;
+        padding: 10px 12px;
+        resize: vertical;
+      }
+
+      .summary-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .summary-item {
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #f9fbff;
+      }
+
+      .summary-item strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #27417a;
+        font-size: 0.86rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .summary-item span {
+        color: #324864;
+        font-weight: 700;
+      }
+
+      .linked-record {
+        display: grid;
+        gap: 12px;
+      }
+
+      .linked-record-card {
+        display: block;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #f8fbff;
+      }
+
+      .linked-record-card strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #20386d;
+      }
+
+      .linked-record-card span {
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      .action-menu {
+        position: relative;
+      }
+
+      .action-menu summary {
+        list-style: none;
+      }
+
+      .action-menu summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .menu-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--border);
+        background: #f8fbff;
+        color: #31476f;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .menu-list {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 220px;
+        padding: 8px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 16px 36px rgba(12, 27, 99, 0.12);
+        z-index: 20;
+      }
+
+      .menu-list button {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: #31476f;
+        text-align: left;
+        padding: 10px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .menu-list button:hover {
+        background: #f4f8ff;
+      }
+
+      .menu-list .danger-item {
+        color: #a13a49;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .flag-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .flag-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #f9fbff;
+      }
+
+      .flag-item input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--navy-soft);
+      }
+
+      .special-fields-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 16px;
+      }
+
+      .user-chip-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .user-chip {
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: #f7faff;
+        color: #29406e;
+        font-weight: 700;
+      }
+
+      .user-card-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .user-card {
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #f8fbff;
+      }
+
+      .user-card-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .user-card strong {
+        color: #27417a;
+      }
+
+      .user-card span {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      #subscriber-detail-page .detail-fields {
+        grid-template-columns: repeat(2, minmax(240px, 340px));
+        justify-content: start;
+        gap: 14px 18px;
+      }
+
+      #subscriber-detail-page .detail-layout {
+        grid-template-columns: minmax(0, 698px) minmax(320px, 1fr);
+      }
+
+      #subscriber-detail-page .detail-panel {
+        padding: 18px;
+      }
+
+      #subscriber-detail-page .detail-panel p {
+        margin-bottom: 14px;
+      }
+
+      #subscriber-detail-page .flag-grid {
+        gap: 10px;
+      }
+
+      .table-panel-tools {
+        padding: 18px 18px 0;
+      }
+
+      .table-panel-tools .detail-field {
+        max-width: none;
+      }
+
+      .maintenance-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .hub-card {
+        padding: 20px;
+      }
+
+      .hub-card h2 {
+        margin: 0 0 8px;
+        font-size: 1.3rem;
+        letter-spacing: -0.02em;
+      }
+
+      .hub-card p {
+        margin: 0 0 14px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .hub-list {
+        margin: 0;
+        padding-left: 18px;
+        color: #37506f;
+        line-height: 1.7;
+      }
+
+      @media (max-width: 1100px) {
+        .section-head { flex-direction: column; align-items: stretch; }
+        .form-row { grid-template-columns: 1fr; gap: 10px; }
+        .page-header { flex-direction: column; }
+        .action-stack { align-items: stretch; width: 100%; }
+        .selector-row { flex-direction: column; align-items: stretch; }
+        .selector-actions { justify-content: flex-start; margin-left: 0; }
+        .detail-layout { grid-template-columns: 1fr; }
+        .detail-fields { grid-template-columns: 1fr; }
+        .flag-grid { grid-template-columns: 1fr; }
+        .special-fields-grid { grid-template-columns: 1fr; }
+        .user-card-list { grid-template-columns: 1fr; }
+        .maintenance-grid { grid-template-columns: 1fr; }
+        #subscriber-detail-page .detail-fields { grid-template-columns: 1fr; }
+      }
 
 
-.inline-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
+      .inline-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
 
-.check-matrix {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 16px;
-  color: #324d85;
-  font-weight: 600;
-}
+      .check-matrix {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 16px;
+        color: #324d85;
+        font-weight: 600;
+      }
 
-.check-matrix label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+      .check-matrix label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
 
-@media (max-width: 1100px) {
-  .inline-grid-2,
-  .check-matrix {
-    grid-template-columns: 1fr;
-  }
-}
-
-</style>
+      @media (max-width: 1100px) {
+        .inline-grid-2,
+        .check-matrix {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
     <header class="topbar">
@@ -174,58 +698,264 @@ button, input, select { font: inherit; }
       <div class="user-meta"><span>🔔</span><span>Super User</span></div>
     </header>
 
-    <main class="page">
-      <div class="action-bar">
-        <button class="btn-muted">Delete User</button>
-        <button class="btn-muted">Unblock User</button>
-        <button class="btn-muted">Copy User</button>
-        <button class="btn-primary">Submit</button>
+    <main class="page" id="user-detail-page">
+      <div class="breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <span>User Detail</span>
       </div>
 
-      <h1>User Profile</h1>
+      <div class="page-toolbar">
+        <button class="btn-primary" type="button">Create New User</button>
+      </div>
 
-      <section class="panel form-wrap">
-        <div class="form-grid">
-          <div class="form-row"><label>ID</label><input class="field" value="1364" /></div>
-          <div class="form-row"><label>User ID</label><input class="field" value="sayala" /></div>
-          <div class="form-row"><label>Demo Lookup Count</label><input class="field" value="-1" /></div>
-          <div class="form-row"><label>Mr/Ms/Dr</label><input class="field" /></div>
-          <div class="form-row"><label>First Name</label><input class="field" value="Stephanie" /></div>
-          <div class="form-row"><label>Last Name</label><input class="field" value="Ayala" /></div>
-          <div class="form-row"><label>Telephone</label><input class="field" /></div>
-          <div class="form-row"><label>Email</label><input class="field" value="sayala@ecgmc.com" /></div>
-          <div class="form-row"><label>Contact Info</label><input class="field" value="elamontagne@rchsd.org" /></div>
-          <div class="form-row"><label>Subscriber</label><select class="select"><option>MD Ranger Customer Use Only</option></select></div>
-          <div class="form-row"><label>Role</label><select class="select"><option>MDR Staff</option></select></div>
-          <div class="form-row"><label>State</label><input class="field" /></div>
-
-          <div class="form-row">
-            <label>Regional Benchmarks</label>
-            <select class="select" multiple style="min-height:140px;">
-              <option>All Acute Hospitals</option>
-              <option>All Facility Types</option>
-              <option>All Acute Trauma</option>
-              <option>All Acute Non-Trauma</option>
-              <option>All Facilities Trauma</option>
+      <section class="panel selector-panel">
+        <div class="selector-row">
+          <div class="detail-field selector-copy">
+            <label class="field-label" for="user-selector">
+              <span>Currently Viewing User</span>
+              <span class="info-icon" tabindex="0" title="Jump between existing user records in the same admin workflow. Changing this dropdown only switches which user profile is shown below." aria-label="Select User help">i</span>
+            </label>
+            <select id="user-selector" class="select">
+              <option selected>Stephanie Ayala (@sayala)</option>
+              <option>April Hankton (@ahankton)</option>
+              <option>Mason Stelly (@mstelly)</option>
+              <option>Shane Pyle (@spyle)</option>
             </select>
-          </div>
-
-          <div class="form-row">
-            <label>Permissions</label>
-            <div class="check-matrix">
-              <label><input type="checkbox" checked /> DataTool?</label>
-              <label><input type="checkbox" checked /> Edit?</label>
-              <label><input type="checkbox" checked /> Certify?</label>
-              <label><input type="checkbox" checked /> Invalidate?</label>
-              <label><input type="checkbox" checked /> Notify?</label>
-              <label><input type="checkbox" checked /> 90th Percentile?</label>
-              <label><input type="checkbox" /> Analytics/Custom BM Rpt?</label>
-            </div>
           </div>
         </div>
       </section>
 
-      <div style="margin-top:12px;"><button class="btn-primary">Spoof as sayala</button></div>
+      <div class="page-header">
+        <div>
+          <h1>User Profile</h1>
+          <p class="page-copy">
+            Review staff identity, subscriber assignment, benchmark access, and permissions in a
+            layout that stays readable on wider screens.
+          </p>
+        </div>
+        <div class="action-stack">
+          <div class="action-bar wrap">
+            <button class="btn-soft" id="edit-user-button" type="button">Edit User</button>
+            <button class="btn-primary visually-hidden" id="save-user-button" type="button">Save Changes</button>
+            <details class="action-menu">
+              <summary class="menu-button">More Actions</summary>
+              <div class="menu-list">
+                <button type="button">Spoof as sayala</button>
+                <button type="button">Copy User</button>
+                <button type="button">Unblock User</button>
+                <button type="button" class="danger-item">Delete User</button>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-layout">
+        <div class="detail-main">
+          <section class="panel detail-panel">
+            <h2>Identity</h2>
+            <p>Core profile details for the current user record.</p>
+
+            <div class="detail-fields">
+              <div class="detail-field">
+                <label class="field-label" for="user-id">
+                  <span>ID</span>
+                </label>
+                <input id="user-id" class="field user-editable" value="1364" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="user-login">
+                  <span>User ID</span>
+                </label>
+                <input id="user-login" class="field user-editable" value="sayala" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="demo-lookup-count">
+                  <span>Demo Lookup Count</span>
+                  <span class="info-icon" tabindex="0" title="0=block, -1=unlimited, and any value greater than 0 acts as a countdown." aria-label="Demo Lookup Count help">i</span>
+                </label>
+                <input id="demo-lookup-count" class="field user-editable" value="-1" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="prefix">
+                  <span>Mr/Ms/Dr</span>
+                </label>
+                <input id="prefix" class="field user-editable" value="" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="first-name">
+                  <span>First Name</span>
+                </label>
+                <input id="first-name" class="field user-editable" value="Stephanie" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="last-name">
+                  <span>Last Name</span>
+                </label>
+                <input id="last-name" class="field user-editable" value="Ayala" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="telephone">
+                  <span>Telephone</span>
+                </label>
+                <input id="telephone" class="field user-editable" value="" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="email">
+                  <span>Email</span>
+                </label>
+                <input id="email" class="field user-editable" value="sayala@ecgmc.com" disabled />
+              </div>
+              <div class="detail-field full">
+                <label class="field-label" for="contact-info">
+                  <span>Contact Info</span>
+                </label>
+                <input id="contact-info" class="field user-editable" value="elamontagne@rchsd.org" disabled />
+              </div>
+              <div class="detail-field full">
+                <label class="field-label" for="additional-mdr-ids">
+                  <span>Additional MDR IDs</span>
+                  <span class="info-icon" tabindex="0" title="Store alternate legacy identifiers used by connected MD Ranger workflows." aria-label="Additional MDR IDs help">i</span>
+                </label>
+                <textarea id="additional-mdr-ids" class="textarea user-editable" disabled></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel detail-panel">
+            <h2>Access and Assignment</h2>
+            <p>Subscriber placement, role, geography, and benchmark coverage.</p>
+
+            <div class="detail-fields">
+              <div class="detail-field full">
+                <label class="field-label" for="subscriber">
+                  <span>Subscriber</span>
+                  <span class="info-icon" tabindex="0" title="Important: this customer/subscriber assignment controls the user’s primary portal context." aria-label="Subscriber help">i</span>
+                </label>
+                <select id="subscriber" class="select user-editable" disabled>
+                  <option selected>MD Ranger Customer Use Only</option>
+                </select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="role">
+                  <span>Role</span>
+                </label>
+                <select id="role" class="select user-editable" disabled><option>MDR Staff</option></select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="state">
+                  <span>State</span>
+                </label>
+                <input id="state" class="field user-editable" value="CA" disabled />
+              </div>
+              <div class="detail-field full">
+                <label class="field-label" for="regional-benchmarks">
+                  <span>Regional Benchmarks</span>
+                  <span class="info-icon" tabindex="0" title="Control which benchmark groupings are visible for this user." aria-label="Regional Benchmarks help">i</span>
+                </label>
+                <select id="regional-benchmarks" class="select user-editable" multiple style="min-height:180px;" disabled>
+                  <option>All Acute Hospitals</option>
+                  <option>All Facility Types</option>
+                  <option>All Acute Trauma</option>
+                  <option>All Acute Non-Trauma</option>
+                  <option>All Facilities Trauma</option>
+                </select>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="detail-stack">
+          <section class="panel stack-card">
+            <h2>Profile Status</h2>
+            <p class="detail-note">At-a-glance context for the current record.</p>
+            <div class="summary-grid">
+              <div class="summary-item">
+                <strong>Subscriber</strong>
+                <span>MD Ranger Customer Use Only</span>
+              </div>
+              <div class="summary-item">
+                <strong>Role</strong>
+                <span>MDR Staff</span>
+              </div>
+              <div class="summary-item">
+                <strong>State</strong>
+                <span>California</span>
+              </div>
+              <div class="summary-item">
+                <strong>Portal Access</strong>
+                <span>Active and unblocked</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel stack-card">
+            <h2>Permissions</h2>
+            <p class="detail-note">Fine-grained actions and report visibility for the current user.</p>
+            <div class="check-matrix">
+              <label><input class="user-editable" type="checkbox" checked disabled /> DataTool?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> Edit?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> Certify?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> Invalidate?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> Notify?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> 90th Percentile?</label>
+              <label><input class="user-editable" type="checkbox" disabled /> Analytics/Custom BM Rpt?</label>
+            </div>
+          </section>
+
+          <section class="panel stack-card">
+            <h2>Related Records</h2>
+            <p class="detail-note">Open adjacent pages without turning them into record tabs.</p>
+            <div class="linked-record">
+              <a class="linked-record-card" href="subscriber-detail-download.html">
+                <strong>Open Subscriber Detail</strong>
+                <span>View and edit the assigned subscriber profile for this user.</span>
+              </a>
+              <a class="linked-record-card" href="maintenance-download.html">
+                <strong>Open Maintenance Hub</strong>
+                <span>Jump to global administrative tools and maintenance actions.</span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
     </main>
+    <script>
+      {
+        document.querySelectorAll(".info-icon[title]").forEach((icon) => {
+          icon.dataset.tooltip = icon.getAttribute("title");
+        });
+
+        const editableFields = Array.from(document.querySelectorAll(".user-editable"));
+        const editButton = document.getElementById("edit-user-button");
+        const saveButton = document.getElementById("save-user-button");
+
+        const setEditMode = (isEditing) => {
+          editableFields.forEach((field) => {
+            field.disabled = !isEditing;
+          });
+
+          editButton.textContent = isEditing ? "Editing Enabled" : "Edit User";
+          editButton.disabled = isEditing;
+          saveButton.classList.toggle("visually-hidden", !isEditing);
+        };
+
+        editButton.addEventListener("click", () => {
+          setEditMode(true);
+        });
+
+        saveButton.addEventListener("click", () => {
+          const confirmed = window.confirm("Save changes to this user?");
+          if (!confirmed) {
+            return;
+          }
+
+          setEditMode(false);
+        });
+
+        setEditMode(false);
+      }
+    </script>
   </body>
 </html>

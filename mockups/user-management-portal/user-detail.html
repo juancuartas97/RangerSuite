@@ -12,58 +12,264 @@
       <div class="user-meta"><span>🔔</span><span>Super User</span></div>
     </header>
 
-    <main class="page">
-      <div class="action-bar">
-        <button class="btn-muted">Delete User</button>
-        <button class="btn-muted">Unblock User</button>
-        <button class="btn-muted">Copy User</button>
-        <button class="btn-primary">Submit</button>
+    <main class="page" id="user-detail-page">
+      <div class="breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <span>User Detail</span>
       </div>
 
-      <h1>User Profile</h1>
+      <div class="page-toolbar">
+        <button class="btn-primary" type="button">Create New User</button>
+      </div>
 
-      <section class="panel form-wrap">
-        <div class="form-grid">
-          <div class="form-row"><label>ID</label><input class="field" value="1364" /></div>
-          <div class="form-row"><label>User ID</label><input class="field" value="sayala" /></div>
-          <div class="form-row"><label>Demo Lookup Count</label><input class="field" value="-1" /></div>
-          <div class="form-row"><label>Mr/Ms/Dr</label><input class="field" /></div>
-          <div class="form-row"><label>First Name</label><input class="field" value="Stephanie" /></div>
-          <div class="form-row"><label>Last Name</label><input class="field" value="Ayala" /></div>
-          <div class="form-row"><label>Telephone</label><input class="field" /></div>
-          <div class="form-row"><label>Email</label><input class="field" value="sayala@ecgmc.com" /></div>
-          <div class="form-row"><label>Contact Info</label><input class="field" value="elamontagne@rchsd.org" /></div>
-          <div class="form-row"><label>Subscriber</label><select class="select"><option>MD Ranger Customer Use Only</option></select></div>
-          <div class="form-row"><label>Role</label><select class="select"><option>MDR Staff</option></select></div>
-          <div class="form-row"><label>State</label><input class="field" /></div>
-
-          <div class="form-row">
-            <label>Regional Benchmarks</label>
-            <select class="select" multiple style="min-height:140px;">
-              <option>All Acute Hospitals</option>
-              <option>All Facility Types</option>
-              <option>All Acute Trauma</option>
-              <option>All Acute Non-Trauma</option>
-              <option>All Facilities Trauma</option>
+      <section class="panel selector-panel">
+        <div class="selector-row">
+          <div class="detail-field selector-copy">
+            <label class="field-label" for="user-selector">
+              <span>Currently Viewing User</span>
+              <span class="info-icon" tabindex="0" title="Jump between existing user records in the same admin workflow. Changing this dropdown only switches which user profile is shown below." aria-label="Select User help">i</span>
+            </label>
+            <select id="user-selector" class="select">
+              <option selected>Stephanie Ayala (@sayala)</option>
+              <option>April Hankton (@ahankton)</option>
+              <option>Mason Stelly (@mstelly)</option>
+              <option>Shane Pyle (@spyle)</option>
             </select>
-          </div>
-
-          <div class="form-row">
-            <label>Permissions</label>
-            <div class="check-matrix">
-              <label><input type="checkbox" checked /> DataTool?</label>
-              <label><input type="checkbox" checked /> Edit?</label>
-              <label><input type="checkbox" checked /> Certify?</label>
-              <label><input type="checkbox" checked /> Invalidate?</label>
-              <label><input type="checkbox" checked /> Notify?</label>
-              <label><input type="checkbox" checked /> 90th Percentile?</label>
-              <label><input type="checkbox" /> Analytics/Custom BM Rpt?</label>
-            </div>
           </div>
         </div>
       </section>
 
-      <div style="margin-top:12px;"><button class="btn-primary">Spoof as sayala</button></div>
+      <div class="page-header">
+        <div>
+          <h1>User Profile</h1>
+          <p class="page-copy">
+            Review staff identity, subscriber assignment, benchmark access, and permissions in a
+            layout that stays readable on wider screens.
+          </p>
+        </div>
+        <div class="action-stack">
+          <div class="action-bar wrap">
+            <button class="btn-soft" id="edit-user-button" type="button">Edit User</button>
+            <button class="btn-primary visually-hidden" id="save-user-button" type="button">Save Changes</button>
+            <details class="action-menu">
+              <summary class="menu-button">More Actions</summary>
+              <div class="menu-list">
+                <button type="button">Spoof as sayala</button>
+                <button type="button">Copy User</button>
+                <button type="button">Unblock User</button>
+                <button type="button" class="danger-item">Delete User</button>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-layout">
+        <div class="detail-main">
+          <section class="panel detail-panel">
+            <h2>Identity</h2>
+            <p>Core profile details for the current user record.</p>
+
+            <div class="detail-fields">
+              <div class="detail-field">
+                <label class="field-label" for="user-id">
+                  <span>ID</span>
+                </label>
+                <input id="user-id" class="field user-editable" value="1364" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="user-login">
+                  <span>User ID</span>
+                </label>
+                <input id="user-login" class="field user-editable" value="sayala" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="demo-lookup-count">
+                  <span>Demo Lookup Count</span>
+                  <span class="info-icon" tabindex="0" title="0=block, -1=unlimited, and any value greater than 0 acts as a countdown." aria-label="Demo Lookup Count help">i</span>
+                </label>
+                <input id="demo-lookup-count" class="field user-editable" value="-1" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="prefix">
+                  <span>Mr/Ms/Dr</span>
+                </label>
+                <input id="prefix" class="field user-editable" value="" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="first-name">
+                  <span>First Name</span>
+                </label>
+                <input id="first-name" class="field user-editable" value="Stephanie" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="last-name">
+                  <span>Last Name</span>
+                </label>
+                <input id="last-name" class="field user-editable" value="Ayala" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="telephone">
+                  <span>Telephone</span>
+                </label>
+                <input id="telephone" class="field user-editable" value="" disabled />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="email">
+                  <span>Email</span>
+                </label>
+                <input id="email" class="field user-editable" value="sayala@ecgmc.com" disabled />
+              </div>
+              <div class="detail-field full">
+                <label class="field-label" for="contact-info">
+                  <span>Contact Info</span>
+                </label>
+                <input id="contact-info" class="field user-editable" value="elamontagne@rchsd.org" disabled />
+              </div>
+              <div class="detail-field full">
+                <label class="field-label" for="additional-mdr-ids">
+                  <span>Additional MDR IDs</span>
+                  <span class="info-icon" tabindex="0" title="Store alternate legacy identifiers used by connected MD Ranger workflows." aria-label="Additional MDR IDs help">i</span>
+                </label>
+                <textarea id="additional-mdr-ids" class="textarea user-editable" disabled></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel detail-panel">
+            <h2>Access and Assignment</h2>
+            <p>Subscriber placement, role, geography, and benchmark coverage.</p>
+
+            <div class="detail-fields">
+              <div class="detail-field full">
+                <label class="field-label" for="subscriber">
+                  <span>Subscriber</span>
+                  <span class="info-icon" tabindex="0" title="Important: this customer/subscriber assignment controls the user’s primary portal context." aria-label="Subscriber help">i</span>
+                </label>
+                <select id="subscriber" class="select user-editable" disabled>
+                  <option selected>MD Ranger Customer Use Only</option>
+                </select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="role">
+                  <span>Role</span>
+                </label>
+                <select id="role" class="select user-editable" disabled><option>MDR Staff</option></select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="state">
+                  <span>State</span>
+                </label>
+                <input id="state" class="field user-editable" value="CA" disabled />
+              </div>
+              <div class="detail-field full">
+                <label class="field-label" for="regional-benchmarks">
+                  <span>Regional Benchmarks</span>
+                  <span class="info-icon" tabindex="0" title="Control which benchmark groupings are visible for this user." aria-label="Regional Benchmarks help">i</span>
+                </label>
+                <select id="regional-benchmarks" class="select user-editable" multiple style="min-height:180px;" disabled>
+                  <option>All Acute Hospitals</option>
+                  <option>All Facility Types</option>
+                  <option>All Acute Trauma</option>
+                  <option>All Acute Non-Trauma</option>
+                  <option>All Facilities Trauma</option>
+                </select>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="detail-stack">
+          <section class="panel stack-card">
+            <h2>Profile Status</h2>
+            <p class="detail-note">At-a-glance context for the current record.</p>
+            <div class="summary-grid">
+              <div class="summary-item">
+                <strong>Subscriber</strong>
+                <span>MD Ranger Customer Use Only</span>
+              </div>
+              <div class="summary-item">
+                <strong>Role</strong>
+                <span>MDR Staff</span>
+              </div>
+              <div class="summary-item">
+                <strong>State</strong>
+                <span>California</span>
+              </div>
+              <div class="summary-item">
+                <strong>Portal Access</strong>
+                <span>Active and unblocked</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel stack-card">
+            <h2>Permissions</h2>
+            <p class="detail-note">Fine-grained actions and report visibility for the current user.</p>
+            <div class="check-matrix">
+              <label><input class="user-editable" type="checkbox" checked disabled /> DataTool?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> Edit?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> Certify?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> Invalidate?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> Notify?</label>
+              <label><input class="user-editable" type="checkbox" checked disabled /> 90th Percentile?</label>
+              <label><input class="user-editable" type="checkbox" disabled /> Analytics/Custom BM Rpt?</label>
+            </div>
+          </section>
+
+          <section class="panel stack-card">
+            <h2>Related Records</h2>
+            <p class="detail-note">Open adjacent pages without turning them into record tabs.</p>
+            <div class="linked-record">
+              <a class="linked-record-card" href="subscriber-detail.html">
+                <strong>Open Subscriber Detail</strong>
+                <span>View and edit the assigned subscriber profile for this user.</span>
+              </a>
+              <a class="linked-record-card" href="maintenance.html">
+                <strong>Open Maintenance Hub</strong>
+                <span>Jump to global administrative tools and maintenance actions.</span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
     </main>
+    <script>
+      {
+        document.querySelectorAll(".info-icon[title]").forEach((icon) => {
+          icon.dataset.tooltip = icon.getAttribute("title");
+        });
+
+        const editableFields = Array.from(document.querySelectorAll(".user-editable"));
+        const editButton = document.getElementById("edit-user-button");
+        const saveButton = document.getElementById("save-user-button");
+
+        const setEditMode = (isEditing) => {
+          editableFields.forEach((field) => {
+            field.disabled = !isEditing;
+          });
+
+          editButton.textContent = isEditing ? "Editing Enabled" : "Edit User";
+          editButton.disabled = isEditing;
+          saveButton.classList.toggle("visually-hidden", !isEditing);
+        };
+
+        editButton.addEventListener("click", () => {
+          setEditMode(true);
+        });
+
+        saveButton.addEventListener("click", () => {
+          const confirmed = window.confirm("Save changes to this user?");
+          if (!confirmed) {
+            return;
+          }
+
+          setEditMode(false);
+        });
+
+        setEditMode(false);
+      }
+    </script>
   </body>
 </html>
