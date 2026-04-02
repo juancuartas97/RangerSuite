@@ -13,19 +13,59 @@
     </header>
 
     <main class="page">
-      <h1>Settings</h1>
-      <nav class="tabs">
-        <a class="tab" href="#">My Account</a>
-        <a class="tab" href="users.html">Users</a>
-        <a class="tab" href="#">Preferences</a>
-        <a class="tab" href="subscribers.html">Subscribers</a>
-        <a class="tab active" href="maintenance.html">Maintenance</a>
-      </nav>
+      <div class="breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <span>Maintenance Hub</span>
+      </div>
 
-      <section class="panel" style="padding:20px;">
-        <h2 style="margin-top:0;">Maintenance</h2>
-        <p class="hint">Configuration and administration actions for user/subscriber management can be placed here.</p>
-      </section>
+      <h1>Maintenance Hub</h1>
+      <p class="page-copy">
+        Global administrative tools and recurring maintenance work for the portal live here. This
+        page is intentionally separate from user and subscriber record editing.
+      </p>
+
+      <div class="maintenance-grid">
+        <section class="panel hub-card">
+          <h2>User Access Controls</h2>
+          <p>Review actions that affect account lifecycle and sign-in behavior.</p>
+          <ul class="hub-list">
+            <li>Unblock or reactivate flagged users</li>
+            <li>Audit spoof access and support actions</li>
+            <li>Review high-privilege role assignments</li>
+          </ul>
+        </section>
+
+        <section class="panel hub-card">
+          <h2>Subscriber Configuration</h2>
+          <p>Manage subscriber-level settings that influence access and reporting scope.</p>
+          <ul class="hub-list">
+            <li>Verify subscriber access flags</li>
+            <li>Review look-up year and account ownership</li>
+            <li>Check special user field mappings</li>
+          </ul>
+        </section>
+
+        <section class="panel hub-card">
+          <h2>Checklist Utilities</h2>
+          <p>Centralize tools tied to facility onboarding and checklist maintenance.</p>
+          <ul class="hub-list">
+            <li>Open checklist URL management</li>
+            <li>Review facility ownership exceptions</li>
+            <li>Confirm checklist links for new subscribers</li>
+          </ul>
+        </section>
+
+        <section class="panel hub-card">
+          <h2>Data Integrity Review</h2>
+          <p>Keep portal records clean and aligned across user, subscriber, and facility data.</p>
+          <ul class="hub-list">
+            <li>Spot mismatched subscriber-to-user assignments</li>
+            <li>Check stale or incomplete profile fields</li>
+            <li>Review benchmark access anomalies</li>
+          </ul>
+        </section>
+      </div>
     </main>
   </body>
 </html>

@@ -5,168 +5,692 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Subscriber Detail</title>
     <style>
-:root {
-  --bg: #f2f4f8;
-  --surface: #ffffff;
-  --border: #e2e7f0;
-  --text: #18233a;
-  --muted: #76839a;
-  --navy: #0c1b63;
-  --navy-soft: #2f3d7b;
-  --row: #f8fafc;
-}
+      :root {
+        --bg: #f2f4f8;
+        --surface: #ffffff;
+        --border: #e2e7f0;
+        --text: #18233a;
+        --muted: #76839a;
+        --navy: #0c1b63;
+        --navy-soft: #2f3d7b;
+        --row: #f8fafc;
+      }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
-a { color: inherit; text-decoration: none; }
-button, input, select { font: inherit; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+      a { color: inherit; text-decoration: none; }
+      button, input, select { font: inherit; }
+      textarea { font: inherit; }
 
-.topbar {
-  height: 68px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 22px;
-}
-.menu-icon { color: #909db5; font-size: 1.2rem; }
-.user-meta { display: flex; align-items: center; gap: 16px; color: var(--navy); font-weight: 700; }
+      .topbar {
+        height: 68px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 22px;
+      }
+      .menu-icon { color: #909db5; font-size: 1.2rem; }
+      .user-meta { display: flex; align-items: center; gap: 16px; color: var(--navy); font-weight: 700; }
 
-.page { padding: 18px; }
-.page h1 { margin: 0 0 14px; font-size: 2rem; }
+      .page { padding: 18px; }
+      .page h1 { margin: 0 0 14px; font-size: 2rem; }
 
-.tabs { display: flex; gap: 10px; margin-bottom: 14px; }
-.tab {
-  border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 9px 14px;
-  font-weight: 700;
-  color: #223467;
-}
-.tab.active { background: var(--navy); color: #fff; }
+      .breadcrumbs {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
 
-.panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-}
+      .breadcrumbs a {
+        color: #27417a;
+      }
 
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-}
+      .breadcrumbs span {
+        color: #9aa5ba;
+      }
 
-.title-line { display: flex; align-items: baseline; gap: 10px; }
-.title-line h2 { margin: 0; font-size: 1.9rem; }
-.title-line span { color: var(--muted); font-weight: 600; }
+      .tabs { display: flex; gap: 10px; margin-bottom: 14px; }
+      .tab {
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 9px 14px;
+        font-weight: 700;
+        color: #223467;
+      }
+      .tab.active { background: var(--navy); color: #fff; }
 
-.search {
-  width: min(760px, 100%);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: #f4f7fc;
-  padding: 10px 14px;
-}
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: visible;
+      }
 
-.btn-primary {
-  border: 1px solid var(--navy-soft);
-  background: var(--navy-soft);
-  color: #fff;
-  border-radius: 8px;
-  padding: 9px 16px;
-  font-weight: 700;
-}
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+      }
 
-.table { width: 100%; border-collapse: collapse; }
-.table th, .table td { border-bottom: 1px solid var(--border); padding: 13px 14px; text-align: left; }
-.table th { color: #263f77; font-size: 0.95rem; }
-.table td { color: #4f6282; }
-.table td.role { color: #2f477f; font-weight: 700; }
+      .title-line { display: flex; align-items: baseline; gap: 10px; }
+      .title-line h2 { margin: 0; font-size: 1.9rem; }
+      .title-line span { color: var(--muted); font-weight: 600; }
 
-.footer-pager {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px;
-  color: #2c416f;
-  font-weight: 700;
-}
+      .search {
+        width: min(760px, 100%);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #f4f7fc;
+        padding: 10px 14px;
+      }
 
-.btn-muted {
-  border: 1px solid var(--border);
-  background: #f8fbff;
-  color: #8392aa;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-weight: 700;
-}
+      .btn-primary {
+        border: 1px solid var(--navy-soft);
+        background: var(--navy-soft);
+        color: #fff;
+        border-radius: 8px;
+        padding: 9px 16px;
+        font-weight: 700;
+      }
 
-.form-wrap { padding: 16px; }
-.form-grid { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.form-row {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 20px;
-  padding: 16px;
-  border-bottom: 1px solid var(--border);
-  background: #fff;
-}
-.form-row:last-child { border-bottom: 0; }
-.form-row label { color: #253d73; font-weight: 700; }
-.form-row .hint { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
-.field, .select {
-  width: 100%;
-  border: 1px solid #cfd8e8;
-  background: #f4f7fc;
-  border-radius: 6px;
-  min-height: 40px;
-  padding: 9px 12px;
-}
+      .btn-soft {
+        border: 1px solid #bfd7e3;
+        background: #edf7fb;
+        color: #164f64;
+        border-radius: 8px;
+        padding: 9px 16px;
+        font-weight: 700;
+      }
 
-.action-bar { display: flex; justify-content: flex-end; gap: 10px; margin: 0 0 12px; }
+      .table { width: 100%; border-collapse: collapse; }
+      .table th, .table td { border-bottom: 1px solid var(--border); padding: 13px 14px; text-align: left; }
+      .table th { color: #263f77; font-size: 0.95rem; }
+      .table td { color: #4f6282; }
+      .table td.role { color: #2f477f; font-weight: 700; }
 
-.audit-title { margin: 14px 0 0; font-size: 2rem; }
+      .footer-pager {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px;
+        color: #2c416f;
+        font-weight: 700;
+      }
 
-@media (max-width: 1100px) {
-  .section-head { flex-direction: column; align-items: stretch; }
-  .form-row { grid-template-columns: 1fr; gap: 10px; }
-}
+      .btn-muted {
+        border: 1px solid var(--border);
+        background: #f8fbff;
+        color: #8392aa;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-weight: 700;
+      }
+
+      .btn-danger {
+        border: 1px solid #ebc1c6;
+        background: #fff5f6;
+        color: #a13a49;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-weight: 700;
+      }
+
+      .form-wrap { padding: 16px; }
+      .form-grid { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+      .form-row {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 20px;
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        background: #fff;
+      }
+      .form-row:last-child { border-bottom: 0; }
+      .form-row label { color: #253d73; font-weight: 700; }
+      .form-row .hint { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+      .field, .select {
+        width: 100%;
+        border: 1px solid #cfd8e8;
+        background: #f4f7fc;
+        border-radius: 6px;
+        min-height: 40px;
+        padding: 9px 12px;
+      }
+
+      .field:disabled,
+      .select:disabled,
+      .textarea:disabled {
+        background: #eef2f8;
+        color: #65758f;
+        cursor: not-allowed;
+      }
+
+      .field-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #253d73;
+        font-weight: 700;
+      }
+
+      .info-icon {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border: 1px solid #bfd0eb;
+        border-radius: 999px;
+        background: #edf4ff;
+        color: #365b92;
+        font-size: 0.72rem;
+        font-weight: 700;
+        cursor: help;
+      }
+
+      .info-icon::after,
+      .info-icon::before {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 140ms ease, transform 140ms ease;
+        position: absolute;
+        z-index: 30;
+      }
+
+      .info-icon::after {
+        content: attr(data-tooltip);
+        left: 50%;
+        bottom: calc(100% + 10px);
+        transform: translateX(-50%) translateY(6px);
+        width: min(260px, 52vw);
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #10265c;
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 600;
+        line-height: 1.45;
+        text-align: left;
+        white-space: normal;
+        box-shadow: 0 14px 30px rgba(16, 38, 92, 0.22);
+      }
+
+      .info-icon::before {
+        content: "";
+        left: 50%;
+        bottom: calc(100% + 2px);
+        transform: translateX(-50%) translateY(6px);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 8px solid #10265c;
+      }
+
+      .info-icon:hover::after,
+      .info-icon:hover::before,
+      .info-icon:focus-visible::after,
+      .info-icon:focus-visible::before {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .info-icon:focus-visible {
+        outline: 2px solid var(--navy-soft);
+        outline-offset: 2px;
+      }
+
+      .action-bar { display: flex; justify-content: flex-end; gap: 10px; margin: 0 0 12px; }
+
+      .audit-title { margin: 14px 0 0; font-size: 2rem; }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .page-copy {
+        max-width: 720px;
+        margin: 8px 0 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .page-toolbar {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 14px;
+      }
+
+      .action-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-end;
+      }
+
+      .action-bar.wrap {
+        margin: 0;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .action-bar.tight {
+        margin: 0;
+        gap: 8px;
+      }
+
+      .detail-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.95fr);
+        gap: 18px;
+      }
+
+      .detail-main,
+      .detail-stack {
+        display: grid;
+        gap: 18px;
+      }
+
+      .detail-panel {
+        padding: 20px;
+        border-radius: 16px;
+      }
+
+      .detail-panel h2 {
+        margin: 0 0 6px;
+        font-size: 1.35rem;
+        letter-spacing: -0.02em;
+      }
+
+      .detail-panel p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .detail-fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .detail-field {
+        display: grid;
+        gap: 7px;
+      }
+
+      .detail-field label {
+        color: #253d73;
+        font-weight: 700;
+      }
+
+      .detail-field.full {
+        grid-column: 1 / -1;
+      }
+
+      .detail-note {
+        margin: 0 0 14px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .stack-card {
+        padding: 20px;
+      }
+
+      .selector-panel {
+        margin-bottom: 14px;
+        padding: 20px;
+      }
+
+      .selector-panel .detail-field {
+        max-width: 420px;
+      }
+
+      .selector-copy {
+        max-width: 560px;
+      }
+
+      .selector-note {
+        margin: 6px 0 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .selector-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .selector-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-left: auto;
+      }
+
+      .textarea {
+        width: 100%;
+        min-height: 112px;
+        border: 1px solid #cfd8e8;
+        background: #f4f7fc;
+        border-radius: 6px;
+        padding: 10px 12px;
+        resize: vertical;
+      }
+
+      .summary-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .summary-item {
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #f9fbff;
+      }
+
+      .summary-item strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #27417a;
+        font-size: 0.86rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .summary-item span {
+        color: #324864;
+        font-weight: 700;
+      }
+
+      .linked-record {
+        display: grid;
+        gap: 12px;
+      }
+
+      .linked-record-card {
+        display: block;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #f8fbff;
+      }
+
+      .linked-record-card strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #20386d;
+      }
+
+      .linked-record-card span {
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      .action-menu {
+        position: relative;
+      }
+
+      .action-menu summary {
+        list-style: none;
+      }
+
+      .action-menu summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .menu-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--border);
+        background: #f8fbff;
+        color: #31476f;
+        border-radius: 8px;
+        padding: 8px 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .menu-list {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 220px;
+        padding: 8px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 16px 36px rgba(12, 27, 99, 0.12);
+        z-index: 20;
+      }
+
+      .menu-list button {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: #31476f;
+        text-align: left;
+        padding: 10px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .menu-list button:hover {
+        background: #f4f8ff;
+      }
+
+      .menu-list .danger-item {
+        color: #a13a49;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .flag-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .flag-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #f9fbff;
+      }
+
+      .flag-item input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--navy-soft);
+      }
+
+      .special-fields-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 16px;
+      }
+
+      .user-chip-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 14px;
+      }
+
+      .user-chip {
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: #f7faff;
+        color: #29406e;
+        font-weight: 700;
+      }
+
+      .user-card-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .user-card {
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #f8fbff;
+      }
+
+      .user-card-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .user-card strong {
+        color: #27417a;
+      }
+
+      .user-card span {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      #subscriber-detail-page .detail-fields {
+        grid-template-columns: repeat(2, minmax(240px, 340px));
+        justify-content: start;
+        gap: 14px 18px;
+      }
+
+      #subscriber-detail-page .detail-layout {
+        grid-template-columns: minmax(0, 698px) minmax(320px, 1fr);
+      }
+
+      #subscriber-detail-page .detail-panel {
+        padding: 18px;
+      }
+
+      #subscriber-detail-page .detail-panel p {
+        margin-bottom: 14px;
+      }
+
+      #subscriber-detail-page .flag-grid {
+        gap: 10px;
+      }
+
+      .table-panel-tools {
+        padding: 18px 18px 0;
+      }
+
+      .table-panel-tools .detail-field {
+        max-width: none;
+      }
+
+      .maintenance-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .hub-card {
+        padding: 20px;
+      }
+
+      .hub-card h2 {
+        margin: 0 0 8px;
+        font-size: 1.3rem;
+        letter-spacing: -0.02em;
+      }
+
+      .hub-card p {
+        margin: 0 0 14px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .hub-list {
+        margin: 0;
+        padding-left: 18px;
+        color: #37506f;
+        line-height: 1.7;
+      }
+
+      @media (max-width: 1100px) {
+        .section-head { flex-direction: column; align-items: stretch; }
+        .form-row { grid-template-columns: 1fr; gap: 10px; }
+        .page-header { flex-direction: column; }
+        .action-stack { align-items: stretch; width: 100%; }
+        .selector-row { flex-direction: column; align-items: stretch; }
+        .selector-actions { justify-content: flex-start; margin-left: 0; }
+        .detail-layout { grid-template-columns: 1fr; }
+        .detail-fields { grid-template-columns: 1fr; }
+        .flag-grid { grid-template-columns: 1fr; }
+        .special-fields-grid { grid-template-columns: 1fr; }
+        .user-card-list { grid-template-columns: 1fr; }
+        .maintenance-grid { grid-template-columns: 1fr; }
+        #subscriber-detail-page .detail-fields { grid-template-columns: 1fr; }
+      }
 
 
-.inline-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
+      .inline-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
 
-.check-matrix {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 16px;
-  color: #324d85;
-  font-weight: 600;
-}
+      .check-matrix {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 16px;
+        color: #324d85;
+        font-weight: 600;
+      }
 
-.check-matrix label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+      .check-matrix label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
 
-@media (max-width: 1100px) {
-  .inline-grid-2,
-  .check-matrix {
-    grid-template-columns: 1fr;
-  }
-}
-
-</style>
+      @media (max-width: 1100px) {
+        .inline-grid-2,
+        .check-matrix {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
     <header class="topbar">
@@ -174,60 +698,313 @@ button, input, select { font: inherit; }
       <div class="user-meta"><span>🔔</span><span>Super User</span></div>
     </header>
 
-    <main class="page">
-      <div class="action-bar">
-        <button class="btn-primary">Save</button>
-        <button class="btn-muted">Delete Subscriber</button>
-        <button class="btn-muted">Checklist URLs</button>
+    <main class="page" id="subscriber-detail-page">
+      <div class="breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <span>Subscriber Detail</span>
       </div>
 
-      <h1>Subscriber Profile</h1>
-
-      <section class="panel form-wrap">
-        <div class="form-grid">
-          <div class="form-row"><label>Subscriber Name</label><input class="field" value="Acadiana Management Group" /></div>
-          <div class="form-row"><label>ID</label><input class="field" value="88" /></div>
-          <div class="form-row"><label>Short Name</label><input class="field" value="AMG" /></div>
-          <div class="form-row"><label>Type</label><select class="select"><option>General Acute Care Hospital</option></select></div>
-          <div class="form-row"><label>Start Year</label><input class="field" value="2018" /></div>
-          <div class="form-row"><label>Look-Up Year</label><input class="field" value="" placeholder="Optional" /></div>
-          <div class="form-row"><label>Account Executive</label><input class="field" value="SAyala@ecgmc.com" /></div>
-
-          <div class="form-row">
-            <label>Access Flags</label>
-            <div class="check-matrix">
-              <label><input type="checkbox" checked /> Subscriber?</label>
-              <label><input type="checkbox" checked /> Portal access?</label>
-              <label><input type="checkbox" checked /> Reportable?</label>
-              <label><input type="checkbox" checked /> Customer?</label>
-              <label><input type="checkbox" /> Coverage ONLY?</label>
-              <label><input type="checkbox" /> MD/AD/LE ONLY?</label>
-              <label><input type="checkbox" /> Salary Data?</label>
-              <label><input type="checkbox" /> Demo?</label>
-            </div>
+      <section class="panel selector-panel">
+        <div class="selector-row">
+          <div class="detail-field selector-copy">
+            <label class="field-label" for="subscriber-selector">
+              <span>Currently Viewing Subscriber</span>
+              <span class="info-icon" tabindex="0" title="Jump between subscriber records while staying in the same admin workflow." aria-label="Select Subscriber help">i</span>
+            </label>
+            <select id="subscriber-selector" class="select">
+              <option selected>Acadiana Management Group</option>
+              <option>Blend Subscriber</option>
+              <option>ECG Subscriber</option>
+              <option>Capyba Subscriber</option>
+            </select>
+            <p class="selector-note">Changing this dropdown only switches which subscriber record you are viewing below.</p>
           </div>
-
-          <div class="form-row">
-            <label>Special User Fields</label>
-            <div class="inline-grid-2">
-              <input class="field" placeholder="User Field 1" />
-              <input class="field" placeholder="User Field 2" />
-              <input class="field" placeholder="User Field 3" />
-              <input class="field" placeholder="User Field 4" />
-              <input class="field" placeholder="User Field 5" />
-              <input class="field" placeholder="User Field 6" />
-            </div>
+          <div class="selector-actions">
+            <a class="linked-record-card" href="user-detail-download.html" style="min-width: 220px;">
+              <strong>Back to User Detail</strong>
+              <span>Return to the linked staff record.</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <section class="panel" style="margin-top:14px;">
-        <div class="section-head"><div class="title-line"><h2>Associated Users</h2></div></div>
-        <div style="padding:14px; color:#4e6181;">ahankton · jhargrave · mstelly · spyle · swallis · tfontenot</div>
-      </section>
+      <div class="page-header">
+        <div>
+          <h1>Subscriber Profile</h1>
+          <p class="page-copy">
+            Subscriber-specific settings, access flags, associated users, and facility ownership live
+            here as their own page, separate from the user record editor.
+          </p>
+        </div>
+        <div class="action-stack">
+          <div class="action-bar wrap">
+            <button class="btn-soft" id="edit-subscriber-button" type="button">Edit Subscriber</button>
+            <button class="btn-primary visually-hidden" id="save-subscriber-button" type="button">Save Changes</button>
+            <details class="action-menu">
+              <summary class="menu-button">More Actions</summary>
+              <div class="menu-list">
+                <button type="button">Checklist URLs</button>
+                <button type="button">Make Branded Reports</button>
+                <button type="button" class="danger-item">Delete Subscriber</button>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-layout">
+        <div class="detail-main">
+          <section class="panel detail-panel">
+            <h2>Subscriber Profile</h2>
+            <p>Core subscriber settings, lifecycle dates, and relationship ownership.</p>
+
+            <div class="detail-fields">
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-id">
+                  <span>ID</span>
+                </label>
+                <input id="subscriber-id" class="field subscriber-editable" value="88" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-name">
+                  <span>Name</span>
+                  <span class="info-icon" tabindex="0" title="Used for Benchmark Report personalization." aria-label="Name help">i</span>
+                </label>
+                <input id="subscriber-name" class="field subscriber-editable" value="Acadiana Management Group" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-short-name">
+                  <span>Short Name</span>
+                  <span class="info-icon" tabindex="0" title="NO EMBEDDED SPACES! For system use." aria-label="Short Name help">i</span>
+                </label>
+                <input id="subscriber-short-name" class="field subscriber-editable" value="AMG" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-type">
+                  <span>Type</span>
+                  <span class="info-icon" tabindex="0" title="Important! What kind of customer are they?" aria-label="Type help">i</span>
+                </label>
+                <select id="subscriber-type" class="select subscriber-editable" disabled>
+                  <option selected>General Acute Care Hospital</option>
+                </select>
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-start-year">
+                  <span>Start Year</span>
+                  <span class="info-icon" tabindex="0" title="What year did they join?" aria-label="Start Year help">i</span>
+                </label>
+                <input id="subscriber-start-year" class="field subscriber-editable" value="2018" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-lookup-year">
+                  <span>Look-Up Year</span>
+                  <span class="info-icon" tabindex="0" title="Leave blank unless customer gets only a specific year's data." aria-label="Look-Up Year help">i</span>
+                </label>
+                <input id="subscriber-lookup-year" class="field subscriber-editable" value="" placeholder="Optional" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="account-executive">
+                  <span>Account Executive</span>
+                  <span class="info-icon" tabindex="0" title="MD Ranger team member responsible for this relationship." aria-label="Account Executive help">i</span>
+                </label>
+                <input id="account-executive" class="field subscriber-editable" value="SAyala@ecgmc.com" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-sso">
+                  <span>Single Sign On</span>
+                  <span class="info-icon" tabindex="0" title="Choose how portal users authenticate for this subscriber." aria-label="Single Sign On help">i</span>
+                </label>
+                <select id="subscriber-sso" class="select subscriber-editable" disabled>
+                  <option selected>OTP</option>
+                  <option>Single Sign-On</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel detail-panel">
+            <h2>Access Flags</h2>
+            <p>Commercial status, portal eligibility, and special-access switches.</p>
+
+            <div class="flag-grid">
+              <div class="flag-item">
+                <label class="field-label" for="flag-subscriber">
+                  <span>Subscriber?</span>
+                  <span class="info-icon" tabindex="0" title="Do they get the benchmark reports? Are they paid up?" aria-label="Subscriber help">i</span>
+                </label>
+                <input id="flag-subscriber" class="subscriber-editable" type="checkbox" checked disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-portal-access">
+                  <span>Portal Access?</span>
+                  <span class="info-icon" tabindex="0" title="Can they use the Portal?" aria-label="Portal Access help">i</span>
+                </label>
+                <input id="flag-portal-access" class="subscriber-editable" type="checkbox" checked disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-reportable">
+                  <span>Reportable?</span>
+                  <span class="info-icon" tabindex="0" title="Do we compute facility totals with their data?" aria-label="Reportable help">i</span>
+                </label>
+                <input id="flag-reportable" class="subscriber-editable" type="checkbox" checked disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-customer">
+                  <span>Customer?</span>
+                  <span class="info-icon" tabindex="0" title="Are they a customer rather than an affiliate, and did they supply complete data?" aria-label="Customer help">i</span>
+                </label>
+                <input id="flag-customer" class="subscriber-editable" type="checkbox" checked disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-coverage-only">
+                  <span>Coverage ONLY?</span>
+                  <span class="info-icon" tabindex="0" title="Online access to Coverage benchmarks only?" aria-label="Coverage ONLY help">i</span>
+                </label>
+                <input id="flag-coverage-only" class="subscriber-editable" type="checkbox" disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-md-ad-le">
+                  <span>MD/AD/LE ONLY?</span>
+                  <span class="info-icon" tabindex="0" title="Online access to Administration benchmarks only?" aria-label="MD AD LE ONLY help">i</span>
+                </label>
+                <input id="flag-md-ad-le" class="subscriber-editable" type="checkbox" disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-salary-data">
+                  <span>Salary Data?</span>
+                  <span class="info-icon" tabindex="0" title="Online access to Salary Data?" aria-label="Salary Data help">i</span>
+                </label>
+                <input id="flag-salary-data" class="subscriber-editable" type="checkbox" disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-demo">
+                  <span>Demo?</span>
+                  <span class="info-icon" tabindex="0" title="Are they a demo account, with no access to live data?" aria-label="Demo help">i</span>
+                </label>
+                <input id="flag-demo" class="subscriber-editable" type="checkbox" disabled />
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="detail-stack">
+          <section class="panel stack-card">
+            <h2>Subscriber Status</h2>
+            <p class="detail-note">At-a-glance summary for the current subscriber record.</p>
+            <div class="summary-grid">
+              <div class="summary-item">
+                <strong>Portal Access</strong>
+                <span>Enabled</span>
+              </div>
+              <div class="summary-item">
+                <strong>Customer Type</strong>
+                <span>General Acute Care Hospital</span>
+              </div>
+              <div class="summary-item">
+                <strong>Single Sign On</strong>
+                <span>OTP</span>
+              </div>
+              <div class="summary-item">
+                <strong>Relationship Owner</strong>
+                <span>SAyala@ecgmc.com</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel stack-card">
+            <h2>Special User Fields</h2>
+            <p class="detail-note">Configurable labels shown across downstream user profiles.</p>
+            <div class="special-fields-grid">
+              <div class="detail-field">
+                <label for="special-field-1">User Field 1</label>
+                <input id="special-field-1" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-2">User Field 2</label>
+                <input id="special-field-2" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-3">User Field 3</label>
+                <input id="special-field-3" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-4">User Field 4</label>
+                <input id="special-field-4" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-5">User Field 5</label>
+                <input id="special-field-5" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-6">User Field 6</label>
+                <input id="special-field-6" class="field subscriber-editable" disabled />
+              </div>
+            </div>
+          </section>
+
+          <section class="panel stack-card">
+            <h2>Associated Users</h2>
+            <p class="detail-note">People attached to this subscriber account.</p>
+            <div class="user-card-list">
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>April Hankton</strong>
+                  <span>@ahankton</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Jordan Hargrave</strong>
+                  <span>@jhargrave</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Mason Stelly</strong>
+                  <span>@mstelly</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Shane Pyle</strong>
+                  <span>@spyle</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Sofia Wallis</strong>
+                  <span>@swallis</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Theo Fontenot</strong>
+                  <span>@tfontenot</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
 
       <section class="panel" style="margin-top:14px;">
         <div class="section-head"><div class="title-line"><h2>Facilities (Contract Entry)</h2></div></div>
+        <div class="table-panel-tools">
+          <div class="detail-field">
+            <label class="field-label" for="facility-name">
+              <span>Add Facility</span>
+            </label>
+            <input id="facility-name" class="field subscriber-editable" placeholder="Facility name..." disabled />
+          </div>
+        </div>
         <table class="table">
           <thead><tr><th>Del</th><th>mdr_id</th><th>Name</th><th>Checklist URL</th><th>Owned</th></tr></thead>
           <tbody>
@@ -238,5 +1015,41 @@ button, input, select { font: inherit; }
         </table>
       </section>
     </main>
+    <script>
+      {
+        document.querySelectorAll(".info-icon[title]").forEach((icon) => {
+          icon.dataset.tooltip = icon.getAttribute("title");
+        });
+
+        const editableFields = Array.from(document.querySelectorAll(".subscriber-editable"));
+        const editButton = document.getElementById("edit-subscriber-button");
+        const saveButton = document.getElementById("save-subscriber-button");
+
+        const setEditMode = (isEditing) => {
+          editableFields.forEach((field) => {
+            field.disabled = !isEditing;
+          });
+
+          editButton.textContent = isEditing ? "Editing Enabled" : "Edit Subscriber";
+          editButton.disabled = isEditing;
+          saveButton.classList.toggle("visually-hidden", !isEditing);
+        };
+
+        editButton.addEventListener("click", () => {
+          setEditMode(true);
+        });
+
+        saveButton.addEventListener("click", () => {
+          const confirmed = window.confirm("Save changes to this subscriber?");
+          if (!confirmed) {
+            return;
+          }
+
+          setEditMode(false);
+        });
+
+        setEditMode(false);
+      }
+    </script>
   </body>
 </html>

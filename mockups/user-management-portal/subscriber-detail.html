@@ -12,60 +12,313 @@
       <div class="user-meta"><span>🔔</span><span>Super User</span></div>
     </header>
 
-    <main class="page">
-      <div class="action-bar">
-        <button class="btn-primary">Save</button>
-        <button class="btn-muted">Delete Subscriber</button>
-        <button class="btn-muted">Checklist URLs</button>
+    <main class="page" id="subscriber-detail-page">
+      <div class="breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <span>Subscriber Detail</span>
       </div>
 
-      <h1>Subscriber Profile</h1>
-
-      <section class="panel form-wrap">
-        <div class="form-grid">
-          <div class="form-row"><label>Subscriber Name</label><input class="field" value="Acadiana Management Group" /></div>
-          <div class="form-row"><label>ID</label><input class="field" value="88" /></div>
-          <div class="form-row"><label>Short Name</label><input class="field" value="AMG" /></div>
-          <div class="form-row"><label>Type</label><select class="select"><option>General Acute Care Hospital</option></select></div>
-          <div class="form-row"><label>Start Year</label><input class="field" value="2018" /></div>
-          <div class="form-row"><label>Look-Up Year</label><input class="field" value="" placeholder="Optional" /></div>
-          <div class="form-row"><label>Account Executive</label><input class="field" value="SAyala@ecgmc.com" /></div>
-
-          <div class="form-row">
-            <label>Access Flags</label>
-            <div class="check-matrix">
-              <label><input type="checkbox" checked /> Subscriber?</label>
-              <label><input type="checkbox" checked /> Portal access?</label>
-              <label><input type="checkbox" checked /> Reportable?</label>
-              <label><input type="checkbox" checked /> Customer?</label>
-              <label><input type="checkbox" /> Coverage ONLY?</label>
-              <label><input type="checkbox" /> MD/AD/LE ONLY?</label>
-              <label><input type="checkbox" /> Salary Data?</label>
-              <label><input type="checkbox" /> Demo?</label>
-            </div>
+      <section class="panel selector-panel">
+        <div class="selector-row">
+          <div class="detail-field selector-copy">
+            <label class="field-label" for="subscriber-selector">
+              <span>Currently Viewing Subscriber</span>
+              <span class="info-icon" tabindex="0" title="Jump between subscriber records while staying in the same admin workflow." aria-label="Select Subscriber help">i</span>
+            </label>
+            <select id="subscriber-selector" class="select">
+              <option selected>Acadiana Management Group</option>
+              <option>Blend Subscriber</option>
+              <option>ECG Subscriber</option>
+              <option>Capyba Subscriber</option>
+            </select>
+            <p class="selector-note">Changing this dropdown only switches which subscriber record you are viewing below.</p>
           </div>
-
-          <div class="form-row">
-            <label>Special User Fields</label>
-            <div class="inline-grid-2">
-              <input class="field" placeholder="User Field 1" />
-              <input class="field" placeholder="User Field 2" />
-              <input class="field" placeholder="User Field 3" />
-              <input class="field" placeholder="User Field 4" />
-              <input class="field" placeholder="User Field 5" />
-              <input class="field" placeholder="User Field 6" />
-            </div>
+          <div class="selector-actions">
+            <a class="linked-record-card" href="user-detail.html" style="min-width: 220px;">
+              <strong>Back to User Detail</strong>
+              <span>Return to the linked staff record.</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <section class="panel" style="margin-top:14px;">
-        <div class="section-head"><div class="title-line"><h2>Associated Users</h2></div></div>
-        <div style="padding:14px; color:#4e6181;">ahankton · jhargrave · mstelly · spyle · swallis · tfontenot</div>
-      </section>
+      <div class="page-header">
+        <div>
+          <h1>Subscriber Profile</h1>
+          <p class="page-copy">
+            Subscriber-specific settings, access flags, associated users, and facility ownership live
+            here as their own page, separate from the user record editor.
+          </p>
+        </div>
+        <div class="action-stack">
+          <div class="action-bar wrap">
+            <button class="btn-soft" id="edit-subscriber-button" type="button">Edit Subscriber</button>
+            <button class="btn-primary visually-hidden" id="save-subscriber-button" type="button">Save Changes</button>
+            <details class="action-menu">
+              <summary class="menu-button">More Actions</summary>
+              <div class="menu-list">
+                <button type="button">Checklist URLs</button>
+                <button type="button">Make Branded Reports</button>
+                <button type="button" class="danger-item">Delete Subscriber</button>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-layout">
+        <div class="detail-main">
+          <section class="panel detail-panel">
+            <h2>Subscriber Profile</h2>
+            <p>Core subscriber settings, lifecycle dates, and relationship ownership.</p>
+
+            <div class="detail-fields">
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-id">
+                  <span>ID</span>
+                </label>
+                <input id="subscriber-id" class="field subscriber-editable" value="88" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-name">
+                  <span>Name</span>
+                  <span class="info-icon" tabindex="0" title="Used for Benchmark Report personalization." aria-label="Name help">i</span>
+                </label>
+                <input id="subscriber-name" class="field subscriber-editable" value="Acadiana Management Group" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-short-name">
+                  <span>Short Name</span>
+                  <span class="info-icon" tabindex="0" title="NO EMBEDDED SPACES! For system use." aria-label="Short Name help">i</span>
+                </label>
+                <input id="subscriber-short-name" class="field subscriber-editable" value="AMG" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-type">
+                  <span>Type</span>
+                  <span class="info-icon" tabindex="0" title="Important! What kind of customer are they?" aria-label="Type help">i</span>
+                </label>
+                <select id="subscriber-type" class="select subscriber-editable" disabled>
+                  <option selected>General Acute Care Hospital</option>
+                </select>
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-start-year">
+                  <span>Start Year</span>
+                  <span class="info-icon" tabindex="0" title="What year did they join?" aria-label="Start Year help">i</span>
+                </label>
+                <input id="subscriber-start-year" class="field subscriber-editable" value="2018" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-lookup-year">
+                  <span>Look-Up Year</span>
+                  <span class="info-icon" tabindex="0" title="Leave blank unless customer gets only a specific year's data." aria-label="Look-Up Year help">i</span>
+                </label>
+                <input id="subscriber-lookup-year" class="field subscriber-editable" value="" placeholder="Optional" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="account-executive">
+                  <span>Account Executive</span>
+                  <span class="info-icon" tabindex="0" title="MD Ranger team member responsible for this relationship." aria-label="Account Executive help">i</span>
+                </label>
+                <input id="account-executive" class="field subscriber-editable" value="SAyala@ecgmc.com" disabled />
+              </div>
+
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-sso">
+                  <span>Single Sign On</span>
+                  <span class="info-icon" tabindex="0" title="Choose how portal users authenticate for this subscriber." aria-label="Single Sign On help">i</span>
+                </label>
+                <select id="subscriber-sso" class="select subscriber-editable" disabled>
+                  <option selected>OTP</option>
+                  <option>Single Sign-On</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel detail-panel">
+            <h2>Access Flags</h2>
+            <p>Commercial status, portal eligibility, and special-access switches.</p>
+
+            <div class="flag-grid">
+              <div class="flag-item">
+                <label class="field-label" for="flag-subscriber">
+                  <span>Subscriber?</span>
+                  <span class="info-icon" tabindex="0" title="Do they get the benchmark reports? Are they paid up?" aria-label="Subscriber help">i</span>
+                </label>
+                <input id="flag-subscriber" class="subscriber-editable" type="checkbox" checked disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-portal-access">
+                  <span>Portal Access?</span>
+                  <span class="info-icon" tabindex="0" title="Can they use the Portal?" aria-label="Portal Access help">i</span>
+                </label>
+                <input id="flag-portal-access" class="subscriber-editable" type="checkbox" checked disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-reportable">
+                  <span>Reportable?</span>
+                  <span class="info-icon" tabindex="0" title="Do we compute facility totals with their data?" aria-label="Reportable help">i</span>
+                </label>
+                <input id="flag-reportable" class="subscriber-editable" type="checkbox" checked disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-customer">
+                  <span>Customer?</span>
+                  <span class="info-icon" tabindex="0" title="Are they a customer rather than an affiliate, and did they supply complete data?" aria-label="Customer help">i</span>
+                </label>
+                <input id="flag-customer" class="subscriber-editable" type="checkbox" checked disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-coverage-only">
+                  <span>Coverage ONLY?</span>
+                  <span class="info-icon" tabindex="0" title="Online access to Coverage benchmarks only?" aria-label="Coverage ONLY help">i</span>
+                </label>
+                <input id="flag-coverage-only" class="subscriber-editable" type="checkbox" disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-md-ad-le">
+                  <span>MD/AD/LE ONLY?</span>
+                  <span class="info-icon" tabindex="0" title="Online access to Administration benchmarks only?" aria-label="MD AD LE ONLY help">i</span>
+                </label>
+                <input id="flag-md-ad-le" class="subscriber-editable" type="checkbox" disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-salary-data">
+                  <span>Salary Data?</span>
+                  <span class="info-icon" tabindex="0" title="Online access to Salary Data?" aria-label="Salary Data help">i</span>
+                </label>
+                <input id="flag-salary-data" class="subscriber-editable" type="checkbox" disabled />
+              </div>
+              <div class="flag-item">
+                <label class="field-label" for="flag-demo">
+                  <span>Demo?</span>
+                  <span class="info-icon" tabindex="0" title="Are they a demo account, with no access to live data?" aria-label="Demo help">i</span>
+                </label>
+                <input id="flag-demo" class="subscriber-editable" type="checkbox" disabled />
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="detail-stack">
+          <section class="panel stack-card">
+            <h2>Subscriber Status</h2>
+            <p class="detail-note">At-a-glance summary for the current subscriber record.</p>
+            <div class="summary-grid">
+              <div class="summary-item">
+                <strong>Portal Access</strong>
+                <span>Enabled</span>
+              </div>
+              <div class="summary-item">
+                <strong>Customer Type</strong>
+                <span>General Acute Care Hospital</span>
+              </div>
+              <div class="summary-item">
+                <strong>Single Sign On</strong>
+                <span>OTP</span>
+              </div>
+              <div class="summary-item">
+                <strong>Relationship Owner</strong>
+                <span>SAyala@ecgmc.com</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel stack-card">
+            <h2>Special User Fields</h2>
+            <p class="detail-note">Configurable labels shown across downstream user profiles.</p>
+            <div class="special-fields-grid">
+              <div class="detail-field">
+                <label for="special-field-1">User Field 1</label>
+                <input id="special-field-1" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-2">User Field 2</label>
+                <input id="special-field-2" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-3">User Field 3</label>
+                <input id="special-field-3" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-4">User Field 4</label>
+                <input id="special-field-4" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-5">User Field 5</label>
+                <input id="special-field-5" class="field subscriber-editable" disabled />
+              </div>
+              <div class="detail-field">
+                <label for="special-field-6">User Field 6</label>
+                <input id="special-field-6" class="field subscriber-editable" disabled />
+              </div>
+            </div>
+          </section>
+
+          <section class="panel stack-card">
+            <h2>Associated Users</h2>
+            <p class="detail-note">People attached to this subscriber account.</p>
+            <div class="user-card-list">
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>April Hankton</strong>
+                  <span>@ahankton</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Jordan Hargrave</strong>
+                  <span>@jhargrave</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Mason Stelly</strong>
+                  <span>@mstelly</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Shane Pyle</strong>
+                  <span>@spyle</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Sofia Wallis</strong>
+                  <span>@swallis</span>
+                </div>
+              </div>
+              <div class="user-card">
+                <div class="user-card-header">
+                  <strong>Theo Fontenot</strong>
+                  <span>@tfontenot</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
 
       <section class="panel" style="margin-top:14px;">
         <div class="section-head"><div class="title-line"><h2>Facilities (Contract Entry)</h2></div></div>
+        <div class="table-panel-tools">
+          <div class="detail-field">
+            <label class="field-label" for="facility-name">
+              <span>Add Facility</span>
+            </label>
+            <input id="facility-name" class="field subscriber-editable" placeholder="Facility name..." disabled />
+          </div>
+        </div>
         <table class="table">
           <thead><tr><th>Del</th><th>mdr_id</th><th>Name</th><th>Checklist URL</th><th>Owned</th></tr></thead>
           <tbody>
@@ -76,5 +329,41 @@
         </table>
       </section>
     </main>
+    <script>
+      {
+        document.querySelectorAll(".info-icon[title]").forEach((icon) => {
+          icon.dataset.tooltip = icon.getAttribute("title");
+        });
+
+        const editableFields = Array.from(document.querySelectorAll(".subscriber-editable"));
+        const editButton = document.getElementById("edit-subscriber-button");
+        const saveButton = document.getElementById("save-subscriber-button");
+
+        const setEditMode = (isEditing) => {
+          editableFields.forEach((field) => {
+            field.disabled = !isEditing;
+          });
+
+          editButton.textContent = isEditing ? "Editing Enabled" : "Edit Subscriber";
+          editButton.disabled = isEditing;
+          saveButton.classList.toggle("visually-hidden", !isEditing);
+        };
+
+        editButton.addEventListener("click", () => {
+          setEditMode(true);
+        });
+
+        saveButton.addEventListener("click", () => {
+          const confirmed = window.confirm("Save changes to this subscriber?");
+          if (!confirmed) {
+            return;
+          }
+
+          setEditMode(false);
+        });
+
+        setEditMode(false);
+      }
+    </script>
   </body>
 </html>
