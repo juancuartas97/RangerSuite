@@ -3,213 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RangerSuite Mockup Preview</title>
+    <title>Mockup Preview</title>
     <style>
-      :root {
-        --bg: #eef3f9;
-        --surface: rgba(255, 255, 255, 0.88);
-        --border: rgba(16, 38, 92, 0.12);
-        --ink: #152447;
-        --muted: #5f7193;
-        --navy: #0f235f;
-        --shadow: 0 24px 60px rgba(15, 35, 95, 0.12);
-      }
-
-      * { box-sizing: border-box; }
-
-      body {
-        margin: 0;
-        font-family: Inter, "Avenir Next", "Segoe UI", sans-serif;
-        color: var(--ink);
-        background:
-          radial-gradient(circle at top left, rgba(27, 176, 198, 0.18), transparent 28%),
-          linear-gradient(180deg, #f7faff 0%, var(--bg) 100%);
-      }
-
-      main {
-        width: min(1180px, calc(100% - 40px));
-        margin: 48px auto 72px;
-      }
-
-      .hero {
-        padding: 36px;
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        background: linear-gradient(135deg, rgba(15, 35, 95, 0.96), rgba(27, 176, 198, 0.82));
-        color: #fff;
-        box-shadow: var(--shadow);
-      }
-
-      .hero p {
-        max-width: 700px;
-        margin: 12px 0 0;
-        line-height: 1.6;
-        color: rgba(255, 255, 255, 0.84);
-      }
-
-      h1 {
-        margin: 0;
-        font-size: clamp(2.5rem, 5vw, 4.3rem);
-        line-height: 0.96;
-        letter-spacing: -0.05em;
-      }
-
-      .group-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 22px;
-        margin-top: 26px;
-      }
-
-      .group {
-        padding: 24px;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        background: var(--surface);
-        backdrop-filter: blur(12px);
-        box-shadow: var(--shadow);
-      }
-
-      .group h2 {
-        margin: 0 0 8px;
-        font-size: 1.5rem;
-        letter-spacing: -0.03em;
-      }
-
-      .group p {
-        margin: 0 0 16px;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      .link-list {
-        display: grid;
-        gap: 12px;
-      }
-
-      .link-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 16px;
-        padding: 14px 16px;
-        border: 1px solid rgba(16, 38, 92, 0.1);
-        border-radius: 14px;
-        background: #fff;
-        color: inherit;
-        text-decoration: none;
-        transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
-      }
-
-      .link-card:hover {
-        transform: translateY(-1px);
-        border-color: rgba(27, 176, 198, 0.45);
-        box-shadow: 0 18px 36px rgba(15, 35, 95, 0.08);
-      }
-
-      .link-card strong {
-        display: block;
-        font-size: 1rem;
-      }
-
-      .link-card span {
-        color: var(--muted);
-        font-size: 0.92rem;
-      }
-
-      .pill {
-        flex-shrink: 0;
-        padding: 8px 10px;
-        border-radius: 999px;
-        background: rgba(15, 35, 95, 0.08);
-        color: var(--navy);
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      @media (max-width: 900px) {
-        main { width: min(100% - 24px, 1180px); margin-top: 24px; }
-        .hero, .group { padding: 22px; }
-        .group-grid { grid-template-columns: 1fr; }
-      }
+      body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #f3f5f9; color: #18233a; }
+      main { max-width: 980px; margin: 0 auto; padding: 32px 20px 60px; }
+      h1 { margin: 0 0 10px; font-size: 2.2rem; }
+      p { color: #697991; line-height: 1.6; }
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+      a.card { display: block; padding: 20px; border: 1px solid #dfe6f2; border-radius: 14px; background: #fff; color: inherit; text-decoration: none; }
+      a.card strong { display: block; margin-bottom: 8px; color: #243c73; font-size: 1.05rem; }
+      a.card span { color: #697991; line-height: 1.5; }
+      @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
     <main>
-      <section class="hero">
-        <h1>RangerSuite Preview</h1>
-        <p>
-          One launcher for the active mockups. The updated pages set stays grouped together,
-          and the portal section now focuses on the remaining detail and maintenance screens.
-        </p>
-      </section>
-
-      <section class="group-grid">
-        <section class="group">
-          <h2>Updated Pages</h2>
-          <p>Documentation and account-adjacent mockups from the refreshed MD Ranger flow.</p>
-          <div class="link-list">
-            <a class="link-card" href="updated-pages/documentation.html">
-              <div>
-                <strong>Documentation</strong>
-                <span>Tutorial grid and left-nav shell</span>
-              </div>
-              <div class="pill">Updated</div>
-            </a>
-            <a class="link-card" href="updated-pages/account.html">
-              <div>
-                <strong>Account</strong>
-                <span>Preferences, password, and profile form</span>
-              </div>
-              <div class="pill">Updated</div>
-            </a>
-            <a class="link-card" href="updated-pages/survey-demographics.html">
-              <div>
-                <strong>Survey Demographics</strong>
-                <span>National overview with summary tables</span>
-              </div>
-              <div class="pill">Updated</div>
-            </a>
-            <a class="link-card" href="updated-pages/facility-maintenance.html">
-              <div>
-                <strong>Facility Maintenance</strong>
-                <span>Editable hospital volume and classification inputs</span>
-              </div>
-              <div class="pill">Updated</div>
-            </a>
-          </div>
-        </section>
-
-        <section class="group">
-          <h2>User Management Portal</h2>
-          <p>The portal set now centers on the detail workflows that remain in scope.</p>
-          <div class="link-list">
-            <a class="link-card" href="user-management-portal/user-detail.html">
-              <div>
-                <strong>User Detail</strong>
-                <span>Two-column profile, access, and permissions layout</span>
-              </div>
-              <div class="pill">Portal</div>
-            </a>
-            <a class="link-card" href="user-management-portal/subscriber-detail.html">
-              <div>
-                <strong>Subscriber Detail</strong>
-                <span>Subscriber profile, flags, and facilities</span>
-              </div>
-              <div class="pill">Portal</div>
-            </a>
-            <a class="link-card" href="user-management-portal/maintenance.html">
-              <div>
-                <strong>Maintenance</strong>
-                <span>Administrative maintenance and configuration landing state</span>
-              </div>
-              <div class="pill">Portal</div>
-            </a>
-          </div>
-        </section>
-      </section>
+      <h1>Mockup Preview</h1>
+      <p>Open the current portal mockups from one place. The user and subscriber pages are linked and can deep-link into each other.</p>
+      <div class="grid">
+        <a class="card" href="user-management-portal/user-detail.html">
+          <strong>User Management</strong>
+          <span>User-first view with subscriber context, searchable roster, roles, permission flags, and audit trail.</span>
+        </a>
+        <a class="card" href="user-management-portal/subscriber-detail.html">
+          <strong>Subscriber Management</strong>
+          <span>Subscriber-first view with profile, facilities, linked users, and audit trail.</span>
+        </a>
+        <a class="card" href="user-management-portal/create-user.html">
+          <strong>Create User Draft</strong>
+          <span>Draft creation flow with subscriber assignment, editable mock fields, searchable facilities, and permission flags.</span>
+        </a>
+      </div>
     </main>
   </body>
 </html>

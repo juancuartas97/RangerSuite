@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Subscriber Detail</title>
+    <title>Subscriber Management</title>
     <style>
       :root {
         --bg: #f2f4f8;
@@ -597,6 +597,10 @@
         grid-template-columns: minmax(0, 698px) minmax(320px, 1fr);
       }
 
+      #user-detail-page .workspace-grid {
+        grid-template-columns: minmax(300px, 0.76fr) minmax(0, 1.24fr);
+      }
+
       #subscriber-detail-page .detail-panel {
         padding: 18px;
       }
@@ -615,6 +619,290 @@
 
       .table-panel-tools .detail-field {
         max-width: none;
+      }
+
+      .workspace-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+        gap: 18px;
+        align-items: start;
+      }
+
+      .workspace-main,
+      .workspace-side {
+        display: grid;
+        gap: 18px;
+      }
+
+      .panel-subsection {
+        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: #fbfcff;
+      }
+
+      .panel-subsection h3 {
+        margin: 0 0 6px;
+        color: #213b70;
+        font-size: 1rem;
+      }
+
+      .panel-subsection p {
+        margin: 0 0 14px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .user-workbench {
+        display: grid;
+        grid-template-columns: minmax(250px, 0.78fr) minmax(0, 1fr);
+      }
+
+      .user-browser {
+        padding: 18px;
+        border-right: 1px solid var(--border);
+        background: #fbfcff;
+      }
+
+      .browser-search {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .list-scroll {
+        display: grid;
+        gap: 10px;
+        max-height: 760px;
+        overflow: auto;
+        padding-right: 4px;
+      }
+
+      .user-picker {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+        background: #fff;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .user-picker:hover {
+        border-color: #bfd0eb;
+        background: #f8fbff;
+      }
+
+      .user-picker.active {
+        border-color: #8ea9de;
+        background: #eef4ff;
+        box-shadow: inset 0 0 0 1px rgba(47, 61, 123, 0.08);
+      }
+
+      .user-picker strong {
+        display: block;
+        color: #20386d;
+      }
+
+      .user-picker span {
+        display: block;
+        margin-top: 4px;
+        color: #4f6282;
+        font-weight: 600;
+      }
+
+      .user-picker small {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+      }
+
+      .selected-user-shell {
+        display: grid;
+        gap: 16px;
+        padding: 18px;
+      }
+
+      .selected-user-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .selected-user-copy h2 {
+        margin: 0;
+        font-size: 1.4rem;
+      }
+
+      .selected-user-copy p {
+        margin: 6px 0 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .meta-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #edf4ff;
+        border: 1px solid #cad8f3;
+        color: #29406e;
+        font-weight: 700;
+        font-size: 0.82rem;
+      }
+
+      .inline-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+
+      .dense-grid,
+      .assignment-grid,
+      .summary-card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .chip-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #edf4ff;
+        border: 1px solid #cad8f3;
+        color: #29406e;
+        font-weight: 600;
+        font-size: 0.84rem;
+      }
+
+      .permission-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 12px;
+      }
+
+      .permission-grid label {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+        color: #31476f;
+        font-weight: 600;
+      }
+
+      .permission-grid input {
+        margin-top: 3px;
+        accent-color: var(--navy-soft);
+      }
+
+      .permission-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .permission-summary-card {
+        display: grid;
+        gap: 6px;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #f9fbff;
+      }
+
+      .permission-summary-card strong {
+        color: #20386d;
+      }
+
+      .permission-summary-card span {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .table-section {
+        overflow: hidden;
+      }
+
+      .table-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .table-toolbar .title-line h2 {
+        font-size: 1.25rem;
+      }
+
+      .table-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .table-filter-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        gap: 14px;
+      }
+
+      .table-shell {
+        padding: 0 18px 18px;
+        overflow-x: auto;
+      }
+
+      .table-shell .table {
+        margin-top: 0;
+      }
+
+      .table-row-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 88px;
+        padding: 8px 12px;
+        border: 1px solid #bfd7e3;
+        border-radius: 8px;
+        background: #edf7fb;
+        color: #164f64;
+        font-weight: 700;
+      }
+
+      .table-row-link:hover {
+        background: #e4f2f8;
+      }
+
+      .search-empty {
+        padding: 14px;
+        border: 1px dashed var(--border);
+        border-radius: 14px;
+        background: #fff;
+        color: var(--muted);
+        text-align: center;
       }
 
       .maintenance-grid {
@@ -655,10 +943,21 @@
         .selector-row { flex-direction: column; align-items: stretch; }
         .selector-actions { justify-content: flex-start; margin-left: 0; }
         .detail-layout { grid-template-columns: 1fr; }
+        .workspace-grid { grid-template-columns: 1fr; }
+        .user-workbench { grid-template-columns: 1fr; }
+        .user-browser { border-right: 0; border-bottom: 1px solid var(--border); }
         .detail-fields { grid-template-columns: 1fr; }
         .flag-grid { grid-template-columns: 1fr; }
         .special-fields-grid { grid-template-columns: 1fr; }
         .user-card-list { grid-template-columns: 1fr; }
+        .dense-grid,
+        .assignment-grid,
+        .summary-card-grid,
+        .permission-grid,
+        .permission-summary-grid,
+        .table-filter-grid { grid-template-columns: 1fr; }
+        .selected-user-header { flex-direction: column; }
+        .table-toolbar { flex-direction: column; align-items: stretch; }
         .maintenance-grid { grid-template-columns: 1fr; }
         #subscriber-detail-page .detail-fields { grid-template-columns: 1fr; }
       }
@@ -702,7 +1001,7 @@
       <div class="breadcrumbs">
         <a href="../preview.html">Portal Overview</a>
         <span>/</span>
-        <span>Subscriber Detail</span>
+        <span>Subscriber Management</span>
       </div>
 
       <section class="panel selector-panel">
@@ -710,20 +1009,20 @@
           <div class="detail-field selector-copy">
             <label class="field-label" for="subscriber-selector">
               <span>Currently Viewing Subscriber</span>
-              <span class="info-icon" tabindex="0" title="Jump between subscriber records while staying in the same admin workflow." aria-label="Select Subscriber help">i</span>
+              <span
+                class="info-icon"
+                tabindex="0"
+                title="Select a customer record to populate subscriber details, associated facilities, linked users, and the audit history below."
+                aria-label="Select Subscriber help"
+                >i</span
+              >
             </label>
-            <select id="subscriber-selector" class="select">
-              <option selected>Acadiana Management Group</option>
-              <option>Blend Subscriber</option>
-              <option>ECG Subscriber</option>
-              <option>Capyba Subscriber</option>
-            </select>
-            <p class="selector-note">Changing this dropdown only switches which subscriber record you are viewing below.</p>
+            <select id="subscriber-selector" class="select"></select>
           </div>
           <div class="selector-actions">
-            <a class="linked-record-card" href="user-detail-download.html" style="min-width: 220px;">
-              <strong>Back to User Detail</strong>
-              <span>Return to the linked staff record.</span>
+            <a class="linked-record-card" id="open-user-management-link" href="user-detail-download.html" style="min-width: 240px;">
+              <strong>Open User Management</strong>
+              <span>Switch to the user-first view for this same subscriber relationship.</span>
             </a>
           </div>
         </div>
@@ -731,99 +1030,134 @@
 
       <div class="page-header">
         <div>
-          <h1>Subscriber Profile</h1>
+          <h1>Subscriber Management</h1>
           <p class="page-copy">
-            Subscriber-specific settings, access flags, associated users, and facility ownership live
-            here as their own page, separate from the user record editor.
+            Subscriber setup and user administration stay connected here. Pick a subscriber, review
+            their profile on the left, and browse the linked user roster on the right before
+            opening a record in the dedicated user portal.
           </p>
         </div>
         <div class="action-stack">
           <div class="action-bar wrap">
             <button class="btn-soft" id="edit-subscriber-button" type="button">Edit Subscriber</button>
-            <button class="btn-primary visually-hidden" id="save-subscriber-button" type="button">Save Changes</button>
+            <button class="btn-primary visually-hidden" id="save-subscriber-button" type="button">Submit Changes</button>
             <details class="action-menu">
               <summary class="menu-button">More Actions</summary>
               <div class="menu-list">
-                <button type="button">Checklist URLs</button>
-                <button type="button">Make Branded Reports</button>
-                <button type="button" class="danger-item">Delete Subscriber</button>
+                <button type="button" class="danger-item" id="delete-subscriber-button">Delete Subscriber</button>
               </div>
             </details>
           </div>
         </div>
       </div>
 
-      <div class="detail-layout">
-        <div class="detail-main">
+      <div class="workspace-grid">
+        <div class="workspace-main">
           <section class="panel detail-panel">
             <h2>Subscriber Profile</h2>
-            <p>Core subscriber settings, lifecycle dates, and relationship ownership.</p>
+            <p>Core customer settings and relationship metadata for the currently selected subscriber.</p>
 
             <div class="detail-fields">
               <div class="detail-field">
-                <label class="field-label" for="subscriber-id">
-                  <span>ID</span>
-                </label>
-                <input id="subscriber-id" class="field subscriber-editable" value="88" disabled />
+                <label class="field-label" for="subscriber-id"><span>ID</span></label>
+                <input id="subscriber-id" class="field subscriber-editable" disabled />
               </div>
-
               <div class="detail-field">
                 <label class="field-label" for="subscriber-name">
                   <span>Name</span>
-                  <span class="info-icon" tabindex="0" title="Used for Benchmark Report personalization." aria-label="Name help">i</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="Used for benchmark report personalization and the customer-facing label throughout the portal."
+                    aria-label="Subscriber Name help"
+                    >i</span
+                  >
                 </label>
-                <input id="subscriber-name" class="field subscriber-editable" value="Acadiana Management Group" disabled />
+                <input id="subscriber-name" class="field subscriber-editable" disabled />
               </div>
-
               <div class="detail-field">
                 <label class="field-label" for="subscriber-short-name">
                   <span>Short Name</span>
-                  <span class="info-icon" tabindex="0" title="NO EMBEDDED SPACES! For system use." aria-label="Short Name help">i</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="System shorthand for the subscriber. Keep it compact and avoid embedded spaces."
+                    aria-label="Short Name help"
+                    >i</span
+                  >
                 </label>
-                <input id="subscriber-short-name" class="field subscriber-editable" value="AMG" disabled />
+                <input id="subscriber-short-name" class="field subscriber-editable" disabled />
               </div>
-
               <div class="detail-field">
                 <label class="field-label" for="subscriber-type">
                   <span>Type</span>
-                  <span class="info-icon" tabindex="0" title="Important! What kind of customer are they?" aria-label="Type help">i</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="Customer classification used to drive reporting and benchmark context."
+                    aria-label="Subscriber Type help"
+                    >i</span
+                  >
                 </label>
                 <select id="subscriber-type" class="select subscriber-editable" disabled>
-                  <option selected>General Acute Care Hospital</option>
+                  <option>General Acute Care Hospital</option>
+                  <option>Children's Hospital</option>
+                  <option>Regional Health System</option>
+                  <option>Specialty Network</option>
                 </select>
               </div>
-
               <div class="detail-field">
                 <label class="field-label" for="subscriber-start-year">
                   <span>Start Year</span>
-                  <span class="info-icon" tabindex="0" title="What year did they join?" aria-label="Start Year help">i</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="Year the customer relationship began."
+                    aria-label="Start Year help"
+                    >i</span
+                  >
                 </label>
-                <input id="subscriber-start-year" class="field subscriber-editable" value="2018" disabled />
+                <input id="subscriber-start-year" class="field subscriber-editable" disabled />
               </div>
-
               <div class="detail-field">
                 <label class="field-label" for="subscriber-lookup-year">
                   <span>Look-Up Year</span>
-                  <span class="info-icon" tabindex="0" title="Leave blank unless customer gets only a specific year's data." aria-label="Look-Up Year help">i</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="Use only when the subscriber should be constrained to a specific benchmark year."
+                    aria-label="Look-Up Year help"
+                    >i</span
+                  >
                 </label>
-                <input id="subscriber-lookup-year" class="field subscriber-editable" value="" placeholder="Optional" disabled />
+                <input id="subscriber-lookup-year" class="field subscriber-editable" disabled />
               </div>
-
               <div class="detail-field">
                 <label class="field-label" for="account-executive">
                   <span>Account Executive</span>
-                  <span class="info-icon" tabindex="0" title="MD Ranger team member responsible for this relationship." aria-label="Account Executive help">i</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="Primary MD Ranger owner for the customer relationship."
+                    aria-label="Account Executive help"
+                    >i</span
+                  >
                 </label>
-                <input id="account-executive" class="field subscriber-editable" value="SAyala@ecgmc.com" disabled />
+                <input id="account-executive" class="field subscriber-editable" disabled />
               </div>
-
               <div class="detail-field">
                 <label class="field-label" for="subscriber-sso">
                   <span>Single Sign On</span>
-                  <span class="info-icon" tabindex="0" title="Choose how portal users authenticate for this subscriber." aria-label="Single Sign On help">i</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="Authentication mode available to portal users for this subscriber."
+                    aria-label="Single Sign On help"
+                    >i</span
+                  >
                 </label>
                 <select id="subscriber-sso" class="select subscriber-editable" disabled>
-                  <option selected>OTP</option>
+                  <option>OTP</option>
                   <option>Single Sign-On</option>
                 </select>
               </div>
@@ -831,224 +1165,826 @@
           </section>
 
           <section class="panel detail-panel">
-            <h2>Access Flags</h2>
-            <p>Commercial status, portal eligibility, and special-access switches.</p>
+            <h2>Access and Permission Model</h2>
+            <p>
+              The former access flags now live as user-level permissions. This summary shows how
+              many linked users currently carry each permission for the selected subscriber.
+            </p>
 
-            <div class="flag-grid">
-              <div class="flag-item">
-                <label class="field-label" for="flag-subscriber">
-                  <span>Subscriber?</span>
-                  <span class="info-icon" tabindex="0" title="Do they get the benchmark reports? Are they paid up?" aria-label="Subscriber help">i</span>
-                </label>
-                <input id="flag-subscriber" class="subscriber-editable" type="checkbox" checked disabled />
+            <div id="subscriber-permission-summary" class="permission-summary-grid"></div>
+          </section>
+
+          <section class="panel table-section">
+            <div class="table-toolbar">
+              <div class="title-line">
+                <h2>Facilities</h2>
+                <span>Contract-entry facilities for the current subscriber.</span>
               </div>
-              <div class="flag-item">
-                <label class="field-label" for="flag-portal-access">
-                  <span>Portal Access?</span>
-                  <span class="info-icon" tabindex="0" title="Can they use the Portal?" aria-label="Portal Access help">i</span>
-                </label>
-                <input id="flag-portal-access" class="subscriber-editable" type="checkbox" checked disabled />
+              <div class="table-actions">
+                <button class="btn-muted" type="button" data-export-table="subscriber-facilities-table" data-export-name="subscriber-facilities">Export CSV</button>
               </div>
-              <div class="flag-item">
-                <label class="field-label" for="flag-reportable">
-                  <span>Reportable?</span>
-                  <span class="info-icon" tabindex="0" title="Do we compute facility totals with their data?" aria-label="Reportable help">i</span>
-                </label>
-                <input id="flag-reportable" class="subscriber-editable" type="checkbox" checked disabled />
+            </div>
+            <div class="table-panel-tools">
+              <div class="assignment-grid">
+                <div class="detail-field full">
+                  <label class="field-label" for="subscriber-facility-search">
+                    <span>Add Facility</span>
+                    <span class="info-icon" tabindex="0" title="Search the facility catalog for this subscriber and add a new contract-entry row before submitting." aria-label="Add Facility help">i</span>
+                  </label>
+                  <input
+                    id="subscriber-facility-search"
+                    class="field subscriber-editable"
+                    list="subscriber-facility-options"
+                    placeholder="Search facility name..."
+                    disabled
+                  />
+                  <datalist id="subscriber-facility-options"></datalist>
+                </div>
               </div>
-              <div class="flag-item">
-                <label class="field-label" for="flag-customer">
-                  <span>Customer?</span>
-                  <span class="info-icon" tabindex="0" title="Are they a customer rather than an affiliate, and did they supply complete data?" aria-label="Customer help">i</span>
-                </label>
-                <input id="flag-customer" class="subscriber-editable" type="checkbox" checked disabled />
-              </div>
-              <div class="flag-item">
-                <label class="field-label" for="flag-coverage-only">
-                  <span>Coverage ONLY?</span>
-                  <span class="info-icon" tabindex="0" title="Online access to Coverage benchmarks only?" aria-label="Coverage ONLY help">i</span>
-                </label>
-                <input id="flag-coverage-only" class="subscriber-editable" type="checkbox" disabled />
-              </div>
-              <div class="flag-item">
-                <label class="field-label" for="flag-md-ad-le">
-                  <span>MD/AD/LE ONLY?</span>
-                  <span class="info-icon" tabindex="0" title="Online access to Administration benchmarks only?" aria-label="MD AD LE ONLY help">i</span>
-                </label>
-                <input id="flag-md-ad-le" class="subscriber-editable" type="checkbox" disabled />
-              </div>
-              <div class="flag-item">
-                <label class="field-label" for="flag-salary-data">
-                  <span>Salary Data?</span>
-                  <span class="info-icon" tabindex="0" title="Online access to Salary Data?" aria-label="Salary Data help">i</span>
-                </label>
-                <input id="flag-salary-data" class="subscriber-editable" type="checkbox" disabled />
-              </div>
-              <div class="flag-item">
-                <label class="field-label" for="flag-demo">
-                  <span>Demo?</span>
-                  <span class="info-icon" tabindex="0" title="Are they a demo account, with no access to live data?" aria-label="Demo help">i</span>
-                </label>
-                <input id="flag-demo" class="subscriber-editable" type="checkbox" disabled />
-              </div>
+            </div>
+            <div class="table-shell">
+              <table class="table" id="subscriber-facilities-table">
+                <thead>
+                  <tr>
+                    <th>Facility</th>
+                    <th>mdr_id</th>
+                    <th>Checklist URL</th>
+                    <th>Owned</th>
+                  </tr>
+                </thead>
+                <tbody id="subscriber-facilities-body"></tbody>
+              </table>
             </div>
           </section>
         </div>
 
-        <div class="detail-stack">
-          <section class="panel stack-card">
-            <h2>Subscriber Status</h2>
-            <p class="detail-note">At-a-glance summary for the current subscriber record.</p>
-            <div class="summary-grid">
-              <div class="summary-item">
-                <strong>Portal Access</strong>
-                <span>Enabled</span>
+        <div class="workspace-side">
+          <section class="panel table-section">
+            <div class="table-toolbar">
+              <div class="title-line">
+                <h2>Associated Users</h2>
+                <span>Search, sort, and open a linked user in the dedicated user portal.</span>
               </div>
-              <div class="summary-item">
-                <strong>Customer Type</strong>
-                <span>General Acute Care Hospital</span>
-              </div>
-              <div class="summary-item">
-                <strong>Single Sign On</strong>
-                <span>OTP</span>
-              </div>
-              <div class="summary-item">
-                <strong>Relationship Owner</strong>
-                <span>SAyala@ecgmc.com</span>
+              <div class="table-actions">
+                <button class="btn-muted" type="button" data-export-table="subscriber-users-table" data-export-name="subscriber-associated-users">Export CSV</button>
               </div>
             </div>
-          </section>
-
-          <section class="panel stack-card">
-            <h2>Special User Fields</h2>
-            <p class="detail-note">Configurable labels shown across downstream user profiles.</p>
-            <div class="special-fields-grid">
-              <div class="detail-field">
-                <label for="special-field-1">User Field 1</label>
-                <input id="special-field-1" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label for="special-field-2">User Field 2</label>
-                <input id="special-field-2" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label for="special-field-3">User Field 3</label>
-                <input id="special-field-3" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label for="special-field-4">User Field 4</label>
-                <input id="special-field-4" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label for="special-field-5">User Field 5</label>
-                <input id="special-field-5" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label for="special-field-6">User Field 6</label>
-                <input id="special-field-6" class="field subscriber-editable" disabled />
+            <div class="table-panel-tools">
+              <div class="table-filter-grid">
+                <div class="detail-field">
+                  <label class="field-label" for="subscriber-user-search">
+                    <span>Search Users</span>
+                    <span class="info-icon" tabindex="0" title="Users are organized as Last, First, Username to make scanning large subscriber rosters easier." aria-label="Search Users help">i</span>
+                  </label>
+                  <input id="subscriber-user-search" class="field" type="search" placeholder="Search by last name, first name, or username..." />
+                </div>
+                <div class="detail-field">
+                  <label class="field-label" for="subscriber-user-sort">
+                    <span>Sort By</span>
+                    <span class="info-icon" tabindex="0" title="Sort the roster by name, username, role, status, or facility count before opening a record in the user portal." aria-label="Sort Users help">i</span>
+                  </label>
+                  <select id="subscriber-user-sort" class="select">
+                    <option value="last">Last Name</option>
+                    <option value="first">First Name</option>
+                    <option value="username">Username</option>
+                    <option value="role">Role</option>
+                    <option value="status">Status</option>
+                    <option value="facilities">Facility Count</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </section>
-
-          <section class="panel stack-card">
-            <h2>Associated Users</h2>
-            <p class="detail-note">People attached to this subscriber account.</p>
-            <div class="user-card-list">
-              <div class="user-card">
-                <div class="user-card-header">
-                  <strong>April Hankton</strong>
-                  <span>@ahankton</span>
-                </div>
-              </div>
-              <div class="user-card">
-                <div class="user-card-header">
-                  <strong>Jordan Hargrave</strong>
-                  <span>@jhargrave</span>
-                </div>
-              </div>
-              <div class="user-card">
-                <div class="user-card-header">
-                  <strong>Mason Stelly</strong>
-                  <span>@mstelly</span>
-                </div>
-              </div>
-              <div class="user-card">
-                <div class="user-card-header">
-                  <strong>Shane Pyle</strong>
-                  <span>@spyle</span>
-                </div>
-              </div>
-              <div class="user-card">
-                <div class="user-card-header">
-                  <strong>Sofia Wallis</strong>
-                  <span>@swallis</span>
-                </div>
-              </div>
-              <div class="user-card">
-                <div class="user-card-header">
-                  <strong>Theo Fontenot</strong>
-                  <span>@tfontenot</span>
-                </div>
-              </div>
+            <div class="table-shell">
+              <table class="table" id="subscriber-users-table">
+                <thead>
+                  <tr>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Permissions</th>
+                    <th>Facilities</th>
+                    <th>Status</th>
+                    <th>Open</th>
+                  </tr>
+                </thead>
+                <tbody id="subscriber-user-table-body"></tbody>
+              </table>
             </div>
           </section>
         </div>
       </div>
 
-      <section class="panel" style="margin-top:14px;">
-        <div class="section-head"><div class="title-line"><h2>Facilities (Contract Entry)</h2></div></div>
-        <div class="table-panel-tools">
-          <div class="detail-field">
-            <label class="field-label" for="facility-name">
-              <span>Add Facility</span>
-            </label>
-            <input id="facility-name" class="field subscriber-editable" placeholder="Facility name..." disabled />
+      <section class="panel table-section" style="margin-top: 18px;">
+        <div class="table-toolbar">
+          <div class="title-line">
+            <h2>Audit Trail</h2>
+            <span>Track changes made to subscriber or user fields from one place.</span>
+          </div>
+          <div class="table-actions">
+            <button class="btn-muted" type="button" data-export-table="subscriber-audit-table" data-export-name="subscriber-audit-trail">Export CSV</button>
           </div>
         </div>
-        <table class="table">
-          <thead><tr><th>Del</th><th>mdr_id</th><th>Name</th><th>Checklist URL</th><th>Owned</th></tr></thead>
-          <tbody>
-            <tr><td>⛔</td><td>LA193097</td><td>AMG Physical Rehabilitation Hospital - Covington</td><td><a href="#">link</a></td><td>☑</td></tr>
-            <tr><td>⛔</td><td>NM322003</td><td>AMG Specialty Hospital - Albuquerque</td><td><a href="#">link</a></td><td>☑</td></tr>
-            <tr><td>⛔</td><td>IN152025</td><td>AMG Specialty Hospital - Central Indiana</td><td><a href="#">link</a></td><td>☑</td></tr>
-          </tbody>
-        </table>
+        <div class="table-shell">
+          <table class="table" id="subscriber-audit-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Record</th>
+                <th>Field</th>
+                <th>Before</th>
+                <th>After</th>
+                <th>Changed By</th>
+              </tr>
+            </thead>
+            <tbody id="subscriber-audit-body"></tbody>
+          </table>
+        </div>
       </section>
     </main>
+
     <script>
       {
-        document.querySelectorAll(".info-icon[title]").forEach((icon) => {
-          icon.dataset.tooltip = icon.getAttribute("title");
-        });
+        const permissionCatalog = [
+          "Subscriber",
+          "Portal Access",
+          "Reportable",
+          "Customer",
+          "Coverage Only",
+          "MD/AD/LE Only",
+          "Salary Data",
+          "Demo",
+        ];
 
-        const editableFields = Array.from(document.querySelectorAll(".subscriber-editable"));
-        const editButton = document.getElementById("edit-subscriber-button");
-        const saveButton = document.getElementById("save-subscriber-button");
+        const subscribers = [
+          {
+            key: "amg",
+            label: "Acadiana Management Group",
+            id: "88",
+            shortName: "AMG",
+            type: "General Acute Care Hospital",
+            startYear: "2018",
+            lookupYear: "",
+            accountExecutive: "sayala@ecgmc.com",
+            sso: "OTP",
+            flags: {
+              subscriber: true,
+              portalAccess: true,
+              reportable: true,
+              customer: true,
+              coverageOnly: false,
+              mdAdLeOnly: false,
+              salaryData: false,
+              demo: false,
+            },
+            facilityCatalog: [
+              "AMG Physical Rehabilitation Hospital - Covington",
+              "AMG Specialty Hospital - Albuquerque",
+              "AMG Specialty Hospital - Central Indiana",
+              "AMG Specialty Hospital - Zachary",
+              "AMG Specialty Hospital - Houma",
+            ],
+            facilities: [
+              { name: "AMG Physical Rehabilitation Hospital - Covington", mdrId: "LA193097", checklistUrl: "covington-checklist", owned: true },
+              { name: "AMG Specialty Hospital - Albuquerque", mdrId: "NM322003", checklistUrl: "albuquerque-checklist", owned: true },
+              { name: "AMG Specialty Hospital - Central Indiana", mdrId: "IN152025", checklistUrl: "central-indiana-checklist", owned: true },
+            ],
+            audit: [
+              { timestamp: "2026-03-31 15:42", record: "Subscriber", field: "Portal Access", before: "Disabled", after: "Enabled", by: "Stephanie Ayala" },
+              { timestamp: "2026-03-28 09:16", record: "Subscriber", field: "Single Sign On", before: "OTP", after: "Single Sign-On", by: "Jordan Hargrave" },
+            ],
+            users: [
+              {
+                id: "sayala",
+                first: "Stephanie",
+                last: "Ayala",
+                username: "sayala",
+                title: "Subscriber Admin",
+                email: "sayala@ecgmc.com",
+                phone: "(555) 110-2200",
+                status: "Active",
+                role: "Subscriber Admin",
+                permissions: ["Portal Access", "Export Tables", "Audit Review", "User Administration"],
+                facilitySelections: [
+                  "AMG Physical Rehabilitation Hospital - Covington",
+                  "AMG Specialty Hospital - Albuquerque",
+                ],
+                assignments: [
+                  {
+                    customer: "Acadiana Management Group",
+                    facilities: [
+                      "AMG Physical Rehabilitation Hospital - Covington",
+                      "AMG Specialty Hospital - Albuquerque",
+                    ],
+                    role: "Subscriber Admin",
+                    permissions: ["Portal Access", "Export Tables", "Audit Review", "User Administration"],
+                  },
+                ],
+                audit: [
+                  { timestamp: "2026-03-30 12:18", record: "User", field: "Role", before: "Facility Manager", after: "Subscriber Admin", by: "Jordan Hargrave" },
+                  { timestamp: "2026-03-22 08:04", record: "User", field: "Permissions", before: "Portal Access", after: "Portal Access, Export Tables", by: "Stephanie Ayala" },
+                ],
+              },
+              {
+                id: "tfontenot",
+                first: "Theo",
+                last: "Fontenot",
+                username: "tfontenot",
+                title: "Analyst",
+                email: "tfontenot@amgexample.com",
+                phone: "(555) 111-0045",
+                status: "Active",
+                role: "Analyst",
+                permissions: ["Portal Access", "Benchmark Reporting", "Export Tables"],
+                facilitySelections: ["AMG Specialty Hospital - Central Indiana"],
+                assignments: [
+                  {
+                    customer: "Acadiana Management Group",
+                    facilities: ["AMG Specialty Hospital - Central Indiana"],
+                    role: "Analyst",
+                    permissions: ["Portal Access", "Benchmark Reporting", "Export Tables"],
+                  },
+                ],
+                audit: [
+                  { timestamp: "2026-03-21 14:11", record: "User", field: "Facilities", before: "2 facilities", after: "1 facility", by: "Stephanie Ayala" },
+                ],
+              },
+              {
+                id: "ahankton",
+                first: "April",
+                last: "Hankton",
+                username: "ahankton",
+                title: "Facility Manager",
+                email: "ahankton@amgexample.com",
+                phone: "(555) 111-0770",
+                status: "Pending MFA",
+                role: "Facility Manager",
+                permissions: ["Portal Access", "Facility Editing", "Benchmark Reporting"],
+                facilitySelections: ["AMG Physical Rehabilitation Hospital - Covington"],
+                assignments: [
+                  {
+                    customer: "Acadiana Management Group",
+                    facilities: ["AMG Physical Rehabilitation Hospital - Covington"],
+                    role: "Facility Manager",
+                    permissions: ["Portal Access", "Facility Editing", "Benchmark Reporting"],
+                  },
+                ],
+                audit: [
+                  { timestamp: "2026-03-18 09:44", record: "User", field: "Status", before: "Invited", after: "Pending MFA", by: "Stephanie Ayala" },
+                ],
+              },
+              {
+                id: "jhargrave",
+                first: "Jordan",
+                last: "Hargrave",
+                username: "jhargrave",
+                title: "Read Only",
+                email: "jhargrave@amgexample.com",
+                phone: "(555) 111-0922",
+                status: "Active",
+                role: "Read Only",
+                permissions: ["Portal Access"],
+                facilitySelections: ["AMG Specialty Hospital - Zachary"],
+                assignments: [
+                  {
+                    customer: "Acadiana Management Group",
+                    facilities: ["AMG Specialty Hospital - Zachary"],
+                    role: "Read Only",
+                    permissions: ["Portal Access"],
+                  },
+                ],
+                audit: [
+                  { timestamp: "2026-03-12 17:05", record: "User", field: "Permissions", before: "None", after: "Portal Access", by: "Stephanie Ayala" },
+                ],
+              },
+            ],
+          },
+          {
+            key: "blend",
+            label: "Blend Subscriber",
+            id: "143",
+            shortName: "BLEND",
+            type: "Regional Health System",
+            startYear: "2021",
+            lookupYear: "2024",
+            accountExecutive: "mstelly@ecgmc.com",
+            sso: "Single Sign-On",
+            flags: {
+              subscriber: true,
+              portalAccess: true,
+              reportable: true,
+              customer: true,
+              coverageOnly: false,
+              mdAdLeOnly: false,
+              salaryData: true,
+              demo: false,
+            },
+            facilityCatalog: ["Blend North", "Blend South", "Blend Coastal"],
+            facilities: [
+              { name: "Blend North", mdrId: "BL10001", checklistUrl: "blend-north-checklist", owned: true },
+              { name: "Blend South", mdrId: "BL10002", checklistUrl: "blend-south-checklist", owned: true },
+            ],
+            audit: [
+              { timestamp: "2026-03-29 11:12", record: "Subscriber", field: "Salary Data", before: "Disabled", after: "Enabled", by: "Mason Stelly" },
+            ],
+            users: [
+              {
+                id: "rvasquez",
+                first: "Rae",
+                last: "Vasquez",
+                username: "rvasquez",
+                title: "Subscriber Admin",
+                email: "rvasquez@blendexample.com",
+                phone: "(555) 222-1001",
+                status: "Active",
+                role: "Subscriber Admin",
+                permissions: ["Portal Access", "Export Tables", "User Administration"],
+                facilitySelections: ["Blend North", "Blend South"],
+                assignments: [
+                  {
+                    customer: "Blend Subscriber",
+                    facilities: ["Blend North", "Blend South"],
+                    role: "Subscriber Admin",
+                    permissions: ["Portal Access", "Export Tables", "User Administration"],
+                  },
+                ],
+                audit: [
+                  { timestamp: "2026-03-15 07:40", record: "User", field: "Role", before: "Analyst", after: "Subscriber Admin", by: "Mason Stelly" },
+                ],
+              },
+              {
+                id: "mlewis",
+                first: "Morgan",
+                last: "Lewis",
+                username: "mlewis",
+                title: "Analyst",
+                email: "mlewis@blendexample.com",
+                phone: "(555) 222-1141",
+                status: "Suspended",
+                role: "Analyst",
+                permissions: ["Portal Access", "Benchmark Reporting"],
+                facilitySelections: ["Blend Coastal"],
+                assignments: [
+                  {
+                    customer: "Blend Subscriber",
+                    facilities: ["Blend Coastal"],
+                    role: "Analyst",
+                    permissions: ["Portal Access", "Benchmark Reporting"],
+                  },
+                ],
+                audit: [
+                  { timestamp: "2026-03-11 16:25", record: "User", field: "Status", before: "Active", after: "Suspended", by: "Rae Vasquez" },
+                ],
+              },
+            ],
+          },
+          {
+            key: "ecg",
+            label: "ECG Subscriber",
+            id: "244",
+            shortName: "ECG",
+            type: "Specialty Network",
+            startYear: "2019",
+            lookupYear: "",
+            accountExecutive: "jhargrave@ecgmc.com",
+            sso: "OTP",
+            flags: {
+              subscriber: true,
+              portalAccess: true,
+              reportable: false,
+              customer: true,
+              coverageOnly: true,
+              mdAdLeOnly: false,
+              salaryData: false,
+              demo: false,
+            },
+            facilityCatalog: ["ECG East", "ECG West"],
+            facilities: [
+              { name: "ECG East", mdrId: "EC20001", checklistUrl: "ecg-east-checklist", owned: true },
+              { name: "ECG West", mdrId: "EC20002", checklistUrl: "ecg-west-checklist", owned: false },
+            ],
+            audit: [
+              { timestamp: "2026-03-10 10:10", record: "Subscriber", field: "Coverage ONLY", before: "Off", after: "On", by: "Jordan Hargrave" },
+            ],
+            users: [
+              {
+                id: "cmoore",
+                first: "Casey",
+                last: "Moore",
+                username: "cmoore",
+                title: "Read Only",
+                email: "cmoore@ecgexample.com",
+                phone: "(555) 333-0187",
+                status: "Active",
+                role: "Read Only",
+                permissions: ["Portal Access"],
+                facilitySelections: ["ECG East"],
+                assignments: [
+                  {
+                    customer: "ECG Subscriber",
+                    facilities: ["ECG East"],
+                    role: "Read Only",
+                    permissions: ["Portal Access"],
+                  },
+                ],
+                audit: [
+                  { timestamp: "2026-03-04 08:51", record: "User", field: "Customer", before: "Affiliate", after: "Customer", by: "Jordan Hargrave" },
+                ],
+              },
+              {
+                id: "sgibbs",
+                first: "Sam",
+                last: "Gibbs",
+                username: "sgibbs",
+                title: "Facility Manager",
+                email: "sgibbs@ecgexample.com",
+                phone: "(555) 333-0291",
+                status: "Active",
+                role: "Facility Manager",
+                permissions: ["Portal Access", "Facility Editing"],
+                facilitySelections: ["ECG East", "ECG West"],
+                assignments: [
+                  {
+                    customer: "ECG Subscriber",
+                    facilities: ["ECG East", "ECG West"],
+                    role: "Facility Manager",
+                    permissions: ["Portal Access", "Facility Editing"],
+                  },
+                ],
+                audit: [
+                  { timestamp: "2026-03-02 12:33", record: "User", field: "Facilities", before: "ECG East", after: "ECG East, ECG West", by: "Jordan Hargrave" },
+                ],
+              },
+            ],
+          },
+        ];
 
-        const setEditMode = (isEditing) => {
-          editableFields.forEach((field) => {
-            field.disabled = !isEditing;
-          });
+        const mapLegacyPermissions = (permissions, role, subscriber) => {
+          if (permissions.every((permission) => permissionCatalog.includes(permission))) {
+            return permissionCatalog.filter((permission) => permissions.includes(permission));
+          }
 
-          editButton.textContent = isEditing ? "Editing Enabled" : "Edit Subscriber";
-          editButton.disabled = isEditing;
-          saveButton.classList.toggle("visually-hidden", !isEditing);
+          const mapped = new Set();
+          if (permissions.includes("Portal Access")) mapped.add("Portal Access");
+          if (permissions.includes("Benchmark Reporting")) {
+            mapped.add("Reportable");
+            if (role === "Analyst") mapped.add("MD/AD/LE Only");
+          }
+          if (permissions.includes("Export Tables") || permissions.includes("User Administration") || role === "Subscriber Admin") {
+            mapped.add("Subscriber");
+          }
+          if (permissions.includes("Audit Review") || permissions.includes("Facility Editing") || role === "Facility Manager" || role === "Subscriber Admin") {
+            mapped.add("Customer");
+          }
+          if (role === "Read Only") mapped.add("Coverage Only");
+          if (subscriber.flags?.salaryData && role === "Subscriber Admin") mapped.add("Salary Data");
+          if (subscriber.flags?.demo) mapped.add("Demo");
+
+          return permissionCatalog.filter((permission) => mapped.has(permission));
         };
 
-        editButton.addEventListener("click", () => {
-          setEditMode(true);
+        subscribers.forEach((subscriber) => {
+          subscriber.users.forEach((user) => {
+            const normalizedPermissions = mapLegacyPermissions(user.permissions, user.role, subscriber);
+            user.permissions = normalizedPermissions;
+            user.assignments = user.assignments.map((assignment) => ({
+              ...assignment,
+              permissions: normalizedPermissions.slice(),
+            }));
+          });
         });
 
-        saveButton.addEventListener("click", () => {
-          const confirmed = window.confirm("Save changes to this subscriber?");
-          if (!confirmed) {
+        const params = new URLSearchParams(window.location.search);
+        const initialSubscriberId = subscribers.some((subscriber) => subscriber.key === params.get("subscriber"))
+          ? params.get("subscriber")
+          : "amg";
+
+        const state = {
+          subscriberId: initialSubscriberId,
+          subscriberEditing: false,
+          userSearch: "",
+          userSort: "last",
+        };
+
+        const elements = {
+          subscriberSelector: document.getElementById("subscriber-selector"),
+          openUserManagementLink: document.getElementById("open-user-management-link"),
+          subscriberName: document.getElementById("subscriber-name"),
+          subscriberShortName: document.getElementById("subscriber-short-name"),
+          subscriberIdField: document.getElementById("subscriber-id"),
+          subscriberType: document.getElementById("subscriber-type"),
+          subscriberStartYear: document.getElementById("subscriber-start-year"),
+          subscriberLookupYear: document.getElementById("subscriber-lookup-year"),
+          accountExecutive: document.getElementById("account-executive"),
+          subscriberSso: document.getElementById("subscriber-sso"),
+          permissionSummary: document.getElementById("subscriber-permission-summary"),
+          subscriberFacilitySearch: document.getElementById("subscriber-facility-search"),
+          subscriberFacilityOptions: document.getElementById("subscriber-facility-options"),
+          subscriberFacilitiesBody: document.getElementById("subscriber-facilities-body"),
+          subscriberAuditBody: document.getElementById("subscriber-audit-body"),
+          editSubscriberButton: document.getElementById("edit-subscriber-button"),
+          saveSubscriberButton: document.getElementById("save-subscriber-button"),
+          deleteSubscriberButton: document.getElementById("delete-subscriber-button"),
+          userSearch: document.getElementById("subscriber-user-search"),
+          userSort: document.getElementById("subscriber-user-sort"),
+          userTableBody: document.getElementById("subscriber-user-table-body"),
+        };
+
+        const getSubscriber = () => subscribers.find((subscriber) => subscriber.key === state.subscriberId);
+        const getUsersForSubscriber = () => getSubscriber().users;
+        const formatUserLabel = (user) => `${user.last}, ${user.first} (@${user.username})`;
+        const syncUrl = () => {
+          const nextParams = new URLSearchParams();
+          nextParams.set("subscriber", state.subscriberId);
+          window.history.replaceState({}, "", `${window.location.pathname}?${nextParams.toString()}`);
+        };
+
+        const buildUserPortalHref = (subscriberKey, userId = "") => {
+          const nextParams = new URLSearchParams();
+          nextParams.set("subscriber", subscriberKey);
+          if (userId) nextParams.set("user", userId);
+          return `user-detail.html?${nextParams.toString()}`;
+        };
+
+        const exportTable = (tableId, filename) => {
+          const table = document.getElementById(tableId);
+          if (!table) return;
+
+          const rows = Array.from(table.querySelectorAll("tr")).map((row) =>
+            Array.from(row.querySelectorAll("th, td"))
+              .map((cell) => `"${cell.innerText.replace(/\n/g, " ").replace(/"/g, '""')}"`)
+              .join(",")
+          );
+
+          const blob = new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8;" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${filename}.csv`;
+          link.click();
+          URL.revokeObjectURL(url);
+        };
+
+        const setTooltipData = () => {
+          document.querySelectorAll(".info-icon[title]").forEach((icon) => {
+            icon.dataset.tooltip = icon.getAttribute("title");
+          });
+        };
+
+        const syncEditState = () => {
+          document.querySelectorAll(".subscriber-editable").forEach((field) => {
+            field.disabled = !state.subscriberEditing;
+          });
+
+          elements.editSubscriberButton.disabled = state.subscriberEditing;
+          elements.editSubscriberButton.textContent = state.subscriberEditing ? "Editing Enabled" : "Edit Subscriber";
+          elements.saveSubscriberButton.classList.toggle("visually-hidden", !state.subscriberEditing);
+        };
+
+        const renderSubscriberSelector = () => {
+          elements.subscriberSelector.innerHTML = subscribers
+            .map((subscriber) => `<option value="${subscriber.key}">${subscriber.label}</option>`)
+            .join("");
+          elements.subscriberSelector.value = state.subscriberId;
+        };
+
+        const renderFacilities = (subscriber) => {
+          elements.subscriberFacilityOptions.innerHTML = subscriber.facilityCatalog
+            .map((facility) => `<option value="${facility}"></option>`)
+            .join("");
+
+          elements.subscriberFacilitiesBody.innerHTML = subscriber.facilities
+            .map(
+              (facility) => `
+                <tr>
+                  <td>${facility.name}</td>
+                  <td>${facility.mdrId}</td>
+                  <td><a href="#">${facility.checklistUrl}</a></td>
+                  <td>${facility.owned ? "Yes" : "No"}</td>
+                </tr>
+              `
+            )
+            .join("");
+        };
+
+        const renderPermissionSummary = (subscriber) => {
+          elements.permissionSummary.innerHTML = permissionCatalog
+            .map((permission) => {
+              const count = subscriber.users.filter((user) => user.permissions.includes(permission)).length;
+              return `
+                <div class="permission-summary-card">
+                  <strong>${permission}</strong>
+                  <span>${count} ${count === 1 ? "user" : "users"}</span>
+                </div>
+              `;
+            })
+            .join("");
+        };
+
+        const getSortedUsers = () => {
+          const query = state.userSearch.trim().toLowerCase();
+          const subscriber = getSubscriber();
+
+          return subscriber.users
+            .slice()
+            .filter((user) => {
+              if (!query) return true;
+              return [
+                user.last,
+                user.first,
+                user.username,
+                user.role,
+                user.status,
+              ]
+                .join(" ")
+                .toLowerCase()
+                .includes(query);
+            })
+            .sort((left, right) => {
+              const compareText = (leftValue, rightValue) => leftValue.localeCompare(rightValue);
+              switch (state.userSort) {
+                case "first":
+                  return compareText(`${left.first} ${left.last} ${left.username}`.toLowerCase(), `${right.first} ${right.last} ${right.username}`.toLowerCase());
+                case "username":
+                  return compareText(left.username.toLowerCase(), right.username.toLowerCase());
+                case "role":
+                  return compareText(`${left.role} ${left.last}`.toLowerCase(), `${right.role} ${right.last}`.toLowerCase());
+                case "status":
+                  return compareText(`${left.status} ${left.last}`.toLowerCase(), `${right.status} ${right.last}`.toLowerCase());
+                case "facilities":
+                  if (left.facilitySelections.length !== right.facilitySelections.length) {
+                    return right.facilitySelections.length - left.facilitySelections.length;
+                  }
+                  return compareText(`${left.last} ${left.first}`.toLowerCase(), `${right.last} ${right.first}`.toLowerCase());
+                case "last":
+                default:
+                  return compareText(`${left.last} ${left.first} ${left.username}`.toLowerCase(), `${right.last} ${right.first} ${right.username}`.toLowerCase());
+              }
+            });
+        };
+
+        const renderUserTable = () => {
+          const subscriber = getSubscriber();
+          const rows = getSortedUsers();
+
+          elements.openUserManagementLink.href = buildUserPortalHref(subscriber.key);
+
+          if (!rows.length) {
+            elements.userTableBody.innerHTML = `
+              <tr>
+                <td colspan="8">
+                  <div class="search-empty">No associated users match that search.</div>
+                </td>
+              </tr>
+            `;
             return;
           }
 
-          setEditMode(false);
+          elements.userTableBody.innerHTML = rows
+            .map(
+              (user) => `
+                <tr>
+                  <td>${user.last}</td>
+                  <td>${user.first}</td>
+                  <td>${user.username}</td>
+                  <td>${user.role}</td>
+                  <td>${user.permissions.join(", ")}</td>
+                  <td>${user.facilitySelections.length}</td>
+                  <td>${user.status}</td>
+                  <td><a class="table-row-link" href="${buildUserPortalHref(subscriber.key, user.id)}">Open</a></td>
+                </tr>
+              `
+            )
+            .join("");
+        };
+
+        const renderAuditTrail = () => {
+          const subscriber = getSubscriber();
+          const allUserAudit = subscriber.users.flatMap((user) => user.audit);
+          const rows = [...subscriber.audit, ...allUserAudit].sort((left, right) => right.timestamp.localeCompare(left.timestamp));
+
+          elements.subscriberAuditBody.innerHTML = rows
+            .map(
+              (entry) => `
+                <tr>
+                  <td>${entry.timestamp}</td>
+                  <td>${entry.record}</td>
+                  <td>${entry.field}</td>
+                  <td>${entry.before}</td>
+                  <td>${entry.after}</td>
+                  <td>${entry.by}</td>
+                </tr>
+              `
+            )
+            .join("");
+        };
+
+        const renderSubscriber = () => {
+          const subscriber = getSubscriber();
+          elements.subscriberSelector.value = subscriber.key;
+          elements.userSort.value = state.userSort;
+          elements.subscriberIdField.value = subscriber.id;
+          elements.subscriberName.value = subscriber.label;
+          elements.subscriberShortName.value = subscriber.shortName;
+          elements.subscriberType.value = subscriber.type;
+          elements.subscriberStartYear.value = subscriber.startYear;
+          elements.subscriberLookupYear.value = subscriber.lookupYear;
+          elements.accountExecutive.value = subscriber.accountExecutive;
+          elements.subscriberSso.value = subscriber.sso;
+
+          renderFacilities(subscriber);
+          renderPermissionSummary(subscriber);
+          renderUserTable();
+          renderAuditTrail();
+          syncEditState();
+          syncUrl();
+        };
+
+        const collectSubscriberChanges = () => {
+          const subscriber = getSubscriber();
+          const previousName = subscriber.label;
+
+          subscriber.id = elements.subscriberIdField.value.trim();
+          subscriber.label = elements.subscriberName.value.trim();
+          subscriber.shortName = elements.subscriberShortName.value.trim();
+          subscriber.type = elements.subscriberType.value;
+          subscriber.startYear = elements.subscriberStartYear.value.trim();
+          subscriber.lookupYear = elements.subscriberLookupYear.value.trim();
+          subscriber.accountExecutive = elements.accountExecutive.value.trim();
+          subscriber.sso = elements.subscriberSso.value;
+
+          const newFacility = elements.subscriberFacilitySearch.value.trim();
+          if (newFacility && !subscriber.facilities.some((facility) => facility.name === newFacility)) {
+            subscriber.facilities.push({
+              name: newFacility,
+              mdrId: `NEW${String(subscriber.facilities.length + 1).padStart(4, "0")}`,
+              checklistUrl: "new-checklist",
+              owned: false,
+            });
+            subscriber.facilityCatalog.push(newFacility);
+            elements.subscriberFacilitySearch.value = "";
+          }
+
+          subscriber.audit.unshift({
+            timestamp: "2026-04-02 18:02",
+            record: "Subscriber",
+            field: "Fields Submitted",
+            before: previousName,
+            after: subscriber.label,
+            by: "Super User",
+          });
+        };
+
+        const confirmDoubleDelete = (label) =>
+          window.confirm(`Delete ${label}?`) &&
+          window.confirm(`This action is permanent. Delete ${label}?`);
+
+        renderSubscriberSelector();
+        renderSubscriber();
+        setTooltipData();
+
+        elements.subscriberSelector.addEventListener("change", () => {
+          state.subscriberId = elements.subscriberSelector.value;
+          state.userSearch = "";
+          state.userSort = "last";
+          elements.userSearch.value = "";
+          elements.userSort.value = state.userSort;
+          state.subscriberEditing = false;
+          renderSubscriber();
         });
 
-        setEditMode(false);
+        elements.userSearch.addEventListener("input", () => {
+          state.userSearch = elements.userSearch.value;
+          renderUserTable();
+        });
+
+        elements.userSort.addEventListener("change", () => {
+          state.userSort = elements.userSort.value;
+          renderUserTable();
+        });
+
+        elements.editSubscriberButton.addEventListener("click", () => {
+          state.subscriberEditing = true;
+          syncEditState();
+        });
+
+        elements.saveSubscriberButton.addEventListener("click", () => {
+          if (!window.confirm("Submit subscriber changes?")) return;
+          collectSubscriberChanges();
+          state.subscriberEditing = false;
+          renderSubscriber();
+        });
+
+        elements.deleteSubscriberButton.addEventListener("click", () => {
+          if (!confirmDoubleDelete(`${getSubscriber().label} subscriber`)) return;
+          window.alert("Subscriber delete queued for approval.");
+        });
+
+        document.querySelectorAll("[data-export-table]").forEach((button) => {
+          button.addEventListener("click", () => {
+            exportTable(button.dataset.exportTable, button.dataset.exportName);
+          });
+        });
       }
     </script>
   </body>

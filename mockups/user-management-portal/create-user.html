@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create User Draft</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="menu-icon">☰</span>
+      <div class="user-meta"><span>🔔</span><span>Super User</span></div>
+    </header>
+
+    <main class="page" id="create-user-page">
+      <div class="breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <a id="back-to-users" href="user-detail.html">User Management</a>
+        <span>/</span>
+        <span>Create User Draft</span>
+      </div>
+
+      <div class="page-header">
+        <div>
+          <h1>Create User Draft</h1>
+          <p class="page-copy">
+            Draft a new user profile, assign the subscriber, choose facilities and permission
+            flags, then save or send the invite when ready.
+          </p>
+        </div>
+        <div class="action-bar">
+          <button class="btn-soft" id="save-draft-button" type="button">Save Draft</button>
+          <button class="btn-primary" id="send-invite-button" type="button">Send Invite</button>
+        </div>
+      </div>
+
+      <div class="workspace-grid">
+        <div class="workspace-main">
+          <section class="panel detail-panel">
+            <h2>Subscriber Assignment</h2>
+            <p>Choose the subscriber first so facilities and related defaults stay in sync.</p>
+            <div class="detail-fields">
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-select">
+                  <span>Subscriber</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="This drives the linked customer summary, facility list, and permission context for the draft user."
+                    >i</span
+                  >
+                </label>
+                <select id="subscriber-select" class="select"></select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="draft-status"><span>Draft Status</span></label>
+                <select id="draft-status" class="select">
+                  <option selected>Draft</option>
+                  <option>Pending Review</option>
+                  <option>Ready To Invite</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel detail-panel">
+            <h2>Identity and Contact</h2>
+            <p>Mock data is prefilled so you can edit every field immediately.</p>
+            <div class="dense-grid">
+              <div class="detail-field">
+                <label class="field-label" for="last-name"><span>Last Name</span></label>
+                <input id="last-name" class="field" value="Bennett" />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="first-name"><span>First Name</span></label>
+                <input id="first-name" class="field" value="Paige" />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="username"><span>Username</span></label>
+                <input id="username" class="field" value="pbennett" />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="title"><span>Title</span></label>
+                <input id="title" class="field" value="Strategic Pricing Manager" />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="email"><span>Email</span></label>
+                <input id="email" class="field" value="pbennett@examplehealth.org" />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="phone"><span>Telephone</span></label>
+                <input id="phone" class="field" value="(555) 444-0182" />
+              </div>
+            </div>
+          </section>
+
+          <section class="panel detail-panel">
+            <h2>Role and Permission Flags</h2>
+            <p>Set the user hierarchy, searchable facility list, and permission flags for the draft.</p>
+            <div class="assignment-grid">
+              <div class="detail-field">
+                <label class="field-label" for="role"><span>Role</span></label>
+                <select id="role" class="select">
+                  <option>Subscriber Admin</option>
+                  <option>Facility Manager</option>
+                  <option selected>Analyst</option>
+                  <option>Read Only</option>
+                  <option>MDR Staff</option>
+                </select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="invite-type"><span>Invite Type</span></label>
+                <select id="invite-type" class="select">
+                  <option selected>Email Invite</option>
+                  <option>Manual Provisioning</option>
+                  <option>SSO Pre-Provision</option>
+                </select>
+              </div>
+              <div class="detail-field full">
+                <label class="field-label" for="facility-search">
+                  <span>Select Facility</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="Use the searchable dropdown to add one or more facilities to the draft user's access scope."
+                    >i</span
+                  >
+                </label>
+                <input
+                  id="facility-search"
+                  class="field"
+                  list="facility-options"
+                  placeholder="Search facility name..."
+                />
+                <datalist id="facility-options"></datalist>
+                <div id="facility-chips" class="chip-list"></div>
+              </div>
+              <div class="detail-field full">
+                <label class="field-label"><span>Permission Flags</span></label>
+                <div id="permission-grid" class="permission-grid"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="workspace-side">
+          <section class="panel">
+            <div class="selected-user-shell">
+              <section class="panel-subsection">
+                <h3>Linked Subscriber Summary</h3>
+                <p>Review the current customer before finalizing the draft user setup.</p>
+                <div class="summary-card-grid">
+                  <div class="summary-item"><strong>Customer</strong><span id="summary-customer"></span></div>
+                  <div class="summary-item"><strong>Customer ID</strong><span id="summary-customer-id"></span></div>
+                  <div class="summary-item"><strong>Type</strong><span id="summary-type"></span></div>
+                  <div class="summary-item"><strong>Single Sign On</strong><span id="summary-sso"></span></div>
+                </div>
+              </section>
+
+              <section class="panel-subsection">
+                <h3>Draft Checklist</h3>
+                <p>Suggested prep steps before sending an invite.</p>
+                <div class="permission-summary-grid">
+                  <div class="permission-summary-card">
+                    <strong>Identity Confirmed</strong>
+                    <span>Email, title, and username are ready for review.</span>
+                  </div>
+                  <div class="permission-summary-card">
+                    <strong>Facility Scope</strong>
+                    <span>At least one facility should be selected for non-admin roles.</span>
+                  </div>
+                  <div class="permission-summary-card">
+                    <strong>Permissions Reviewed</strong>
+                    <span>Validate archived, reporting, and salary-data access before invite.</span>
+                  </div>
+                  <div class="permission-summary-card">
+                    <strong>Invite Plan</strong>
+                    <span>Draft can be saved now or sent once stakeholder approval is complete.</span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="panel-subsection">
+                <h3>Internal Notes</h3>
+                <p class="table-note">
+                  Draft note: subscriber requested a new analyst seat for monthly benchmark review
+                  and export access.
+                </p>
+              </section>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const permissionCatalog = [
+        "Subscriber",
+        "Portal Access",
+        "Reportable",
+        "Customer",
+        "Coverage Only",
+        "MD/AD/LE Only",
+        "Salary Data",
+        "Demo"
+      ];
+
+      const subscribers = [
+        {
+          key: "amg",
+          label: "Acadiana Management Group",
+          id: "88",
+          type: "General Acute Care Hospital",
+          sso: "OTP",
+          facilities: [
+            "AMG Physical Rehabilitation Hospital - Covington",
+            "AMG Specialty Hospital - Albuquerque",
+            "AMG Specialty Hospital - Central Indiana",
+            "AMG Specialty Hospital - Zachary"
+          ]
+        },
+        {
+          key: "blend",
+          label: "Blend Subscriber",
+          id: "143",
+          type: "Regional Health System",
+          sso: "Single Sign-On",
+          facilities: ["Blend North", "Blend South", "Blend Coastal", "Blend Metro"]
+        },
+        {
+          key: "coastal",
+          label: "Coastal Care Alliance",
+          id: "244",
+          type: "Specialty Network",
+          sso: "OTP",
+          facilities: ["Coastal East", "Coastal West", "Coastal Rehab"]
+        }
+      ];
+
+      const params = new URLSearchParams(window.location.search);
+      const defaultSubscriberKey = subscribers.some((subscriber) => subscriber.key === params.get("subscriber"))
+        ? params.get("subscriber")
+        : "amg";
+
+      const state = {
+        subscriberId: defaultSubscriberKey,
+        facilities: ["AMG Specialty Hospital - Central Indiana"],
+        permissions: ["Portal Access", "Reportable", "MD/AD/LE Only"]
+      };
+
+      const elements = {
+        backToUsers: document.getElementById("back-to-users"),
+        subscriberSelect: document.getElementById("subscriber-select"),
+        facilitySearch: document.getElementById("facility-search"),
+        facilityOptions: document.getElementById("facility-options"),
+        facilityChips: document.getElementById("facility-chips"),
+        permissionGrid: document.getElementById("permission-grid"),
+        summaryCustomer: document.getElementById("summary-customer"),
+        summaryCustomerId: document.getElementById("summary-customer-id"),
+        summaryType: document.getElementById("summary-type"),
+        summarySso: document.getElementById("summary-sso"),
+        saveDraft: document.getElementById("save-draft-button"),
+        sendInvite: document.getElementById("send-invite-button")
+      };
+
+      const getSubscriber = () =>
+        subscribers.find((subscriber) => subscriber.key === state.subscriberId);
+
+      const syncTooltips = () => {
+        document.querySelectorAll(".info-icon[title]").forEach((icon) => {
+          icon.dataset.tooltip = icon.getAttribute("title");
+        });
+      };
+
+      const renderSubscriber = () => {
+        const subscriber = getSubscriber();
+        elements.backToUsers.href = `user-detail.html?subscriber=${encodeURIComponent(subscriber.key)}`;
+        elements.summaryCustomer.textContent = subscriber.label;
+        elements.summaryCustomerId.textContent = subscriber.id;
+        elements.summaryType.textContent = subscriber.type;
+        elements.summarySso.textContent = subscriber.sso;
+        elements.facilityOptions.innerHTML = subscriber.facilities
+          .map((facility) => `<option value="${facility}"></option>`)
+          .join("");
+
+        elements.facilityChips.innerHTML = state.facilities
+          .map(
+            (facility) => `
+              <button type="button" class="chip chip-remove-button" data-remove-draft-facility="${facility}">
+                <span>${facility}</span>
+                <span aria-hidden="true">×</span>
+              </button>
+            `
+          )
+          .join("");
+      };
+
+      const renderPermissions = () => {
+        elements.permissionGrid.innerHTML = permissionCatalog
+          .map(
+            (permission) => `
+              <label>
+                <input
+                  type="checkbox"
+                  value="${permission}"
+                  ${state.permissions.includes(permission) ? "checked" : ""}
+                />
+                <span>${permission}</span>
+              </label>
+            `
+          )
+          .join("");
+      };
+
+      elements.subscriberSelect.innerHTML = subscribers
+        .map(
+          (subscriber) =>
+            `<option value="${subscriber.key}" ${
+              subscriber.key === state.subscriberId ? "selected" : ""
+            }>${subscriber.label}</option>`
+        )
+        .join("");
+
+      renderSubscriber();
+      renderPermissions();
+      syncTooltips();
+
+      elements.subscriberSelect.addEventListener("change", () => {
+        state.subscriberId = elements.subscriberSelect.value;
+        state.facilities = [getSubscriber().facilities[0]];
+        renderSubscriber();
+      });
+
+      elements.facilitySearch.addEventListener("change", () => {
+        const selectedFacility = elements.facilitySearch.value.trim();
+        if (selectedFacility && !state.facilities.includes(selectedFacility)) {
+          state.facilities.push(selectedFacility);
+          renderSubscriber();
+        }
+        elements.facilitySearch.value = "";
+      });
+
+      elements.facilityChips.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-draft-facility]");
+        if (!button) return;
+        state.facilities = state.facilities.filter(
+          (facility) => facility !== button.dataset.removeDraftFacility
+        );
+        renderSubscriber();
+      });
+
+      elements.permissionGrid.addEventListener("change", () => {
+        state.permissions = Array.from(
+          elements.permissionGrid.querySelectorAll("input:checked")
+        ).map((input) => input.value);
+      });
+
+      elements.saveDraft.addEventListener("click", () => {
+        window.alert("Draft user saved locally for review.");
+      });
+
+      elements.sendInvite.addEventListener("click", () => {
+        if (!window.confirm("Send invite for this draft user?")) return;
+        window.alert("Invite queued for approval.");
+      });
+    </script>
+  </body>
+</html>
