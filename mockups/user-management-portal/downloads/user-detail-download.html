@@ -116,7 +116,16 @@
       }
 
       #subscriber-detail-page .workspace-grid {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1.14fr) minmax(360px, 0.86fr);
+      }
+
+      #subscriber-detail-page .scope-bar-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      #subscriber-detail-page .scope-bar-actions .action-bar {
+        justify-content: flex-end;
       }
 
       #user-detail-page .workspace-grid {
@@ -716,6 +725,26 @@
           min-height: 42px;
           width: auto;
           white-space: nowrap;
+        }
+      }
+
+      @media (max-width: 1440px) {
+        #subscriber-detail-page .workspace-grid {
+          grid-template-columns: 1fr;
+        }
+
+        #subscriber-detail-page .scope-bar-shell {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        #subscriber-detail-page .scope-bar-actions {
+          margin-left: 0;
+          justify-content: flex-start;
+        }
+
+        #subscriber-detail-page .table-filter-grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>

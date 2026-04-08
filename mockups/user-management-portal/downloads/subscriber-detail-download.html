@@ -116,7 +116,16 @@
       }
 
       #subscriber-detail-page .workspace-grid {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1.14fr) minmax(360px, 0.86fr);
+      }
+
+      #subscriber-detail-page .scope-bar-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      #subscriber-detail-page .scope-bar-actions .action-bar {
+        justify-content: flex-end;
       }
 
       #user-detail-page .workspace-grid {
@@ -718,6 +727,26 @@
           white-space: nowrap;
         }
       }
+
+      @media (max-width: 1440px) {
+        #subscriber-detail-page .workspace-grid {
+          grid-template-columns: 1fr;
+        }
+
+        #subscriber-detail-page .scope-bar-shell {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        #subscriber-detail-page .scope-bar-actions {
+          margin-left: 0;
+          justify-content: flex-start;
+        }
+
+        #subscriber-detail-page .table-filter-grid {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
@@ -733,24 +762,71 @@
         <span>Subscriber Management</span>
       </div>
 
-      <section class="panel selector-panel">
-        <div class="selector-row">
-          <div class="detail-field selector-copy">
-            <label class="field-label" for="subscriber-selector">
-              <span>Select Subscriber</span>
-              <span
-                class="info-icon"
-                tabindex="0"
-                title="Choose a subscriber to load customer profile fields, facilities, linked users, and audit history."
-                >i</span
-              >
-            </label>
-            <select id="subscriber-selector" class="select">
-              <option value="">Select a subscriber...</option>
-            </select>
+      <div class="page-header">
+        <div>
+          <h1>Subscriber Management</h1>
+          <p class="page-copy" id="subscriber-page-intro">
+            Choose a subscriber to open a subscriber-first workspace with customer details,
+            linked-user review, facilities, and audit history.
+          </p>
+        </div>
+      </div>
+
+      <section class="panel empty-selector-state" id="subscriber-empty-state">
+        <div class="selection-state-inner">
+          <span class="selection-state-kicker">Choose Subscriber</span>
+          <h2>Open Subscriber Management in subscriber context</h2>
+          <p>
+            Select a subscriber first. Once chosen, this page becomes a subscriber-first workspace
+            with the same scoped header pattern as User Management.
+          </p>
+          <div class="selection-state-controls">
+            <div class="detail-field">
+              <label class="field-label" for="empty-subscriber-selector">
+                <span>Select Subscriber</span>
+                <span
+                  class="info-icon"
+                  tabindex="0"
+                  title="Choose a subscriber to load customer profile fields, facilities, linked users, and audit history."
+                  >i</span
+                >
+              </label>
+              <select id="empty-subscriber-selector" class="select">
+                <option value="">Select a subscriber...</option>
+              </select>
+            </div>
           </div>
-          <div class="selector-actions">
-            <div class="action-bar is-hidden" id="subscriber-actions">
+        </div>
+      </section>
+
+      <section class="panel subscriber-scope-bar is-hidden" id="subscriber-scope-bar">
+        <div class="scope-bar-shell">
+          <div class="scope-bar-copy">
+            <span class="scope-kicker">Current Subscriber Scope</span>
+            <div class="scope-heading-row">
+              <h2 id="scope-subscriber-name">Subscriber Name</h2>
+              <span class="scope-counts" id="scope-user-counts"></span>
+            </div>
+            <div class="scope-meta">
+              <div class="scope-meta-item">
+                <strong>Customer ID</strong>
+                <span id="scope-subscriber-id"></span>
+              </div>
+              <div class="scope-meta-item">
+                <strong>Type</strong>
+                <span id="scope-subscriber-type"></span>
+              </div>
+              <div class="scope-meta-item">
+                <strong>Organization Sign In</strong>
+                <span id="scope-subscriber-sso"></span>
+              </div>
+            </div>
+          </div>
+          <div class="scope-bar-actions">
+            <button class="btn-muted" id="change-subscriber-button" type="button">
+              Change Subscriber
+            </button>
+            <div class="action-bar" id="subscriber-actions">
               <button class="btn-soft" id="edit-subscriber-button" type="button">Edit Subscriber</button>
               <button class="btn-primary is-hidden" id="save-subscriber-button" type="button">
                 Submit Changes
@@ -769,24 +845,16 @@
             </div>
           </div>
         </div>
-      </section>
-
-      <div class="page-header">
-        <div>
-          <h1>Subscriber Management</h1>
-          <p class="page-copy">
-            Start by selecting a subscriber. Customer information stays read-only until someone
-            explicitly enters edit mode.
-          </p>
+        <div class="scope-selector-shell is-hidden" id="scope-selector-shell">
+          <div class="detail-field scope-selector-field">
+            <label class="field-label" for="scope-subscriber-selector">
+              <span>Change Subscriber</span>
+            </label>
+            <select id="scope-subscriber-selector" class="select">
+              <option value="">Select a subscriber...</option>
+            </select>
+          </div>
         </div>
-      </div>
-
-      <section class="panel empty-state" id="subscriber-empty-state">
-        <strong>No subscriber selected</strong>
-        <span>
-          Pick a subscriber from the dropdown above to populate customer information, facilities,
-          linked users, and audit history.
-        </span>
       </section>
 
       <div class="is-hidden" id="subscriber-content">
@@ -1425,6 +1493,7 @@
           ? params.get("subscriber")
           : "",
         subscriberEditing: false,
+        scopeSelectorOpen: false,
         draftFacilities: null,
         userSearch: "",
         userStatusFilter: "all",
@@ -1432,9 +1501,19 @@
       };
 
       const elements = {
-        selector: document.getElementById("subscriber-selector"),
+        pageIntro: document.getElementById("subscriber-page-intro"),
+        emptySelector: document.getElementById("empty-subscriber-selector"),
         actions: document.getElementById("subscriber-actions"),
         emptyState: document.getElementById("subscriber-empty-state"),
+        scopeBar: document.getElementById("subscriber-scope-bar"),
+        scopeSubscriberName: document.getElementById("scope-subscriber-name"),
+        scopeUserCounts: document.getElementById("scope-user-counts"),
+        scopeSubscriberId: document.getElementById("scope-subscriber-id"),
+        scopeSubscriberType: document.getElementById("scope-subscriber-type"),
+        scopeSubscriberSso: document.getElementById("scope-subscriber-sso"),
+        changeSubscriberButton: document.getElementById("change-subscriber-button"),
+        scopeSelectorShell: document.getElementById("scope-selector-shell"),
+        scopeSelector: document.getElementById("scope-subscriber-selector"),
         content: document.getElementById("subscriber-content"),
         subscriberId: document.getElementById("subscriber-id"),
         subscriberName: document.getElementById("subscriber-name"),
@@ -1470,6 +1549,8 @@
         if (!subscriber || !user) return "";
         return user.signInOverride || subscriber.sso;
       };
+
+      const getSubscriberUserCounts = (subscriber) => `${subscriber.users.length} users`;
 
       const statusClass = (status) => {
         if (status === "Active") return "status-active";
@@ -1548,6 +1629,13 @@
         history.replaceState({}, "", `${window.location.pathname}${next.toString() ? `?${next.toString()}` : ""}`);
       };
 
+      const syncScopeSelectorState = () => {
+        elements.scopeSelectorShell.classList.toggle("is-hidden", !state.scopeSelectorOpen);
+        elements.changeSubscriberButton.textContent = state.scopeSelectorOpen
+          ? "Hide Selector"
+          : "Change Subscriber";
+      };
+
       const syncEditState = () => {
         document.querySelectorAll(".subscriber-editable").forEach((field) => {
           field.disabled = !state.subscriberEditing;
@@ -1578,8 +1666,8 @@
         URL.revokeObjectURL(url);
       };
 
-      const renderSelector = () => {
-        elements.selector.innerHTML = `
+      const renderSelectors = () => {
+        const optionsMarkup = `
           <option value="">Select a subscriber...</option>
           ${subscribers
             .map(
@@ -1588,7 +1676,19 @@
             )
             .join("")}
         `;
-        elements.selector.value = state.subscriberId;
+        elements.emptySelector.innerHTML = optionsMarkup;
+        elements.scopeSelector.innerHTML = optionsMarkup;
+        elements.emptySelector.value = state.subscriberId;
+        elements.scopeSelector.value = state.subscriberId;
+      };
+
+      const renderScopeBar = (subscriber) => {
+        elements.scopeSubscriberName.textContent = subscriber.label;
+        elements.scopeUserCounts.textContent = getSubscriberUserCounts(subscriber);
+        elements.scopeSubscriberId.textContent = subscriber.id;
+        elements.scopeSubscriberType.textContent = subscriber.type;
+        elements.scopeSubscriberSso.textContent = subscriber.sso;
+        syncScopeSelectorState();
       };
 
       const renderFacilities = (subscriber) => {
@@ -1709,20 +1809,27 @@
           .join("");
       };
 
-      const renderSubscriber = () => {
+      const renderPage = () => {
         const subscriber = getSubscriber();
         const hasSelection = Boolean(subscriber);
 
-        elements.actions.classList.toggle("is-hidden", !hasSelection);
+        renderSelectors();
+        elements.pageIntro.textContent = hasSelection
+          ? "Review subscriber profile, facilities, linked-user access, and audit history in one subscriber-first workspace."
+          : "Choose a subscriber to open a subscriber-first workspace with customer details, linked-user review, facilities, and audit history.";
         elements.emptyState.classList.toggle("is-hidden", hasSelection);
+        elements.scopeBar.classList.toggle("is-hidden", !hasSelection);
         elements.content.classList.toggle("is-hidden", !hasSelection);
 
         if (!subscriber) {
+          state.scopeSelectorOpen = false;
+          syncScopeSelectorState();
           syncEditState();
           syncUrl();
           return;
         }
 
+        renderScopeBar(subscriber);
         elements.subscriberId.value = subscriber.id;
         elements.subscriberName.value = subscriber.label;
         elements.subscriberShortName.value = subscriber.shortName;
@@ -1776,13 +1883,13 @@
         });
       };
 
-      renderSelector();
-      renderSubscriber();
+      renderPage();
       syncTooltips();
 
-      elements.selector.addEventListener("change", () => {
-        state.subscriberId = elements.selector.value;
+      const handleSubscriberChange = (subscriberId) => {
+        state.subscriberId = subscriberId;
         state.subscriberEditing = false;
+        state.scopeSelectorOpen = false;
         state.draftFacilities = null;
         state.userSearch = "";
         state.userStatusFilter = "all";
@@ -1790,7 +1897,20 @@
         elements.userSearch.value = "";
         elements.userStatusFilter.value = "all";
         elements.userSort.value = "last";
-        renderSubscriber();
+        renderPage();
+      };
+
+      elements.emptySelector.addEventListener("change", () => {
+        handleSubscriberChange(elements.emptySelector.value);
+      });
+
+      elements.scopeSelector.addEventListener("change", () => {
+        handleSubscriberChange(elements.scopeSelector.value);
+      });
+
+      elements.changeSubscriberButton.addEventListener("click", () => {
+        state.scopeSelectorOpen = !state.scopeSelectorOpen;
+        syncScopeSelectorState();
       });
 
       elements.userSearch.addEventListener("input", () => {
@@ -1816,20 +1936,20 @@
         if (!subscriber) return;
         state.draftFacilities = subscriber.facilities.map((facility) => ({ ...facility }));
         state.subscriberEditing = true;
-        renderSubscriber();
+        renderPage();
       });
 
       elements.saveButton.addEventListener("click", () => {
         if (!window.confirm("Submit subscriber changes?")) return;
         collectChanges();
         state.subscriberEditing = false;
-        renderSubscriber();
+        renderPage();
       });
 
       elements.cancelButton.addEventListener("click", () => {
         state.subscriberEditing = false;
         state.draftFacilities = null;
-        renderSubscriber();
+        renderPage();
       });
 
       elements.facilityAdd.addEventListener("change", () => {
