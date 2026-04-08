@@ -43,6 +43,63 @@
       .menu-icon { color: var(--muted); font-size: 1.2rem; }
       .user-meta { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--navy); }
 
+      .user-menu {
+        position: relative;
+      }
+
+      .user-summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        color: var(--navy);
+        font-weight: 700;
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .user-summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .user-menu[open] .user-summary {
+        background: var(--surface-soft);
+        border-color: var(--border);
+      }
+
+      .user-summary-caret {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .user-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 220px;
+        padding: 8px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--surface);
+        box-shadow: 0 16px 34px rgba(14, 32, 76, 0.14);
+        z-index: 20;
+      }
+
+      .user-dropdown-link {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: #4d5f7d;
+        font-weight: 700;
+      }
+
+      .user-dropdown-link:hover {
+        background: #edf4ff;
+        color: var(--navy);
+      }
+
       .page { padding: 18px; }
 
       .breadcrumbs {
@@ -116,7 +173,7 @@
       }
 
       #subscriber-detail-page .workspace-grid {
-        grid-template-columns: minmax(0, 1.14fr) minmax(360px, 0.86fr);
+        grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
       }
 
       #subscriber-detail-page .scope-bar-actions {
@@ -136,6 +193,16 @@
         display: grid;
         gap: 18px;
         align-content: start;
+        min-width: 0;
+      }
+
+      .workspace-main > *,
+      .workspace-side > *,
+      .panel,
+      .detail-panel,
+      .selected-user-shell,
+      .table-shell {
+        min-width: 0;
       }
 
       .detail-panel h2, .table-toolbar h2, .panel-subsection h3 {
@@ -728,7 +795,7 @@
         }
       }
 
-      @media (max-width: 1440px) {
+      @media (max-width: 1560px) {
         #subscriber-detail-page .workspace-grid {
           grid-template-columns: 1fr;
         }
@@ -752,12 +819,24 @@
   <body>
     <header class="topbar">
       <span class="menu-icon">☰</span>
-      <div class="user-meta"><span>🔔</span><span>Super User</span></div>
+      <details class="user-menu">
+        <summary class="user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="user-summary-caret">▾</span>
+        </summary>
+        <div class="user-dropdown">
+          <a class="user-dropdown-link" href="../updated-pages/account.html">My Account</a>
+          <a class="user-dropdown-link" href="../updated-pages/admin.html">Admin</a>
+        </div>
+      </details>
     </header>
 
     <main class="page" id="subscriber-detail-page">
       <div class="breadcrumbs">
         <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <a href="../updated-pages/admin.html">Admin</a>
         <span>/</span>
         <span>Subscriber Management</span>
       </div>

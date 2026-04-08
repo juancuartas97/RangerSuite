@@ -3,122 +3,360 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Account</title>
+    <title>My Account</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
-    <div class="doc-shell">
-      <aside class="doc-sidebar">
-        <div>
-          <div class="logo">MD<span>RANGER</span></div>
-          <div class="logo-sub">Powered by ECG</div>
-
-          <nav class="doc-nav" aria-label="Primary">
-            <a class="doc-link" href="#">Home</a>
-            <a class="doc-link" href="#">Benchmarks</a>
-            <a class="doc-link" href="documentation.html">Documentation</a>
-            <a class="doc-link" href="#">Contracts</a>
-            <a class="doc-link" href="survey-demographics.html">Trends</a>
-          </nav>
+  <body class="portal-body">
+    <header class="portal-topbar">
+      <span class="portal-menu-icon">☰</span>
+      <details class="portal-user-menu">
+        <summary class="portal-user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="portal-summary-caret">▾</span>
+        </summary>
+        <div class="portal-user-dropdown">
+          <a class="portal-user-link is-active" href="account.html">My Account</a>
+          <a class="portal-user-link" href="admin.html">Admin</a>
         </div>
+      </details>
+    </header>
 
-        <a class="doc-support" href="#">Support</a>
-      </aside>
+    <main class="portal-page">
+      <div class="portal-breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <span>My Account</span>
+      </div>
 
-      <main class="doc-main">
-        <header class="doc-topbar">
-          <h1>Account</h1>
-          <div class="user-actions">
-            <span>jcuartas</span>
-            <span>Help</span>
-          </div>
-        </header>
+      <div class="portal-page-header-bar">
+        <div class="portal-header portal-header-compact">
+          <h1>My Account</h1>
+        </div>
+        <div class="portal-action-row">
+          <button class="portal-btn-soft" id="edit-account-button" type="button">
+            Edit My Account
+          </button>
+          <button class="portal-btn-primary portal-hidden" id="save-account-button" type="button">
+            Submit Changes
+          </button>
+          <button class="portal-btn-muted portal-hidden" id="cancel-account-button" type="button">
+            Cancel
+          </button>
+        </div>
+      </div>
 
-        <section class="doc-content">
-          <section class="card form-card" style="box-shadow:none;">
-            <div class="row">
+      <form id="account-form" class="portal-layout portal-layout-single">
+        <div class="portal-card-stack">
+          <section class="portal-panel portal-section-card">
+            <div class="portal-section-header portal-section-header-compact">
               <div>
-                <div class="label">Organization</div>
-              </div>
-              <div>MD Ranger Customer Use Only</div>
-            </div>
-
-            <div class="row">
-              <div class="label">First Name</div>
-              <div><input class="text-field" value="Juan" /></div>
-            </div>
-
-            <div class="row">
-              <div class="label">Last Name</div>
-              <div><input class="text-field" value="Cuartas" /></div>
-            </div>
-
-            <div class="row">
-              <div class="label">Telephone</div>
-              <div><input class="text-field" placeholder="Enter telephone" /></div>
-            </div>
-
-            <div class="row">
-              <div class="label">Email</div>
-              <div><input class="text-field" placeholder="Enter email" /></div>
-            </div>
-
-            <div class="row">
-              <div>
-                <div class="label">Preferences</div>
-                <p class="help">Search</p>
-              </div>
-              <div>
-                <div style="display:grid; gap:10px; margin-bottom:12px;">
-                  <label><input type="radio" name="search" checked /> Default: All Benchmarks</label>
-                  <label><input type="radio" name="search" /> Customize Benchmarks</label>
-                </div>
-
-                <div class="choice-wrap">
-                  <label><input type="radio" name="facility" /> Display facility characteristic benchmarks</label>
-                  <div class="check-grid">
-                    <label><input type="checkbox" /> All Hospitals</label>
-                    <label><input type="checkbox" checked /> Trauma Status</label>
-                    <label><input type="checkbox" checked /> Bed Size</label>
-                    <label><input type="checkbox" checked /> Urban/Rural</label>
-                    <label><input type="checkbox" checked /> ADC</label>
-                    <label><input type="checkbox" checked /> Teaching Status</label>
-                  </div>
-
-                  <label><input type="radio" name="facility" /> Match my Facility</label>
-                  <select class="select-field">
-                    <option>Select facility</option>
-                    <option>Primary Hospital</option>
-                    <option>Regional Center</option>
-                  </select>
-                </div>
+                <h2>Account Information</h2>
               </div>
             </div>
 
-            <div class="row">
-              <div class="label">Rate Comparison Report</div>
-              <div style="display:grid; gap:8px;">
-                <label><input type="radio" name="rate" /> 50th percentile</label>
-                <label><input type="radio" name="rate" checked /> 75th percentile</label>
-                <label style="margin-top:6px;"><input type="checkbox" checked /> Automatically archive expired arrangements in Contracts</label>
-              </div>
+            <div class="portal-summary-block">
+              <strong>Organization</strong>
+              <span>MD Ranger Customer Use Only</span>
             </div>
 
-            <div class="row">
-              <div class="label">Change Password</div>
-              <div style="display:grid; gap:10px;">
-                <input class="text-field" type="password" placeholder="Current password" />
-                <input class="text-field" type="password" placeholder="New password" />
-                <input class="text-field" type="password" placeholder="Confirm password" />
-                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:4px;">
-                  <button style="padding:10px 14px; border:1px solid #bac8dd; border-radius:6px; background:#fff;">Cancel</button>
-                  <button style="padding:10px 14px; border:1px solid #031254; border-radius:6px; background:#031254; color:#fff;">Save</button>
-                </div>
-              </div>
+            <div class="portal-field-grid">
+              <label class="portal-field">
+                <span class="portal-field-label">First Name</span>
+                <input class="portal-input account-editable" name="firstName" type="text" value="Juan" disabled />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">Last Name</span>
+                <input class="portal-input account-editable" name="lastName" type="text" value="Cuartas" disabled />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">Telephone</span>
+                <input
+                  class="portal-input account-editable"
+                  name="telephone"
+                  type="tel"
+                  value="(415) 555-0199"
+                  disabled
+                />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">Email</span>
+                <input
+                  class="portal-input account-editable"
+                  name="email"
+                  type="email"
+                  value="juan.cuartas@ecgmc.com"
+                  disabled
+                />
+              </label>
             </div>
           </section>
-        </section>
-      </main>
-    </div>
+
+          <section class="portal-panel portal-section-card">
+            <div class="portal-section-header portal-section-header-compact">
+              <div>
+                <h2>Benchmark Search Defaults</h2>
+              </div>
+            </div>
+
+            <div class="portal-choice-grid">
+              <label class="portal-choice-card">
+                <input
+                  class="account-editable"
+                  type="radio"
+                  name="searchMode"
+                  value="default"
+                  checked
+                  disabled
+                />
+                <div>
+                  <strong>Default: All Benchmarks</strong>
+                </div>
+              </label>
+              <label class="portal-choice-card">
+                <input
+                  class="account-editable"
+                  type="radio"
+                  name="searchMode"
+                  value="custom"
+                  disabled
+                />
+                <div>
+                  <strong>Customize Benchmarks</strong>
+                </div>
+              </label>
+            </div>
+
+            <div class="portal-subsection-card">
+              <div class="portal-section-header portal-section-header-compact">
+                <div>
+                  <h2>Facility Characteristic Benchmarks</h2>
+                </div>
+              </div>
+              <div class="portal-chip-grid">
+                <label class="portal-check-chip">
+                  <input class="account-editable" name="benchmarks" type="checkbox" value="all-hospitals" disabled />
+                  <span>All Hospitals</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input
+                    class="account-editable"
+                    name="benchmarks"
+                    type="checkbox"
+                    value="trauma-status"
+                    checked
+                    disabled
+                  />
+                  <span>Trauma Status</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input
+                    class="account-editable"
+                    name="benchmarks"
+                    type="checkbox"
+                    value="bed-size"
+                    checked
+                    disabled
+                  />
+                  <span>Bed Size</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input
+                    class="account-editable"
+                    name="benchmarks"
+                    type="checkbox"
+                    value="urban-rural"
+                    checked
+                    disabled
+                  />
+                  <span>Urban / Rural</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input class="account-editable" name="benchmarks" type="checkbox" value="adc" checked disabled />
+                  <span>ADC</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input
+                    class="account-editable"
+                    name="benchmarks"
+                    type="checkbox"
+                    value="teaching-status"
+                    checked
+                    disabled
+                  />
+                  <span>Teaching Status</span>
+                </label>
+              </div>
+              <label class="portal-field portal-field-compact">
+                <span class="portal-field-label">Match My Facility</span>
+                <select class="portal-select account-editable" name="facilityMatch" disabled>
+                  <option>Select facility match</option>
+                  <option selected>Primary Hospital</option>
+                  <option>Regional Center</option>
+                  <option>Teaching Hospital</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="portal-panel portal-section-card">
+            <div class="portal-section-header portal-section-header-compact">
+              <div>
+                <h2>Rate Comparison Report</h2>
+              </div>
+            </div>
+
+            <div class="portal-choice-grid portal-choice-grid-compact">
+              <label class="portal-choice-card">
+                <input
+                  class="account-editable"
+                  type="radio"
+                  name="rateComparison"
+                  value="75th"
+                  checked
+                  disabled
+                />
+                <div>
+                  <strong>75th percentile</strong>
+                </div>
+              </label>
+              <label class="portal-choice-card">
+                <input
+                  class="account-editable"
+                  type="radio"
+                  name="rateComparison"
+                  value="50th"
+                  disabled
+                />
+                <div>
+                  <strong>50th percentile</strong>
+                </div>
+              </label>
+            </div>
+
+            <label class="portal-toggle-row">
+              <input
+                class="account-editable"
+                name="archiveContracts"
+                type="checkbox"
+                checked
+                disabled
+              />
+              <div>
+                <strong>Automatically archive expired arrangements in Contracts</strong>
+              </div>
+            </label>
+          </section>
+
+          <section class="portal-panel portal-section-card">
+            <div class="portal-section-header portal-section-header-compact">
+              <div>
+                <h2>Change Password</h2>
+              </div>
+            </div>
+
+            <div class="portal-field-grid portal-password-grid">
+              <label class="portal-field">
+                <span class="portal-field-label">Current Password</span>
+                <input
+                  class="portal-input account-editable"
+                  name="currentPassword"
+                  type="password"
+                  placeholder="Enter current password"
+                  disabled
+                />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">New Password</span>
+                <input
+                  class="portal-input account-editable"
+                  name="newPassword"
+                  type="password"
+                  placeholder="At least 8 characters"
+                  disabled
+                />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">Confirm Password</span>
+                <input
+                  class="portal-input account-editable"
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Re-enter new password"
+                  disabled
+                />
+              </label>
+            </div>
+          </section>
+        </div>
+      </form>
+    </main>
+
+    <script>
+      (() => {
+        const form = document.getElementById("account-form");
+        const editButton = document.getElementById("edit-account-button");
+        const saveButton = document.getElementById("save-account-button");
+        const cancelButton = document.getElementById("cancel-account-button");
+        const editableFields = Array.from(document.querySelectorAll(".account-editable"));
+        let draftState = {};
+
+        function snapshot() {
+          const values = {};
+          editableFields.forEach((field) => {
+            if (!field.name) return;
+            if (field.type === "checkbox" || field.type === "radio") {
+              values[`${field.name}:${field.value}`] = field.checked;
+            } else {
+              values[field.name] = field.value;
+            }
+          });
+          return values;
+        }
+
+        function restore(values) {
+          editableFields.forEach((field) => {
+            if (!field.name) return;
+            if (field.type === "checkbox" || field.type === "radio") {
+              field.checked = Boolean(values[`${field.name}:${field.value}`]);
+            } else if (Object.prototype.hasOwnProperty.call(values, field.name)) {
+              field.value = values[field.name];
+            }
+          });
+        }
+
+        function setEditing(isEditing) {
+          editableFields.forEach((field) => {
+            field.disabled = !isEditing;
+          });
+          editButton.classList.toggle("portal-hidden", isEditing);
+          saveButton.classList.toggle("portal-hidden", !isEditing);
+          cancelButton.classList.toggle("portal-hidden", !isEditing);
+        }
+
+        draftState = snapshot();
+        setEditing(false);
+
+        editButton.addEventListener("click", () => {
+          draftState = snapshot();
+          setEditing(true);
+        });
+
+        cancelButton.addEventListener("click", () => {
+          restore(draftState);
+          setEditing(false);
+        });
+
+        saveButton.addEventListener("click", () => {
+          if (!window.confirm("Save changes to My Account?")) return;
+          draftState = snapshot();
+          setEditing(false);
+        });
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+        });
+      })();
+    </script>
   </body>
 </html>

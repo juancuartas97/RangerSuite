@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="portal-body">
+    <header class="portal-topbar">
+      <span class="portal-menu-icon">☰</span>
+      <details class="portal-user-menu">
+        <summary class="portal-user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="portal-summary-caret">▾</span>
+        </summary>
+        <div class="portal-user-dropdown">
+          <a class="portal-user-link" href="account.html">My Account</a>
+          <a class="portal-user-link is-active" href="admin.html">Admin</a>
+        </div>
+      </details>
+    </header>
+
+    <main class="portal-page">
+      <div class="portal-breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <span>Admin</span>
+      </div>
+
+      <div class="portal-page-header-bar">
+        <div class="portal-header portal-header-compact">
+          <h1>Admin</h1>
+        </div>
+      </div>
+
+      <section class="portal-hub-grid portal-hub-grid-admin">
+        <a class="portal-hub-card portal-hub-card-primary" href="../user-management-portal/subscriber-detail.html">
+          <span class="portal-kicker">Subscribers</span>
+          <h2>Edit Subscriber</h2>
+          <p>Open subscriber management.</p>
+        </a>
+
+        <a class="portal-hub-card" href="../user-management-portal/user-detail.html">
+          <span class="portal-kicker">Users</span>
+          <h2>Edit Users</h2>
+          <p>Open user management.</p>
+        </a>
+
+        <section class="portal-hub-card portal-hub-card-muted">
+          <span class="portal-kicker">More</span>
+          <h2>Additional Modules</h2>
+          <p>Reserved for future admin tools.</p>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

@@ -9,12 +9,24 @@
   <body>
     <header class="topbar">
       <span class="menu-icon">☰</span>
-      <div class="user-meta"><span>🔔</span><span>Super User</span></div>
+      <details class="user-menu">
+        <summary class="user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="user-summary-caret">▾</span>
+        </summary>
+        <div class="user-dropdown">
+          <a class="user-dropdown-link" href="../updated-pages/account.html">My Account</a>
+          <a class="user-dropdown-link" href="../updated-pages/admin.html">Admin</a>
+        </div>
+      </details>
     </header>
 
     <main class="page" id="user-detail-page">
       <div class="breadcrumbs">
         <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <a href="../updated-pages/admin.html">Admin</a>
         <span>/</span>
         <span>User Management</span>
       </div>

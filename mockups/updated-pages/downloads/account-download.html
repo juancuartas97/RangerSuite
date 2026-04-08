@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Account</title>
+    <title>My Account</title>
     <style>
       :root {
         --navy: #05145f;
@@ -448,121 +448,948 @@
           gap: 12px;
         }
       }
+
+      /* Admin / account redesign shell */
+      .portal-body {
+        margin: 0;
+        background: #f3f5f9;
+        color: #18233a;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .portal-topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 24px;
+        background: #ffffff;
+        border-bottom: 1px solid #dfe6f2;
+      }
+
+      .portal-menu-icon {
+        color: #697991;
+        font-size: 1.2rem;
+      }
+
+      .portal-user-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #243c73;
+        font-weight: 700;
+      }
+
+      .portal-user-menu {
+        position: relative;
+      }
+
+      .portal-user-summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        color: #243c73;
+        font-weight: 700;
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .portal-user-summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .portal-user-menu[open] .portal-user-summary {
+        background: #f8fbff;
+        border-color: #dfe6f2;
+      }
+
+      .portal-summary-caret {
+        color: #697991;
+        font-size: 0.9rem;
+      }
+
+      .portal-user-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        min-width: 220px;
+        padding: 8px;
+        border: 1px solid #dfe6f2;
+        border-radius: 14px;
+        background: #ffffff;
+        box-shadow: 0 16px 34px rgba(14, 32, 76, 0.14);
+        z-index: 20;
+      }
+
+      .portal-user-link {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: #4d5f7d;
+        font-weight: 700;
+      }
+
+      .portal-user-link.is-active,
+      .portal-user-link:hover {
+        background: #edf4ff;
+        color: #243c73;
+      }
+
+      .portal-page {
+        padding: 18px;
+      }
+
+      .portal-breadcrumbs {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+        color: #697991;
+        font-weight: 600;
+      }
+
+      .portal-breadcrumbs a {
+        color: #36548e;
+      }
+
+      .portal-page-header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .portal-header {
+        margin-bottom: 18px;
+      }
+
+      .portal-header h1 {
+        margin: 0 0 10px;
+        font-size: 3rem;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        color: #1e2d54;
+      }
+
+      .portal-header-compact {
+        margin-bottom: 0;
+      }
+
+      .portal-header-compact h1 {
+        margin-bottom: 0;
+      }
+
+      .portal-page-copy {
+        margin: 0;
+        max-width: 820px;
+        color: #697991;
+        font-size: 1.1rem;
+        line-height: 1.55;
+      }
+
+      .portal-panel {
+        background: #ffffff;
+        border: 1px solid #dfe6f2;
+        border-radius: 18px;
+      }
+
+      .admin-scope-panel {
+        margin-bottom: 18px;
+        padding: 24px 26px;
+      }
+
+      .admin-scope-shell {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: flex-start;
+      }
+
+      .admin-scope-copy {
+        display: grid;
+        gap: 14px;
+        min-width: 0;
+      }
+
+      .portal-kicker {
+        color: #36548e;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .admin-scope-heading {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .admin-scope-heading h2 {
+        margin: 0;
+        color: #243c73;
+        font-size: 2rem;
+        letter-spacing: -0.03em;
+      }
+
+      .portal-pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .portal-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid #cad8f3;
+        background: #edf4ff;
+        color: #29406e;
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      .portal-meta-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .portal-meta-card {
+        min-width: 170px;
+        padding: 12px 14px;
+        border: 1px solid #dfe6f2;
+        border-radius: 14px;
+        background: #f8fbff;
+      }
+
+      .portal-meta-card strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #243c73;
+        font-size: 0.78rem;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .portal-meta-card span {
+        color: #697991;
+        font-weight: 700;
+      }
+
+      .portal-action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: flex-end;
+        margin-left: auto;
+      }
+
+      .portal-btn-primary,
+      .portal-btn-soft,
+      .portal-btn-muted {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 16px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .portal-btn-primary {
+        background: #36548e;
+        border-color: #36548e;
+        color: #ffffff;
+      }
+
+      .portal-btn-soft {
+        background: #edf7fb;
+        border-color: #b9d8e6;
+        color: #164f64;
+      }
+
+      .portal-btn-muted {
+        background: #f8fbff;
+        border-color: #dfe6f2;
+        color: #4d5f7d;
+      }
+
+      .portal-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.34fr) minmax(300px, 0.66fr);
+        gap: 18px;
+        align-items: start;
+      }
+
+      .portal-layout-single {
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 1120px;
+      }
+
+      .portal-card-stack,
+      .portal-side-column {
+        display: grid;
+        gap: 18px;
+      }
+
+      .portal-section-card,
+      .portal-side-card {
+        padding: 22px;
+      }
+
+      .portal-section-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: flex-start;
+        margin-bottom: 18px;
+      }
+
+      .portal-section-header-compact {
+        margin-bottom: 16px;
+      }
+
+      .portal-section-header h2,
+      .portal-side-card h3,
+      .portal-hub-card h2,
+      .portal-subsection-header h3 {
+        margin: 6px 0 8px;
+        color: #243c73;
+      }
+
+      .portal-section-header p,
+      .portal-side-card p,
+      .portal-subsection-header p,
+      .portal-hub-card p {
+        margin: 0;
+        color: #697991;
+        line-height: 1.55;
+      }
+
+      .portal-summary-block,
+      .portal-subsection-card {
+        padding: 16px;
+        border: 1px solid #dfe6f2;
+        border-radius: 14px;
+        background: #f8fbff;
+      }
+
+      .portal-summary-block {
+        margin-bottom: 18px;
+      }
+
+      .portal-summary-block strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #243c73;
+      }
+
+      .portal-summary-block span {
+        color: #697991;
+        font-weight: 600;
+      }
+
+      .portal-field-grid,
+      .portal-password-grid,
+      .portal-choice-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .portal-password-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .portal-choice-grid-compact {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-bottom: 18px;
+      }
+
+      .portal-field {
+        display: grid;
+        gap: 8px;
+      }
+
+      .portal-field-compact {
+        margin-top: 16px;
+        max-width: 360px;
+      }
+
+      .portal-field-label {
+        color: #243c73;
+        font-weight: 700;
+      }
+
+      .portal-input,
+      .portal-select {
+        width: 100%;
+        min-height: 46px;
+        padding: 10px 14px;
+        border: 1px solid #ccd7e9;
+        border-radius: 10px;
+        background: #f5f8fd;
+        color: #18233a;
+      }
+
+      .portal-input:disabled,
+      .portal-select:disabled {
+        color: #61728e;
+        background: #eef2f8;
+      }
+
+      .portal-choice-card {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 16px;
+        border: 1px solid #dfe6f2;
+        border-radius: 14px;
+        background: #ffffff;
+      }
+
+      .portal-choice-card strong,
+      .portal-toggle-row strong,
+      .portal-link-card strong {
+        display: block;
+        color: #243c73;
+      }
+
+      .portal-choice-card span,
+      .portal-link-card span {
+        display: block;
+        margin-top: 6px;
+        color: #697991;
+        line-height: 1.5;
+      }
+
+      .portal-choice-card input,
+      .portal-toggle-row input,
+      .portal-check-chip input {
+        margin-top: 3px;
+        accent-color: #36548e;
+      }
+
+      .portal-subsection-card {
+        margin-top: 18px;
+      }
+
+      .portal-subsection-header {
+        margin-bottom: 16px;
+      }
+
+      .portal-chip-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .portal-check-chip {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 12px 14px;
+        border: 1px solid #dfe6f2;
+        border-radius: 12px;
+        background: #ffffff;
+        color: #31476f;
+        font-weight: 600;
+      }
+
+      .portal-toggle-row {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 16px;
+        border: 1px solid #dfe6f2;
+        border-radius: 14px;
+        background: #f8fbff;
+      }
+
+      .portal-toggle-row p {
+        margin: 6px 0 0;
+        color: #697991;
+        line-height: 1.5;
+      }
+
+      .portal-plain-list {
+        margin: 14px 0 0;
+        padding-left: 18px;
+        color: #697991;
+        line-height: 1.7;
+      }
+
+      .portal-link-stack {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .portal-link-card {
+        display: block;
+        padding: 14px 16px;
+        border: 1px solid #dfe6f2;
+        border-radius: 14px;
+        background: #f8fbff;
+      }
+
+      .portal-link-card-active {
+        border-color: #b9d8e6;
+        background: #edf7fb;
+      }
+
+      .portal-hub-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .portal-hub-grid-admin {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .portal-hub-card {
+        display: block;
+        padding: 24px;
+        border: 1px solid #dfe6f2;
+        border-radius: 18px;
+        background: #ffffff;
+      }
+
+      .portal-hub-card-primary {
+        background: linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%);
+      }
+
+      .portal-hub-card-muted {
+        background: #f8fbff;
+      }
+
+      .portal-hidden {
+        display: none !important;
+      }
+
+      @media (max-width: 1120px) {
+        .portal-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .portal-password-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .portal-hub-grid-admin {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 900px) {
+        .portal-page {
+          padding: 14px;
+        }
+
+        .portal-header h1 {
+          font-size: 2.45rem;
+        }
+
+        .admin-scope-shell {
+          flex-direction: column;
+        }
+
+        .portal-page-header-bar {
+          flex-direction: column;
+        }
+
+        .portal-action-row {
+          margin-left: 0;
+          justify-content: flex-start;
+        }
+
+        .portal-field-grid,
+        .portal-choice-grid,
+        .portal-password-grid,
+        .portal-chip-grid,
+        .portal-hub-grid,
+        .portal-hub-grid-admin {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .portal-topbar {
+          padding: 16px 18px;
+        }
+
+        .portal-header h1 {
+          font-size: 2rem;
+        }
+
+        .admin-scope-panel,
+        .portal-section-card,
+        .portal-side-card {
+          padding: 18px;
+        }
+      }
     </style>
   </head>
-  <body>
-    <div class="doc-shell">
-      <aside class="doc-sidebar">
-        <div>
-          <div class="logo">MD<span>RANGER</span></div>
-          <div class="logo-sub">Powered by ECG</div>
-
-          <nav class="doc-nav" aria-label="Primary">
-            <a class="doc-link" href="#">Home</a>
-            <a class="doc-link" href="#">Benchmarks</a>
-            <a class="doc-link" href="documentation-download.html">Documentation</a>
-            <a class="doc-link" href="#">Contracts</a>
-            <a class="doc-link" href="survey-demographics-download.html">Trends</a>
-          </nav>
+  <body class="portal-body">
+    <header class="portal-topbar">
+      <span class="portal-menu-icon">☰</span>
+      <details class="portal-user-menu">
+        <summary class="portal-user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="portal-summary-caret">▾</span>
+        </summary>
+        <div class="portal-user-dropdown">
+          <a class="portal-user-link is-active" href="account-download.html">My Account</a>
+          <a class="portal-user-link" href="admin-download.html">Admin</a>
         </div>
+      </details>
+    </header>
 
-        <a class="doc-support" href="#">Support</a>
-      </aside>
+    <main class="portal-page">
+      <div class="portal-breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <span>My Account</span>
+      </div>
 
-      <main class="doc-main">
-        <header class="doc-topbar">
-          <h1>Account</h1>
-          <div class="user-actions">
-            <span>jcuartas</span>
-            <span>Help</span>
-          </div>
-        </header>
+      <div class="portal-page-header-bar">
+        <div class="portal-header portal-header-compact">
+          <h1>My Account</h1>
+        </div>
+        <div class="portal-action-row">
+          <button class="portal-btn-soft" id="edit-account-button" type="button">
+            Edit My Account
+          </button>
+          <button class="portal-btn-primary portal-hidden" id="save-account-button" type="button">
+            Submit Changes
+          </button>
+          <button class="portal-btn-muted portal-hidden" id="cancel-account-button" type="button">
+            Cancel
+          </button>
+        </div>
+      </div>
 
-        <section class="doc-content">
-          <section class="card form-card" style="box-shadow:none;">
-            <div class="row">
+      <form id="account-form" class="portal-layout portal-layout-single">
+        <div class="portal-card-stack">
+          <section class="portal-panel portal-section-card">
+            <div class="portal-section-header portal-section-header-compact">
               <div>
-                <div class="label">Organization</div>
-              </div>
-              <div>MD Ranger Customer Use Only</div>
-            </div>
-
-            <div class="row">
-              <div class="label">First Name</div>
-              <div><input class="text-field" value="Juan" /></div>
-            </div>
-
-            <div class="row">
-              <div class="label">Last Name</div>
-              <div><input class="text-field" value="Cuartas" /></div>
-            </div>
-
-            <div class="row">
-              <div class="label">Telephone</div>
-              <div><input class="text-field" placeholder="Enter telephone" /></div>
-            </div>
-
-            <div class="row">
-              <div class="label">Email</div>
-              <div><input class="text-field" placeholder="Enter email" /></div>
-            </div>
-
-            <div class="row">
-              <div>
-                <div class="label">Preferences</div>
-                <p class="help">Search</p>
-              </div>
-              <div>
-                <div style="display:grid; gap:10px; margin-bottom:12px;">
-                  <label><input type="radio" name="search" checked /> Default: All Benchmarks</label>
-                  <label><input type="radio" name="search" /> Customize Benchmarks</label>
-                </div>
-
-                <div class="choice-wrap">
-                  <label><input type="radio" name="facility" /> Display facility characteristic benchmarks</label>
-                  <div class="check-grid">
-                    <label><input type="checkbox" /> All Hospitals</label>
-                    <label><input type="checkbox" checked /> Trauma Status</label>
-                    <label><input type="checkbox" checked /> Bed Size</label>
-                    <label><input type="checkbox" checked /> Urban/Rural</label>
-                    <label><input type="checkbox" checked /> ADC</label>
-                    <label><input type="checkbox" checked /> Teaching Status</label>
-                  </div>
-
-                  <label><input type="radio" name="facility" /> Match my Facility</label>
-                  <select class="select-field">
-                    <option>Select facility</option>
-                    <option>Primary Hospital</option>
-                    <option>Regional Center</option>
-                  </select>
-                </div>
+                <h2>Account Information</h2>
               </div>
             </div>
 
-            <div class="row">
-              <div class="label">Rate Comparison Report</div>
-              <div style="display:grid; gap:8px;">
-                <label><input type="radio" name="rate" /> 50th percentile</label>
-                <label><input type="radio" name="rate" checked /> 75th percentile</label>
-                <label style="margin-top:6px;"><input type="checkbox" checked /> Automatically archive expired arrangements in Contracts</label>
-              </div>
+            <div class="portal-summary-block">
+              <strong>Organization</strong>
+              <span>MD Ranger Customer Use Only</span>
             </div>
 
-            <div class="row">
-              <div class="label">Change Password</div>
-              <div style="display:grid; gap:10px;">
-                <input class="text-field" type="password" placeholder="Current password" />
-                <input class="text-field" type="password" placeholder="New password" />
-                <input class="text-field" type="password" placeholder="Confirm password" />
-                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:4px;">
-                  <button style="padding:10px 14px; border:1px solid #bac8dd; border-radius:6px; background:#fff;">Cancel</button>
-                  <button style="padding:10px 14px; border:1px solid #031254; border-radius:6px; background:#031254; color:#fff;">Save</button>
-                </div>
-              </div>
+            <div class="portal-field-grid">
+              <label class="portal-field">
+                <span class="portal-field-label">First Name</span>
+                <input class="portal-input account-editable" name="firstName" type="text" value="Juan" disabled />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">Last Name</span>
+                <input class="portal-input account-editable" name="lastName" type="text" value="Cuartas" disabled />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">Telephone</span>
+                <input
+                  class="portal-input account-editable"
+                  name="telephone"
+                  type="tel"
+                  value="(415) 555-0199"
+                  disabled
+                />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">Email</span>
+                <input
+                  class="portal-input account-editable"
+                  name="email"
+                  type="email"
+                  value="juan.cuartas@ecgmc.com"
+                  disabled
+                />
+              </label>
             </div>
           </section>
-        </section>
-      </main>
-    </div>
+
+          <section class="portal-panel portal-section-card">
+            <div class="portal-section-header portal-section-header-compact">
+              <div>
+                <h2>Benchmark Search Defaults</h2>
+              </div>
+            </div>
+
+            <div class="portal-choice-grid">
+              <label class="portal-choice-card">
+                <input
+                  class="account-editable"
+                  type="radio"
+                  name="searchMode"
+                  value="default"
+                  checked
+                  disabled
+                />
+                <div>
+                  <strong>Default: All Benchmarks</strong>
+                </div>
+              </label>
+              <label class="portal-choice-card">
+                <input
+                  class="account-editable"
+                  type="radio"
+                  name="searchMode"
+                  value="custom"
+                  disabled
+                />
+                <div>
+                  <strong>Customize Benchmarks</strong>
+                </div>
+              </label>
+            </div>
+
+            <div class="portal-subsection-card">
+              <div class="portal-section-header portal-section-header-compact">
+                <div>
+                  <h2>Facility Characteristic Benchmarks</h2>
+                </div>
+              </div>
+              <div class="portal-chip-grid">
+                <label class="portal-check-chip">
+                  <input class="account-editable" name="benchmarks" type="checkbox" value="all-hospitals" disabled />
+                  <span>All Hospitals</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input
+                    class="account-editable"
+                    name="benchmarks"
+                    type="checkbox"
+                    value="trauma-status"
+                    checked
+                    disabled
+                  />
+                  <span>Trauma Status</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input
+                    class="account-editable"
+                    name="benchmarks"
+                    type="checkbox"
+                    value="bed-size"
+                    checked
+                    disabled
+                  />
+                  <span>Bed Size</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input
+                    class="account-editable"
+                    name="benchmarks"
+                    type="checkbox"
+                    value="urban-rural"
+                    checked
+                    disabled
+                  />
+                  <span>Urban / Rural</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input class="account-editable" name="benchmarks" type="checkbox" value="adc" checked disabled />
+                  <span>ADC</span>
+                </label>
+                <label class="portal-check-chip">
+                  <input
+                    class="account-editable"
+                    name="benchmarks"
+                    type="checkbox"
+                    value="teaching-status"
+                    checked
+                    disabled
+                  />
+                  <span>Teaching Status</span>
+                </label>
+              </div>
+              <label class="portal-field portal-field-compact">
+                <span class="portal-field-label">Match My Facility</span>
+                <select class="portal-select account-editable" name="facilityMatch" disabled>
+                  <option>Select facility match</option>
+                  <option selected>Primary Hospital</option>
+                  <option>Regional Center</option>
+                  <option>Teaching Hospital</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="portal-panel portal-section-card">
+            <div class="portal-section-header portal-section-header-compact">
+              <div>
+                <h2>Rate Comparison Report</h2>
+              </div>
+            </div>
+
+            <div class="portal-choice-grid portal-choice-grid-compact">
+              <label class="portal-choice-card">
+                <input
+                  class="account-editable"
+                  type="radio"
+                  name="rateComparison"
+                  value="75th"
+                  checked
+                  disabled
+                />
+                <div>
+                  <strong>75th percentile</strong>
+                </div>
+              </label>
+              <label class="portal-choice-card">
+                <input
+                  class="account-editable"
+                  type="radio"
+                  name="rateComparison"
+                  value="50th"
+                  disabled
+                />
+                <div>
+                  <strong>50th percentile</strong>
+                </div>
+              </label>
+            </div>
+
+            <label class="portal-toggle-row">
+              <input
+                class="account-editable"
+                name="archiveContracts"
+                type="checkbox"
+                checked
+                disabled
+              />
+              <div>
+                <strong>Automatically archive expired arrangements in Contracts</strong>
+              </div>
+            </label>
+          </section>
+
+          <section class="portal-panel portal-section-card">
+            <div class="portal-section-header portal-section-header-compact">
+              <div>
+                <h2>Change Password</h2>
+              </div>
+            </div>
+
+            <div class="portal-field-grid portal-password-grid">
+              <label class="portal-field">
+                <span class="portal-field-label">Current Password</span>
+                <input
+                  class="portal-input account-editable"
+                  name="currentPassword"
+                  type="password"
+                  placeholder="Enter current password"
+                  disabled
+                />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">New Password</span>
+                <input
+                  class="portal-input account-editable"
+                  name="newPassword"
+                  type="password"
+                  placeholder="At least 8 characters"
+                  disabled
+                />
+              </label>
+              <label class="portal-field">
+                <span class="portal-field-label">Confirm Password</span>
+                <input
+                  class="portal-input account-editable"
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Re-enter new password"
+                  disabled
+                />
+              </label>
+            </div>
+          </section>
+        </div>
+      </form>
+    </main>
+
+    <script>
+      (() => {
+        const form = document.getElementById("account-form");
+        const editButton = document.getElementById("edit-account-button");
+        const saveButton = document.getElementById("save-account-button");
+        const cancelButton = document.getElementById("cancel-account-button");
+        const editableFields = Array.from(document.querySelectorAll(".account-editable"));
+        let draftState = {};
+
+        function snapshot() {
+          const values = {};
+          editableFields.forEach((field) => {
+            if (!field.name) return;
+            if (field.type === "checkbox" || field.type === "radio") {
+              values[`${field.name}:${field.value}`] = field.checked;
+            } else {
+              values[field.name] = field.value;
+            }
+          });
+          return values;
+        }
+
+        function restore(values) {
+          editableFields.forEach((field) => {
+            if (!field.name) return;
+            if (field.type === "checkbox" || field.type === "radio") {
+              field.checked = Boolean(values[`${field.name}:${field.value}`]);
+            } else if (Object.prototype.hasOwnProperty.call(values, field.name)) {
+              field.value = values[field.name];
+            }
+          });
+        }
+
+        function setEditing(isEditing) {
+          editableFields.forEach((field) => {
+            field.disabled = !isEditing;
+          });
+          editButton.classList.toggle("portal-hidden", isEditing);
+          saveButton.classList.toggle("portal-hidden", !isEditing);
+          cancelButton.classList.toggle("portal-hidden", !isEditing);
+        }
+
+        draftState = snapshot();
+        setEditing(false);
+
+        editButton.addEventListener("click", () => {
+          draftState = snapshot();
+          setEditing(true);
+        });
+
+        cancelButton.addEventListener("click", () => {
+          restore(draftState);
+          setEditing(false);
+        });
+
+        saveButton.addEventListener("click", () => {
+          if (!window.confirm("Save changes to My Account?")) return;
+          draftState = snapshot();
+          setEditing(false);
+        });
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+        });
+      })();
+    </script>
   </body>
 </html>
