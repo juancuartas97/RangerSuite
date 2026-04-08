@@ -162,7 +162,8 @@
                 <div class="title-line">
                   <h2>Associated Users</h2>
                   <span>
-                    Filter, sort, and click any user row to open that record inside User Management.
+                    Filter, sort, and review each linked user's access hierarchy before opening the
+                    full record inside User Management.
                   </span>
                 </div>
                 <div class="table-actions">
@@ -241,9 +242,11 @@
                       <th>Last Name</th>
                       <th>First Name</th>
                       <th>Username</th>
+                      <th>User Sign In</th>
                       <th>Role</th>
-                      <th>Status</th>
                       <th>Facilities</th>
+                      <th>Permission Flags</th>
+                      <th>Status</th>
                       <th>Last Updated</th>
                     </tr>
                   </thead>
@@ -749,6 +752,11 @@
           .slice()
           .sort((left, right) => right.timestamp.localeCompare(left.timestamp))[0]?.timestamp || "Never";
 
+      const getEffectiveSignIn = (subscriber, user) => {
+        if (!subscriber || !user) return "";
+        return user.signInOverride || subscriber.sso;
+      };
+
       const statusClass = (status) => {
         if (status === "Active") return "status-active";
         if (status === "Pending MFA") return "status-pending";
@@ -922,7 +930,7 @@
         if (!filteredUsers.length) {
           elements.usersBody.innerHTML = `
             <tr>
-              <td colspan="7">
+              <td colspan="9">
                 <div class="search-empty">
                   No users matched the current search and filter settings.
                 </div>
@@ -939,9 +947,11 @@
                 <td>${user.last}</td>
                 <td>${user.first}</td>
                 <td>${user.username}</td>
+                <td>${getEffectiveSignIn(subscriber, user)}</td>
                 <td>${user.role}</td>
-                <td><span class="status-badge ${statusClass(user.status)}">${user.status}</span></td>
                 <td>${user.facilitySelections.length}</td>
+                <td>${user.permissions.join(", ")}</td>
+                <td><span class="status-badge ${statusClass(user.status)}">${user.status}</span></td>
                 <td>${latestAuditTimestamp(user)}</td>
               </tr>
             `

@@ -927,14 +927,7 @@
       };
 
       const getSubscriberUserCounts = (subscriber) => {
-        const archived = subscriber.users.filter(
-          (user) => user.status === "Disabled" || user.status === "Archived"
-        ).length;
-        const deleted = subscriber.users.filter((user) => user.status === "Deleted").length;
-        const parts = [`${subscriber.users.length} users`];
-        if (archived) parts.push(`${archived} archived`);
-        if (deleted) parts.push(`${deleted} deleted`);
-        return parts.join(" · ");
+        return `${subscriber.users.length} users`;
       };
 
       const sortUsers = (users) => {

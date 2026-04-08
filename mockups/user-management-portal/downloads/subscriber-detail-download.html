@@ -6,182 +6,304 @@
     <title>Subscriber Management</title>
     <style>
       :root {
-        --bg: #f2f4f8;
+        --bg: #f3f5f9;
         --surface: #ffffff;
-        --border: #e2e7f0;
+        --surface-soft: #f8fbff;
+        --border: #dfe6f2;
         --text: #18233a;
-        --muted: #76839a;
-        --navy: #0c1b63;
-        --navy-soft: #2f3d7b;
-        --row: #f8fafc;
+        --muted: #697991;
+        --navy: #243c73;
+        --navy-soft: #36548e;
+        --teal-soft: #edf7fb;
+        --teal-border: #b9d8e6;
+        --danger-text: #a2404a;
       }
 
       * { box-sizing: border-box; }
-      html, body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+
+      html, body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
       a { color: inherit; text-decoration: none; }
-      button, input, select { font: inherit; }
-      textarea { font: inherit; }
+      button, input, select, textarea { font: inherit; }
 
       .topbar {
-        height: 68px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 24px;
         background: var(--surface);
         border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 22px;
       }
-      .menu-icon { color: #909db5; font-size: 1.2rem; }
-      .user-meta { display: flex; align-items: center; gap: 16px; color: var(--navy); font-weight: 700; }
+
+      .menu-icon { color: var(--muted); font-size: 1.2rem; }
+      .user-meta { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--navy); }
 
       .page { padding: 18px; }
-      .page h1 { margin: 0 0 14px; font-size: 2rem; }
 
       .breadcrumbs {
         display: flex;
-        align-items: center;
         gap: 10px;
-        margin-bottom: 12px;
+        align-items: center;
+        margin-bottom: 14px;
         color: var(--muted);
         font-weight: 600;
       }
 
-      .breadcrumbs a {
-        color: #27417a;
+      .breadcrumbs a { color: var(--navy-soft); }
+
+      .page-toolbar, .page-header, .selector-row, .table-toolbar, .selected-user-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: flex-start;
       }
 
-      .breadcrumbs span {
-        color: #9aa5ba;
-      }
-
-      .tabs { display: flex; gap: 10px; margin-bottom: 14px; }
-      .tab {
-        border: 1px solid transparent;
-        border-radius: 8px;
-        padding: 9px 14px;
-        font-weight: 700;
-        color: #223467;
-      }
-      .tab.active { background: var(--navy); color: #fff; }
+      .page-toolbar { margin-bottom: 14px; }
+      .page-header { margin-bottom: 18px; }
+      .page-header h1 { margin: 0 0 10px; font-size: 2rem; }
+      .page-copy { margin: 0; max-width: 760px; color: var(--muted); line-height: 1.55; }
 
       .panel {
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 10px;
+        border-radius: 14px;
         overflow: visible;
       }
 
-      .section-head {
+      .selector-panel, .detail-panel, .selected-user-shell, .table-panel-tools { padding: 18px; }
+      .empty-selector-state, .subscriber-scope-bar { padding: 22px 24px; margin-bottom: 18px; }
+
+      .selector-copy { max-width: 520px; }
+      .selector-actions {
         display: flex;
-        justify-content: space-between;
+        gap: 10px;
         align-items: center;
-        gap: 12px;
-        padding: 16px;
-        border-bottom: 1px solid var(--border);
+        margin-left: auto;
       }
 
-      .title-line { display: flex; align-items: baseline; gap: 10px; }
-      .title-line h2 { margin: 0; font-size: 1.9rem; }
-      .title-line span { color: var(--muted); font-weight: 600; }
+      .selector-actions .action-bar {
+        justify-content: flex-end;
+      }
 
-      .search {
-        width: min(760px, 100%);
+      .selector-action-copy {
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.45;
+        max-width: 280px;
+      }
+
+      .linked-record-card {
+        display: block;
+        min-width: 240px;
+        padding: 14px 16px;
         border: 1px solid var(--border);
-        border-radius: 8px;
-        background: #f4f7fc;
-        padding: 10px 14px;
+        border-radius: 12px;
+        background: var(--surface-soft);
       }
 
-      .btn-primary {
-        border: 1px solid var(--navy-soft);
-        background: var(--navy-soft);
-        color: #fff;
-        border-radius: 8px;
-        padding: 9px 16px;
-        font-weight: 700;
-      }
+      .linked-record-card strong { display: block; margin-bottom: 6px; color: var(--navy); }
+      .linked-record-card span { color: var(--muted); line-height: 1.4; }
 
-      .btn-soft {
-        border: 1px solid #bfd7e3;
-        background: #edf7fb;
-        color: #164f64;
-        border-radius: 8px;
-        padding: 9px 16px;
-        font-weight: 700;
-      }
-
-      .table { width: 100%; border-collapse: collapse; }
-      .table th, .table td { border-bottom: 1px solid var(--border); padding: 13px 14px; text-align: left; }
-      .table th { color: #263f77; font-size: 0.95rem; }
-      .table td { color: #4f6282; }
-      .table td.role { color: #2f477f; font-weight: 700; }
-
-      .footer-pager {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px;
-        color: #2c416f;
-        font-weight: 700;
-      }
-
-      .btn-muted {
-        border: 1px solid var(--border);
-        background: #f8fbff;
-        color: #8392aa;
-        border-radius: 8px;
-        padding: 8px 14px;
-        font-weight: 700;
-      }
-
-      .btn-danger {
-        border: 1px solid #ebc1c6;
-        background: #fff5f6;
-        color: #a13a49;
-        border-radius: 8px;
-        padding: 8px 14px;
-        font-weight: 700;
-      }
-
-      .form-wrap { padding: 16px; }
-      .form-grid { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-      .form-row {
+      .workspace-grid {
         display: grid;
-        grid-template-columns: 260px 1fr;
-        gap: 20px;
-        padding: 16px;
-        border-bottom: 1px solid var(--border);
-        background: #fff;
-      }
-      .form-row:last-child { border-bottom: 0; }
-      .form-row label { color: #253d73; font-weight: 700; }
-      .form-row .hint { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
-      .field, .select {
-        width: 100%;
-        border: 1px solid #cfd8e8;
-        background: #f4f7fc;
-        border-radius: 6px;
-        min-height: 40px;
-        padding: 9px 12px;
+        grid-template-columns: minmax(290px, 0.78fr) minmax(0, 1.22fr);
+        gap: 18px;
       }
 
-      .field:disabled,
-      .select:disabled,
-      .textarea:disabled {
-        background: #eef2f8;
-        color: #65758f;
-        cursor: not-allowed;
+      #subscriber-detail-page .workspace-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       }
+
+      #user-detail-page .workspace-grid {
+        grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1.58fr);
+      }
+
+      .workspace-main, .workspace-side {
+        display: grid;
+        gap: 18px;
+        align-content: start;
+      }
+
+      .detail-panel h2, .table-toolbar h2, .panel-subsection h3 {
+        margin: 0 0 8px;
+        color: var(--navy);
+      }
+
+      .detail-panel p, .panel-subsection p, .title-line span {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .detail-fields, .dense-grid, .assignment-grid, .summary-card-grid, .permission-grid, .permission-summary-grid, .table-filter-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .table-filter-grid {
+        grid-template-columns: 1.3fr 0.9fr 0.9fr;
+      }
+
+      .detail-field { display: grid; gap: 8px; }
+      .detail-field.full { grid-column: 1 / -1; }
 
       .field-label {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        color: #253d73;
+        color: var(--navy);
         font-weight: 700;
       }
 
+      .field, .select {
+        width: 100%;
+        min-height: 42px;
+        padding: 10px 12px;
+        border: 1px solid #ccd7e9;
+        border-radius: 8px;
+        background: #f5f8fd;
+      }
+
+      .field:disabled, .select:disabled {
+        color: #61728e;
+        background: #eef2f8;
+      }
+
+      .field-textarea {
+        min-height: 112px;
+        resize: vertical;
+      }
+
+      .multi-select {
+        min-height: 132px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+
+      .field-help {
+        margin: -2px 0 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.45;
+      }
+
+      .selection-state-inner {
+        display: grid;
+        gap: 16px;
+        max-width: 620px;
+        margin: 0 auto;
+        text-align: left;
+      }
+
+      .selection-state-kicker,
+      .scope-kicker {
+        color: var(--navy-soft);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .selection-state-inner h2,
+      .scope-heading-row h2 {
+        margin: 0;
+        color: var(--navy);
+      }
+
+      .selection-state-inner p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .selection-state-controls {
+        max-width: 340px;
+      }
+
+      .scope-bar-shell {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: flex-start;
+      }
+
+      .scope-bar-copy {
+        display: grid;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .scope-heading-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .scope-counts {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #edf4ff;
+        color: #29406e;
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+
+      .scope-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .scope-meta-item {
+        min-width: 150px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface-soft);
+      }
+
+      .scope-meta-item strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--navy);
+        font-size: 0.78rem;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .scope-meta-item span {
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      .scope-bar-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-left: auto;
+      }
+
+      .scope-selector-shell {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
+      }
+
+      .scope-selector-field {
+        max-width: 320px;
+      }
+
       .info-icon {
+        z-index: 40;
         position: relative;
         display: inline-flex;
         align-items: center;
@@ -197,19 +319,18 @@
         cursor: help;
       }
 
-      .info-icon::after,
-      .info-icon::before {
+      .info-icon::before, .info-icon::after {
+        position: absolute;
         opacity: 0;
         pointer-events: none;
         transition: opacity 140ms ease, transform 140ms ease;
-        position: absolute;
-        z-index: 30;
+        z-index: 60;
       }
 
       .info-icon::after {
         content: attr(data-tooltip);
-        left: 50%;
         bottom: calc(100% + 10px);
+        left: 50%;
         transform: translateX(-50%) translateY(6px);
         width: min(260px, 52vw);
         padding: 10px 12px;
@@ -217,255 +338,55 @@
         background: #10265c;
         color: #fff;
         font-size: 0.82rem;
-        font-weight: 600;
         line-height: 1.45;
-        text-align: left;
         white-space: normal;
-        box-shadow: 0 14px 30px rgba(16, 38, 92, 0.22);
+        box-shadow: 0 12px 28px rgba(16, 38, 92, 0.24);
       }
 
       .info-icon::before {
         content: "";
-        left: 50%;
         bottom: calc(100% + 2px);
+        left: 50%;
         transform: translateX(-50%) translateY(6px);
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
         border-top: 8px solid #10265c;
       }
 
-      .info-icon:hover::after,
-      .info-icon:hover::before,
-      .info-icon:focus-visible::after,
-      .info-icon:focus-visible::before {
+      .info-icon:hover::before, .info-icon:hover::after, .info-icon:focus-visible::before, .info-icon:focus-visible::after {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
       }
 
-      .info-icon:focus-visible {
-        outline: 2px solid var(--navy-soft);
-        outline-offset: 2px;
-      }
-
-      .action-bar { display: flex; justify-content: flex-end; gap: 10px; margin: 0 0 12px; }
-
-      .audit-title { margin: 14px 0 0; font-size: 2rem; }
-
-      .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 18px;
-        margin-bottom: 18px;
-      }
-
-      .page-copy {
-        max-width: 720px;
-        margin: 8px 0 0;
-        color: var(--muted);
-        line-height: 1.55;
-      }
-
-      .page-toolbar {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 14px;
-      }
-
-      .action-stack {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-end;
-      }
-
-      .action-bar.wrap {
-        margin: 0;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-
-      .action-bar.tight {
-        margin: 0;
-        gap: 8px;
-      }
-
-      .detail-layout {
-        display: grid;
-        grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.95fr);
-        gap: 18px;
-      }
-
-      .detail-main,
-      .detail-stack {
-        display: grid;
-        gap: 18px;
-      }
-
-      .detail-panel {
-        padding: 20px;
-        border-radius: 16px;
-      }
-
-      .detail-panel h2 {
-        margin: 0 0 6px;
-        font-size: 1.35rem;
-        letter-spacing: -0.02em;
-      }
-
-      .detail-panel p {
-        margin: 0 0 18px;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      .detail-fields {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-      }
-
-      .detail-field {
-        display: grid;
-        gap: 7px;
-      }
-
-      .detail-field label {
-        color: #253d73;
-        font-weight: 700;
-      }
-
-      .detail-field.full {
-        grid-column: 1 / -1;
-      }
-
-      .detail-note {
-        margin: 0 0 14px;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      .stack-card {
-        padding: 20px;
-      }
-
-      .selector-panel {
-        margin-bottom: 14px;
-        padding: 20px;
-      }
-
-      .selector-panel .detail-field {
-        max-width: 420px;
-      }
-
-      .selector-copy {
-        max-width: 560px;
-      }
-
-      .selector-note {
-        margin: 6px 0 0;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      .selector-row {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 16px;
-      }
-
-      .selector-actions {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        margin-left: auto;
-      }
-
-      .textarea {
-        width: 100%;
-        min-height: 112px;
-        border: 1px solid #cfd8e8;
-        background: #f4f7fc;
-        border-radius: 6px;
-        padding: 10px 12px;
-        resize: vertical;
-      }
-
-      .summary-grid {
-        display: grid;
-        gap: 12px;
-      }
-
-      .summary-item {
-        padding: 12px 14px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: #f9fbff;
-      }
-
-      .summary-item strong {
-        display: block;
-        margin-bottom: 4px;
-        color: #27417a;
-        font-size: 0.86rem;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-      }
-
-      .summary-item span {
-        color: #324864;
-        font-weight: 700;
-      }
-
-      .linked-record {
-        display: grid;
-        gap: 12px;
-      }
-
-      .linked-record-card {
-        display: block;
-        padding: 14px 16px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: #f8fbff;
-      }
-
-      .linked-record-card strong {
-        display: block;
-        margin-bottom: 4px;
-        color: #20386d;
-      }
-
-      .linked-record-card span {
-        color: var(--muted);
-        line-height: 1.4;
-      }
-
-      .action-menu {
-        position: relative;
-      }
-
-      .action-menu summary {
-        list-style: none;
-      }
-
-      .action-menu summary::-webkit-details-marker {
-        display: none;
-      }
-
-      .menu-button {
+      .btn-primary, .btn-soft, .btn-muted, .menu-button, .table-row-link {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        border: 1px solid var(--border);
-        background: #f8fbff;
-        color: #31476f;
+        justify-content: center;
+        padding: 9px 14px;
         border-radius: 8px;
-        padding: 8px 14px;
+        border: 1px solid transparent;
         font-weight: 700;
         cursor: pointer;
       }
+
+      .btn-primary { background: var(--navy-soft); border-color: var(--navy-soft); color: #fff; }
+      .btn-soft, .table-row-link { background: var(--teal-soft); border-color: var(--teal-border); color: #164f64; }
+      .btn-muted, .menu-button { background: #f8fbff; border-color: var(--border); color: #4d5f7d; }
+
+      .action-bar, .inline-actions, .table-actions, .meta-pills, .chip-list {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .inline-actions {
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      .action-menu { position: relative; }
+      .action-menu summary { list-style: none; }
+      .action-menu summary::-webkit-details-marker { display: none; }
 
       .menu-list {
         position: absolute;
@@ -473,32 +394,25 @@
         right: 0;
         min-width: 220px;
         padding: 8px;
+        background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 12px;
-        background: #fff;
-        box-shadow: 0 16px 36px rgba(12, 27, 99, 0.12);
-        z-index: 20;
+        box-shadow: 0 16px 34px rgba(14, 32, 76, 0.14);
+        z-index: 10;
       }
 
       .menu-list button {
         width: 100%;
-        border: 0;
-        background: transparent;
-        color: #31476f;
-        text-align: left;
         padding: 10px 12px;
+        border: 0;
         border-radius: 8px;
-        cursor: pointer;
+        background: transparent;
+        text-align: left;
         font-weight: 600;
+        cursor: pointer;
       }
 
-      .menu-list button:hover {
-        background: #f4f8ff;
-      }
-
-      .menu-list .danger-item {
-        color: #a13a49;
-      }
+      .menu-list .danger-item { color: var(--danger-text); }
 
       .visually-hidden {
         position: absolute;
@@ -512,292 +426,135 @@
         border: 0;
       }
 
-      .flag-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
+      .summary-item, .permission-summary-card, .panel-subsection, .user-picker, .search-empty, .empty-state {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface-soft);
       }
 
-      .flag-item {
-        display: flex;
-        justify-content: space-between;
+      .summary-item, .permission-summary-card { padding: 14px 16px; }
+      .summary-item strong, .permission-summary-card strong { display: block; margin-bottom: 6px; color: var(--navy); }
+      .summary-item span, .permission-summary-card span { color: var(--muted); font-weight: 600; }
+
+      .panel-subsection { padding: 16px; }
+
+      .pill, .chip {
+        display: inline-flex;
         align-items: center;
-        gap: 12px;
-        padding: 12px 14px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: #f9fbff;
-      }
-
-      .flag-item input {
-        width: 18px;
-        height: 18px;
-        accent-color: var(--navy-soft);
-      }
-
-      .special-fields-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px 16px;
-      }
-
-      .user-chip-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        padding: 14px;
-      }
-
-      .user-chip {
-        padding: 8px 12px;
-        border: 1px solid var(--border);
+        padding: 6px 10px;
         border-radius: 999px;
-        background: #f7faff;
+        border: 1px solid #cad8f3;
+        background: #edf4ff;
         color: #29406e;
+        font-size: 0.84rem;
         font-weight: 700;
       }
 
-      .user-card-list {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-        padding: 14px;
-      }
-
-      .user-card {
-        padding: 14px 16px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: #f8fbff;
-      }
-
-      .user-card-header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 10px;
-      }
-
-      .user-card strong {
-        color: #27417a;
-      }
-
-      .user-card span {
-        color: var(--muted);
-        font-weight: 600;
-      }
-
-      #subscriber-detail-page .detail-fields {
-        grid-template-columns: repeat(2, minmax(240px, 340px));
-        justify-content: start;
-        gap: 14px 18px;
-      }
-
-      #subscriber-detail-page .detail-layout {
-        grid-template-columns: minmax(0, 698px) minmax(320px, 1fr);
-      }
-
-      #user-detail-page .workspace-grid {
-        grid-template-columns: minmax(300px, 0.76fr) minmax(0, 1.24fr);
-      }
-
-      #subscriber-detail-page .detail-panel {
-        padding: 18px;
-      }
-
-      #subscriber-detail-page .detail-panel p {
-        margin-bottom: 14px;
-      }
-
-      #subscriber-detail-page .flag-grid {
-        gap: 10px;
-      }
-
-      .table-panel-tools {
-        padding: 18px 18px 0;
-      }
-
-      .table-panel-tools .detail-field {
-        max-width: none;
-      }
-
-      .workspace-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
-        gap: 18px;
-        align-items: start;
-      }
-
-      .workspace-main,
-      .workspace-side {
-        display: grid;
-        gap: 18px;
-      }
-
-      .panel-subsection {
-        padding: 16px;
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        background: #fbfcff;
-      }
-
-      .panel-subsection h3 {
-        margin: 0 0 6px;
-        color: #213b70;
-        font-size: 1rem;
-      }
-
-      .panel-subsection p {
-        margin: 0 0 14px;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      .user-workbench {
-        display: grid;
-        grid-template-columns: minmax(250px, 0.78fr) minmax(0, 1fr);
-      }
-
-      .user-browser {
-        padding: 18px;
-        border-right: 1px solid var(--border);
-        background: #fbfcff;
-      }
-
-      .browser-search {
-        display: grid;
+      .chip-remove-button {
         gap: 8px;
-        margin-bottom: 14px;
+        background: #edf4ff;
+        cursor: pointer;
+      }
+
+      .chip-remove-button span:last-child {
+        font-size: 1rem;
+        line-height: 1;
+      }
+
+      .user-browser { display: grid; gap: 14px; }
+      .browser-search { display: grid; gap: 8px; }
+
+      #user-detail-page .workspace-side .selected-user-shell {
+        display: grid;
+        gap: 22px;
+        padding: 24px 24px 26px;
+      }
+
+      #user-detail-page .panel-subsection {
+        padding: 22px;
+      }
+
+      #user-detail-page .table-toolbar {
+        padding: 18px 20px;
+      }
+
+      #user-detail-page .table-shell {
+        padding: 0 20px 20px;
+      }
+
+      #user-roster-panel .table-actions {
+        margin-left: auto;
+      }
+
+      #user-detail-page.roster-collapsed .workspace-grid {
+        grid-template-columns: 96px minmax(0, 1fr);
+      }
+
+      #user-detail-page.roster-collapsed #user-roster-panel .title-line,
+      #user-detail-page.roster-collapsed #user-roster-shell {
+        display: none;
+      }
+
+      #user-detail-page.roster-collapsed #user-roster-panel .table-toolbar {
+        justify-content: center;
+        padding: 18px 12px;
+      }
+
+      #user-detail-page.roster-collapsed #user-roster-panel .table-actions {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      #user-detail-page.roster-collapsed #roster-toggle-button {
+        width: 100%;
+        min-height: 92px;
+        padding: 12px 8px;
+        white-space: normal;
       }
 
       .list-scroll {
         display: grid;
         gap: 10px;
-        max-height: 760px;
+        max-height: 720px;
         overflow: auto;
         padding-right: 4px;
       }
 
       .user-picker {
         width: 100%;
-        border: 1px solid var(--border);
-        border-radius: 14px;
         padding: 14px;
-        background: #fff;
         text-align: left;
-        cursor: pointer;
+        background: #fff;
       }
 
-      .user-picker:hover {
-        border-color: #bfd0eb;
-        background: #f8fbff;
-      }
+      .user-picker strong { display: block; color: var(--navy); }
+      .user-picker span, .user-picker small { display: block; margin-top: 6px; color: var(--muted); }
+      .user-picker.active { border-color: #8ea9de; background: #eef4ff; }
 
-      .user-picker.active {
-        border-color: #8ea9de;
-        background: #eef4ff;
-        box-shadow: inset 0 0 0 1px rgba(47, 61, 123, 0.08);
-      }
-
-      .user-picker strong {
-        display: block;
-        color: #20386d;
-      }
-
-      .user-picker span {
-        display: block;
-        margin-top: 4px;
-        color: #4f6282;
-        font-weight: 600;
-      }
-
-      .user-picker small {
-        display: block;
-        margin-top: 6px;
-        color: var(--muted);
-      }
-
-      .selected-user-shell {
-        display: grid;
-        gap: 16px;
-        padding: 18px;
-      }
-
-      .selected-user-header {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
+      .compact-user-header {
         align-items: flex-start;
+        gap: 18px;
       }
 
-      .selected-user-copy h2 {
-        margin: 0;
-        font-size: 1.4rem;
-      }
-
-      .selected-user-copy p {
-        margin: 6px 0 0;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      .meta-pills {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 10px;
-      }
-
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: #edf4ff;
-        border: 1px solid #cad8f3;
-        color: #29406e;
-        font-weight: 700;
-        font-size: 0.82rem;
-      }
-
-      .inline-actions {
-        display: flex;
-        flex-wrap: wrap;
+      .selected-user-info {
+        display: grid;
         gap: 10px;
-        justify-content: flex-end;
+        min-width: 0;
       }
 
-      .dense-grid,
-      .assignment-grid,
-      .summary-card-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-      }
-
-      .chip-list {
+      .selected-user-title-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 8px;
-      }
-
-      .chip {
-        display: inline-flex;
+        gap: 12px;
         align-items: center;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: #edf4ff;
-        border: 1px solid #cad8f3;
-        color: #29406e;
-        font-weight: 600;
-        font-size: 0.84rem;
       }
 
-      .permission-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px 12px;
+      .selected-user-title-row h2 {
+        margin: 0;
+      }
+
+      .selected-user-copy {
+        max-width: 680px;
       }
 
       .permission-grid label {
@@ -812,181 +569,153 @@
         font-weight: 600;
       }
 
-      .permission-grid input {
-        margin-top: 3px;
-        accent-color: var(--navy-soft);
-      }
-
-      .permission-summary-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .permission-summary-card {
-        display: grid;
-        gap: 6px;
-        padding: 14px 16px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: #f9fbff;
-      }
-
-      .permission-summary-card strong {
-        color: #20386d;
-      }
-
-      .permission-summary-card span {
-        color: var(--muted);
-        font-weight: 600;
-      }
-
-      .table-section {
-        overflow: hidden;
-      }
+      .permission-grid input { margin-top: 3px; accent-color: var(--navy-soft); }
 
       .table-toolbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
         padding: 16px 18px;
         border-bottom: 1px solid var(--border);
       }
 
-      .table-toolbar .title-line h2 {
-        font-size: 1.25rem;
-      }
-
-      .table-actions {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-
-      .table-filter-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) 220px;
-        gap: 14px;
-      }
+      .title-line { display: grid; gap: 4px; }
+      .table-panel-tools { border-bottom: 1px solid var(--border); }
 
       .table-shell {
         padding: 0 18px 18px;
         overflow-x: auto;
       }
 
-      .table-shell .table {
-        margin-top: 0;
+      .table { width: 100%; border-collapse: collapse; }
+      .table th, .table td {
+        padding: 13px 14px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+        vertical-align: top;
       }
 
-      .table-row-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 88px;
-        padding: 8px 12px;
-        border: 1px solid #bfd7e3;
-        border-radius: 8px;
-        background: #edf7fb;
-        color: #164f64;
-        font-weight: 700;
-      }
+      .table th { color: var(--navy); font-size: 0.94rem; }
+      .table td { color: #42526c; }
+      .search-empty { padding: 16px; text-align: center; color: var(--muted); }
 
-      .table-row-link:hover {
-        background: #e4f2f8;
-      }
-
-      .search-empty {
-        padding: 14px;
-        border: 1px dashed var(--border);
-        border-radius: 14px;
-        background: #fff;
-        color: var(--muted);
+      .empty-state {
+        padding: 32px;
         text-align: center;
       }
 
-      .maintenance-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-        margin-top: 18px;
+      .empty-state strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--navy);
+        font-size: 1.1rem;
       }
 
-      .hub-card {
-        padding: 20px;
-      }
-
-      .hub-card h2 {
-        margin: 0 0 8px;
-        font-size: 1.3rem;
-        letter-spacing: -0.02em;
-      }
-
-      .hub-card p {
-        margin: 0 0 14px;
+      .empty-state span {
         color: var(--muted);
-        line-height: 1.5;
+        line-height: 1.55;
       }
 
-      .hub-list {
-        margin: 0;
-        padding-left: 18px;
-        color: #37506f;
-        line-height: 1.7;
+      .is-hidden {
+        display: none !important;
       }
 
-      @media (max-width: 1100px) {
-        .section-head { flex-direction: column; align-items: stretch; }
-        .form-row { grid-template-columns: 1fr; gap: 10px; }
-        .page-header { flex-direction: column; }
-        .action-stack { align-items: stretch; width: 100%; }
-        .selector-row { flex-direction: column; align-items: stretch; }
-        .selector-actions { justify-content: flex-start; margin-left: 0; }
-        .detail-layout { grid-template-columns: 1fr; }
-        .workspace-grid { grid-template-columns: 1fr; }
-        .user-workbench { grid-template-columns: 1fr; }
-        .user-browser { border-right: 0; border-bottom: 1px solid var(--border); }
-        .detail-fields { grid-template-columns: 1fr; }
-        .flag-grid { grid-template-columns: 1fr; }
-        .special-fields-grid { grid-template-columns: 1fr; }
-        .user-card-list { grid-template-columns: 1fr; }
-        .dense-grid,
-        .assignment-grid,
-        .summary-card-grid,
-        .permission-grid,
-        .permission-summary-grid,
-        .table-filter-grid { grid-template-columns: 1fr; }
-        .selected-user-header { flex-direction: column; }
-        .table-toolbar { flex-direction: column; align-items: stretch; }
-        .maintenance-grid { grid-template-columns: 1fr; }
-        #subscriber-detail-page .detail-fields { grid-template-columns: 1fr; }
+      .clickable-row {
+        cursor: pointer;
       }
 
-
-      .inline-grid-2 {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
+      .clickable-row:hover td {
+        background: #f2f7ff;
       }
 
-      .check-matrix {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px 16px;
-        color: #324d85;
-        font-weight: 600;
+      .clickable-row:focus-within td {
+        background: #eef4ff;
       }
 
-      .check-matrix label {
-        display: flex;
+      .status-badge {
+        display: inline-flex;
         align-items: center;
-        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        border: 1px solid transparent;
+      }
+
+      .status-active {
+        background: #ebf8f0;
+        border-color: #cce8d7;
+        color: #256544;
+      }
+
+      .status-pending {
+        background: #fff6e8;
+        border-color: #f1dcc0;
+        color: #8e5d13;
+      }
+
+      .status-disabled,
+      .status-archived {
+        background: #f3f4f7;
+        border-color: #d8dce4;
+        color: #526073;
+      }
+
+      .status-deleted {
+        background: #fff0f0;
+        border-color: #f0c9c9;
+        color: #a2404a;
+      }
+
+      .table-note {
+        color: var(--muted);
+        font-size: 0.9rem;
       }
 
       @media (max-width: 1100px) {
-        .inline-grid-2,
-        .check-matrix {
+        .page-toolbar, .page-header, .selector-row, .table-toolbar, .selected-user-header {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .workspace-grid, .detail-fields, .dense-grid, .assignment-grid, .summary-card-grid, .permission-grid, .permission-summary-grid, .table-filter-grid {
           grid-template-columns: 1fr;
+        }
+
+        .selector-actions {
+          margin-left: 0;
+          justify-content: flex-start;
+        }
+
+        .scope-bar-shell {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .scope-bar-actions {
+          margin-left: 0;
+          justify-content: flex-start;
+        }
+
+        #user-detail-page.roster-collapsed .workspace-grid {
+          grid-template-columns: 1fr;
+        }
+
+        #user-detail-page.roster-collapsed #user-roster-panel .title-line,
+        #user-detail-page.roster-collapsed #user-roster-shell {
+          display: block;
+        }
+
+        #user-detail-page.roster-collapsed #user-roster-panel .table-toolbar {
+          justify-content: space-between;
+          padding: 18px 20px;
+        }
+
+        #user-detail-page.roster-collapsed #user-roster-panel .table-actions {
+          width: auto;
+        }
+
+        #user-detail-page.roster-collapsed #roster-toggle-button {
+          min-height: 42px;
+          width: auto;
+          white-space: nowrap;
         }
       }
     </style>
@@ -1008,22 +737,36 @@
         <div class="selector-row">
           <div class="detail-field selector-copy">
             <label class="field-label" for="subscriber-selector">
-              <span>Currently Viewing Subscriber</span>
+              <span>Select Subscriber</span>
               <span
                 class="info-icon"
                 tabindex="0"
-                title="Select a customer record to populate subscriber details, associated facilities, linked users, and the audit history below."
-                aria-label="Select Subscriber help"
+                title="Choose a subscriber to load customer profile fields, facilities, linked users, and audit history."
                 >i</span
               >
             </label>
-            <select id="subscriber-selector" class="select"></select>
+            <select id="subscriber-selector" class="select">
+              <option value="">Select a subscriber...</option>
+            </select>
           </div>
           <div class="selector-actions">
-            <a class="linked-record-card" id="open-user-management-link" href="user-detail-download.html" style="min-width: 240px;">
-              <strong>Open User Management</strong>
-              <span>Switch to the user-first view for this same subscriber relationship.</span>
-            </a>
+            <div class="action-bar is-hidden" id="subscriber-actions">
+              <button class="btn-soft" id="edit-subscriber-button" type="button">Edit Subscriber</button>
+              <button class="btn-primary is-hidden" id="save-subscriber-button" type="button">
+                Submit Changes
+              </button>
+              <button class="btn-muted is-hidden" id="cancel-subscriber-button" type="button">
+                Cancel
+              </button>
+              <details class="action-menu">
+                <summary class="menu-button">More Actions</summary>
+                <div class="menu-list">
+                  <button class="danger-item" id="delete-subscriber-button" type="button">
+                    Delete Subscriber
+                  </button>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
       </section>
@@ -1032,960 +775,1105 @@
         <div>
           <h1>Subscriber Management</h1>
           <p class="page-copy">
-            Subscriber setup and user administration stay connected here. Pick a subscriber, review
-            their profile on the left, and browse the linked user roster on the right before
-            opening a record in the dedicated user portal.
+            Start by selecting a subscriber. Customer information stays read-only until someone
+            explicitly enters edit mode.
           </p>
-        </div>
-        <div class="action-stack">
-          <div class="action-bar wrap">
-            <button class="btn-soft" id="edit-subscriber-button" type="button">Edit Subscriber</button>
-            <button class="btn-primary visually-hidden" id="save-subscriber-button" type="button">Submit Changes</button>
-            <details class="action-menu">
-              <summary class="menu-button">More Actions</summary>
-              <div class="menu-list">
-                <button type="button" class="danger-item" id="delete-subscriber-button">Delete Subscriber</button>
-              </div>
-            </details>
-          </div>
         </div>
       </div>
 
-      <div class="workspace-grid">
-        <div class="workspace-main">
-          <section class="panel detail-panel">
-            <h2>Subscriber Profile</h2>
-            <p>Core customer settings and relationship metadata for the currently selected subscriber.</p>
+      <section class="panel empty-state" id="subscriber-empty-state">
+        <strong>No subscriber selected</strong>
+        <span>
+          Pick a subscriber from the dropdown above to populate customer information, facilities,
+          linked users, and audit history.
+        </span>
+      </section>
 
-            <div class="detail-fields">
-              <div class="detail-field">
-                <label class="field-label" for="subscriber-id"><span>ID</span></label>
-                <input id="subscriber-id" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label class="field-label" for="subscriber-name">
-                  <span>Name</span>
-                  <span
-                    class="info-icon"
-                    tabindex="0"
-                    title="Used for benchmark report personalization and the customer-facing label throughout the portal."
-                    aria-label="Subscriber Name help"
-                    >i</span
-                  >
-                </label>
-                <input id="subscriber-name" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label class="field-label" for="subscriber-short-name">
-                  <span>Short Name</span>
-                  <span
-                    class="info-icon"
-                    tabindex="0"
-                    title="System shorthand for the subscriber. Keep it compact and avoid embedded spaces."
-                    aria-label="Short Name help"
-                    >i</span
-                  >
-                </label>
-                <input id="subscriber-short-name" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label class="field-label" for="subscriber-type">
-                  <span>Type</span>
-                  <span
-                    class="info-icon"
-                    tabindex="0"
-                    title="Customer classification used to drive reporting and benchmark context."
-                    aria-label="Subscriber Type help"
-                    >i</span
-                  >
-                </label>
-                <select id="subscriber-type" class="select subscriber-editable" disabled>
-                  <option>General Acute Care Hospital</option>
-                  <option>Children's Hospital</option>
-                  <option>Regional Health System</option>
-                  <option>Specialty Network</option>
-                </select>
-              </div>
-              <div class="detail-field">
-                <label class="field-label" for="subscriber-start-year">
-                  <span>Start Year</span>
-                  <span
-                    class="info-icon"
-                    tabindex="0"
-                    title="Year the customer relationship began."
-                    aria-label="Start Year help"
-                    >i</span
-                  >
-                </label>
-                <input id="subscriber-start-year" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label class="field-label" for="subscriber-lookup-year">
-                  <span>Look-Up Year</span>
-                  <span
-                    class="info-icon"
-                    tabindex="0"
-                    title="Use only when the subscriber should be constrained to a specific benchmark year."
-                    aria-label="Look-Up Year help"
-                    >i</span
-                  >
-                </label>
-                <input id="subscriber-lookup-year" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label class="field-label" for="account-executive">
-                  <span>Account Executive</span>
-                  <span
-                    class="info-icon"
-                    tabindex="0"
-                    title="Primary MD Ranger owner for the customer relationship."
-                    aria-label="Account Executive help"
-                    >i</span
-                  >
-                </label>
-                <input id="account-executive" class="field subscriber-editable" disabled />
-              </div>
-              <div class="detail-field">
-                <label class="field-label" for="subscriber-sso">
-                  <span>Single Sign On</span>
-                  <span
-                    class="info-icon"
-                    tabindex="0"
-                    title="Authentication mode available to portal users for this subscriber."
-                    aria-label="Single Sign On help"
-                    >i</span
-                  >
-                </label>
-                <select id="subscriber-sso" class="select subscriber-editable" disabled>
-                  <option>OTP</option>
-                  <option>Single Sign-On</option>
-                </select>
-              </div>
-            </div>
-          </section>
-
-          <section class="panel detail-panel">
-            <h2>Access and Permission Model</h2>
-            <p>
-              The former access flags now live as user-level permissions. This summary shows how
-              many linked users currently carry each permission for the selected subscriber.
-            </p>
-
-            <div id="subscriber-permission-summary" class="permission-summary-grid"></div>
-          </section>
-
-          <section class="panel table-section">
-            <div class="table-toolbar">
-              <div class="title-line">
-                <h2>Facilities</h2>
-                <span>Contract-entry facilities for the current subscriber.</span>
-              </div>
-              <div class="table-actions">
-                <button class="btn-muted" type="button" data-export-table="subscriber-facilities-table" data-export-name="subscriber-facilities">Export CSV</button>
-              </div>
-            </div>
-            <div class="table-panel-tools">
-              <div class="assignment-grid">
-                <div class="detail-field full">
-                  <label class="field-label" for="subscriber-facility-search">
-                    <span>Add Facility</span>
-                    <span class="info-icon" tabindex="0" title="Search the facility catalog for this subscriber and add a new contract-entry row before submitting." aria-label="Add Facility help">i</span>
-                  </label>
-                  <input
-                    id="subscriber-facility-search"
-                    class="field subscriber-editable"
-                    list="subscriber-facility-options"
-                    placeholder="Search facility name..."
-                    disabled
-                  />
-                  <datalist id="subscriber-facility-options"></datalist>
-                </div>
-              </div>
-            </div>
-            <div class="table-shell">
-              <table class="table" id="subscriber-facilities-table">
-                <thead>
-                  <tr>
-                    <th>Facility</th>
-                    <th>mdr_id</th>
-                    <th>Checklist URL</th>
-                    <th>Owned</th>
-                  </tr>
-                </thead>
-                <tbody id="subscriber-facilities-body"></tbody>
-              </table>
-            </div>
-          </section>
-        </div>
-
-        <div class="workspace-side">
-          <section class="panel table-section">
-            <div class="table-toolbar">
-              <div class="title-line">
-                <h2>Associated Users</h2>
-                <span>Search, sort, and open a linked user in the dedicated user portal.</span>
-              </div>
-              <div class="table-actions">
-                <button class="btn-muted" type="button" data-export-table="subscriber-users-table" data-export-name="subscriber-associated-users">Export CSV</button>
-              </div>
-            </div>
-            <div class="table-panel-tools">
-              <div class="table-filter-grid">
+      <div class="is-hidden" id="subscriber-content">
+        <div class="workspace-grid">
+          <div class="workspace-main">
+            <section class="panel detail-panel">
+              <h2>Subscriber Profile</h2>
+              <p>Core customer settings and relationship metadata for the currently selected subscriber.</p>
+              <div class="detail-fields">
                 <div class="detail-field">
-                  <label class="field-label" for="subscriber-user-search">
-                    <span>Search Users</span>
-                    <span class="info-icon" tabindex="0" title="Users are organized as Last, First, Username to make scanning large subscriber rosters easier." aria-label="Search Users help">i</span>
-                  </label>
-                  <input id="subscriber-user-search" class="field" type="search" placeholder="Search by last name, first name, or username..." />
+                  <label class="field-label" for="subscriber-id"><span>ID</span></label>
+                  <input id="subscriber-id" class="field subscriber-editable" disabled />
                 </div>
                 <div class="detail-field">
-                  <label class="field-label" for="subscriber-user-sort">
-                    <span>Sort By</span>
-                    <span class="info-icon" tabindex="0" title="Sort the roster by name, username, role, status, or facility count before opening a record in the user portal." aria-label="Sort Users help">i</span>
+                  <label class="field-label" for="subscriber-name">
+                    <span>Name</span>
+                    <span
+                      class="info-icon"
+                      tabindex="0"
+                      title="Used for benchmark report personalization and the customer-facing label throughout the portal."
+                      >i</span
+                    >
                   </label>
-                  <select id="subscriber-user-sort" class="select">
-                    <option value="last">Last Name</option>
-                    <option value="first">First Name</option>
-                    <option value="username">Username</option>
-                    <option value="role">Role</option>
-                    <option value="status">Status</option>
-                    <option value="facilities">Facility Count</option>
+                  <input id="subscriber-name" class="field subscriber-editable" disabled />
+                </div>
+                <div class="detail-field">
+                  <label class="field-label" for="subscriber-short-name">
+                    <span>Short Name</span>
+                    <span
+                      class="info-icon"
+                      tabindex="0"
+                      title="System shorthand for the subscriber. Keep it compact and avoid embedded spaces."
+                      >i</span
+                    >
+                  </label>
+                  <input id="subscriber-short-name" class="field subscriber-editable" disabled />
+                </div>
+                <div class="detail-field">
+                  <label class="field-label" for="subscriber-type">
+                    <span>Type</span>
+                    <span
+                      class="info-icon"
+                      tabindex="0"
+                      title="Customer classification used to drive reporting and benchmark context."
+                      >i</span
+                    >
+                  </label>
+                  <select id="subscriber-type" class="select subscriber-editable" disabled>
+                    <option>General Acute Care Hospital</option>
+                    <option>Regional Health System</option>
+                    <option>Specialty Network</option>
+                    <option>Children's Hospital</option>
+                  </select>
+                </div>
+                <div class="detail-field">
+                  <label class="field-label" for="start-year"><span>Start Year</span></label>
+                  <input id="start-year" class="field subscriber-editable" disabled />
+                </div>
+                <div class="detail-field">
+                  <label class="field-label" for="lookup-year"><span>Look-Up Year</span></label>
+                  <input id="lookup-year" class="field subscriber-editable" disabled />
+                </div>
+                <div class="detail-field">
+                  <label class="field-label" for="account-exec"><span>Account Executive</span></label>
+                  <input id="account-exec" class="field subscriber-editable" disabled />
+                </div>
+                <div class="detail-field">
+                  <label class="field-label" for="sso">
+                    <span>Single Sign On</span>
+                    <span
+                      class="info-icon"
+                      tabindex="0"
+                      title="Authentication mode available to portal users for this subscriber."
+                      >i</span
+                    >
+                  </label>
+                  <select id="sso" class="select subscriber-editable" disabled>
+                    <option>OTP</option>
+                    <option>Single Sign-On</option>
                   </select>
                 </div>
               </div>
-            </div>
-            <div class="table-shell">
-              <table class="table" id="subscriber-users-table">
-                <thead>
-                  <tr>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Permissions</th>
-                    <th>Facilities</th>
-                    <th>Status</th>
-                    <th>Open</th>
-                  </tr>
-                </thead>
-                <tbody id="subscriber-user-table-body"></tbody>
-              </table>
-            </div>
-          </section>
-        </div>
-      </div>
+            </section>
 
-      <section class="panel table-section" style="margin-top: 18px;">
-        <div class="table-toolbar">
-          <div class="title-line">
-            <h2>Audit Trail</h2>
-            <span>Track changes made to subscriber or user fields from one place.</span>
+            <section class="panel">
+              <div class="table-toolbar">
+                <div class="title-line">
+                  <h2>Associated Users</h2>
+                  <span>
+                    Filter, sort, and review each linked user's access hierarchy before opening the
+                    full record inside User Management.
+                  </span>
+                </div>
+                <div class="table-actions">
+                  <button
+                    class="btn-muted"
+                    type="button"
+                    data-export-table="users-table"
+                    data-export-name="subscriber-associated-users"
+                  >
+                    Export CSV
+                  </button>
+                </div>
+              </div>
+              <div class="table-panel-tools">
+                <div class="table-filter-grid">
+                  <div class="detail-field">
+                    <label class="field-label" for="user-search">
+                      <span>Search Users</span>
+                      <span
+                        class="info-icon"
+                        tabindex="0"
+                        title="Search by last name, first name, username, title, role, or email."
+                        >i</span
+                      >
+                    </label>
+                    <input
+                      id="user-search"
+                      class="field"
+                      type="search"
+                      placeholder="Search by last name, first name, or username..."
+                    />
+                  </div>
+                  <div class="detail-field">
+                    <label class="field-label" for="user-status-filter">
+                      <span>Status Filter</span>
+                      <span
+                        class="info-icon"
+                        tabindex="0"
+                        title="Use Archived / Disabled or Deleted filters when you need to find users that no longer appear in the active roster."
+                        >i</span
+                      >
+                    </label>
+                    <select id="user-status-filter" class="select">
+                      <option value="all">All Users</option>
+                      <option value="active">Active / Pending</option>
+                      <option value="archived">Archived / Disabled</option>
+                      <option value="deleted">Deleted</option>
+                    </select>
+                  </div>
+                  <div class="detail-field">
+                    <label class="field-label" for="user-sort">
+                      <span>Sort By</span>
+                      <span
+                        class="info-icon"
+                        tabindex="0"
+                        title="Sort the roster by name, username, role, status, facility count, or most recent update."
+                        >i</span
+                      >
+                    </label>
+                    <select id="user-sort" class="select">
+                      <option value="last">Last Name</option>
+                      <option value="first">First Name</option>
+                      <option value="username">Username</option>
+                      <option value="role">Role</option>
+                      <option value="status">Status</option>
+                      <option value="facilities">Facility Count</option>
+                      <option value="updated">Last Updated</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="table-shell">
+                <table class="table" id="users-table">
+                  <thead>
+                    <tr>
+                      <th>Last Name</th>
+                      <th>First Name</th>
+                      <th>Username</th>
+                      <th>User Sign In</th>
+                      <th>Role</th>
+                      <th>Facilities</th>
+                      <th>Permission Flags</th>
+                      <th>Status</th>
+                      <th>Last Updated</th>
+                    </tr>
+                  </thead>
+                  <tbody id="users-body"></tbody>
+                </table>
+              </div>
+            </section>
           </div>
-          <div class="table-actions">
-            <button class="btn-muted" type="button" data-export-table="subscriber-audit-table" data-export-name="subscriber-audit-trail">Export CSV</button>
+
+          <div class="workspace-side">
+            <section class="panel">
+              <div class="table-toolbar">
+                <div class="title-line">
+                  <h2>Facilities</h2>
+                  <span>Contract-entry facilities for the current subscriber.</span>
+                </div>
+                <div class="table-actions">
+                  <button
+                    class="btn-muted"
+                    type="button"
+                    data-export-table="facilities-table"
+                    data-export-name="subscriber-facilities"
+                  >
+                    Export CSV
+                  </button>
+                </div>
+              </div>
+              <div class="table-panel-tools">
+                <div class="assignment-grid">
+                  <div class="detail-field full">
+                    <label class="field-label" for="facility-add">
+                      <span>Add Facility</span>
+                      <span
+                        class="info-icon"
+                        tabindex="0"
+                        title="Search the facility catalog for this subscriber and add a new contract-entry row before submitting."
+                        >i</span
+                      >
+                    </label>
+                    <input
+                      id="facility-add"
+                      class="field subscriber-editable"
+                      list="facility-options"
+                      placeholder="Search facility name..."
+                      disabled
+                    />
+                    <datalist id="facility-options"></datalist>
+                  </div>
+                </div>
+              </div>
+              <div class="table-shell">
+                <table class="table" id="facilities-table">
+                  <thead>
+                    <tr>
+                      <th>Facility</th>
+                      <th>MDR ID</th>
+                      <th>Checklist URL</th>
+                      <th>Owned</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="facilities-body"></tbody>
+                </table>
+              </div>
+            </section>
           </div>
         </div>
-        <div class="table-shell">
-          <table class="table" id="subscriber-audit-table">
-            <thead>
-              <tr>
-                <th>Timestamp</th>
-                <th>Record</th>
-                <th>Field</th>
-                <th>Before</th>
-                <th>After</th>
-                <th>Changed By</th>
-              </tr>
-            </thead>
-            <tbody id="subscriber-audit-body"></tbody>
-          </table>
-        </div>
-      </section>
+
+        <section class="panel" style="margin-top: 18px;">
+          <div class="table-toolbar">
+            <div class="title-line">
+              <h2>Audit Trail</h2>
+              <span>Track changes made to subscriber or linked-user fields from one place.</span>
+            </div>
+            <div class="table-actions">
+              <button
+                class="btn-muted"
+                type="button"
+                data-export-table="audit-table"
+                data-export-name="subscriber-audit-trail"
+              >
+                Export CSV
+              </button>
+            </div>
+          </div>
+          <div class="table-shell">
+            <table class="table" id="audit-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Record</th>
+                  <th>Field</th>
+                  <th>Before</th>
+                  <th>After</th>
+                  <th>Changed By</th>
+                </tr>
+              </thead>
+              <tbody id="audit-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
     </main>
 
     <script>
-      {
-        const permissionCatalog = [
-          "Subscriber",
-          "Portal Access",
-          "Reportable",
-          "Customer",
-          "Coverage Only",
-          "MD/AD/LE Only",
-          "Salary Data",
-          "Demo",
-        ];
-
-        const subscribers = [
-          {
-            key: "amg",
-            label: "Acadiana Management Group",
-            id: "88",
-            shortName: "AMG",
-            type: "General Acute Care Hospital",
-            startYear: "2018",
-            lookupYear: "",
-            accountExecutive: "sayala@ecgmc.com",
-            sso: "OTP",
-            flags: {
-              subscriber: true,
-              portalAccess: true,
-              reportable: true,
-              customer: true,
-              coverageOnly: false,
-              mdAdLeOnly: false,
-              salaryData: false,
-              demo: false,
+      const subscribers = [
+        {
+          key: "amg",
+          label: "Acadiana Management Group",
+          id: "88",
+          shortName: "AMG",
+          type: "General Acute Care Hospital",
+          startYear: "2018",
+          lookupYear: "2024",
+          accountExecutive: "Stephanie Ayala",
+          sso: "OTP",
+          facilityCatalog: [
+            "AMG Physical Rehabilitation Hospital - Covington",
+            "AMG Specialty Hospital - Albuquerque",
+            "AMG Specialty Hospital - Central Indiana",
+            "AMG Specialty Hospital - Zachary",
+            "AMG Specialty Hospital - Houma"
+          ],
+          facilities: [
+            {
+              name: "AMG Physical Rehabilitation Hospital - Covington",
+              mdrId: "LA193097",
+              checklistUrl: "covington-checklist",
+              owned: true
             },
-            facilityCatalog: [
-              "AMG Physical Rehabilitation Hospital - Covington",
-              "AMG Specialty Hospital - Albuquerque",
-              "AMG Specialty Hospital - Central Indiana",
-              "AMG Specialty Hospital - Zachary",
-              "AMG Specialty Hospital - Houma",
-            ],
-            facilities: [
-              { name: "AMG Physical Rehabilitation Hospital - Covington", mdrId: "LA193097", checklistUrl: "covington-checklist", owned: true },
-              { name: "AMG Specialty Hospital - Albuquerque", mdrId: "NM322003", checklistUrl: "albuquerque-checklist", owned: true },
-              { name: "AMG Specialty Hospital - Central Indiana", mdrId: "IN152025", checklistUrl: "central-indiana-checklist", owned: true },
-            ],
-            audit: [
-              { timestamp: "2026-03-31 15:42", record: "Subscriber", field: "Portal Access", before: "Disabled", after: "Enabled", by: "Stephanie Ayala" },
-              { timestamp: "2026-03-28 09:16", record: "Subscriber", field: "Single Sign On", before: "OTP", after: "Single Sign-On", by: "Jordan Hargrave" },
-            ],
-            users: [
-              {
-                id: "sayala",
-                first: "Stephanie",
-                last: "Ayala",
-                username: "sayala",
-                title: "Subscriber Admin",
-                email: "sayala@ecgmc.com",
-                phone: "(555) 110-2200",
-                status: "Active",
-                role: "Subscriber Admin",
-                permissions: ["Portal Access", "Export Tables", "Audit Review", "User Administration"],
-                facilitySelections: [
-                  "AMG Physical Rehabilitation Hospital - Covington",
-                  "AMG Specialty Hospital - Albuquerque",
-                ],
-                assignments: [
-                  {
-                    customer: "Acadiana Management Group",
-                    facilities: [
-                      "AMG Physical Rehabilitation Hospital - Covington",
-                      "AMG Specialty Hospital - Albuquerque",
-                    ],
-                    role: "Subscriber Admin",
-                    permissions: ["Portal Access", "Export Tables", "Audit Review", "User Administration"],
-                  },
-                ],
-                audit: [
-                  { timestamp: "2026-03-30 12:18", record: "User", field: "Role", before: "Facility Manager", after: "Subscriber Admin", by: "Jordan Hargrave" },
-                  { timestamp: "2026-03-22 08:04", record: "User", field: "Permissions", before: "Portal Access", after: "Portal Access, Export Tables", by: "Stephanie Ayala" },
-                ],
-              },
-              {
-                id: "tfontenot",
-                first: "Theo",
-                last: "Fontenot",
-                username: "tfontenot",
-                title: "Analyst",
-                email: "tfontenot@amgexample.com",
-                phone: "(555) 111-0045",
-                status: "Active",
-                role: "Analyst",
-                permissions: ["Portal Access", "Benchmark Reporting", "Export Tables"],
-                facilitySelections: ["AMG Specialty Hospital - Central Indiana"],
-                assignments: [
-                  {
-                    customer: "Acadiana Management Group",
-                    facilities: ["AMG Specialty Hospital - Central Indiana"],
-                    role: "Analyst",
-                    permissions: ["Portal Access", "Benchmark Reporting", "Export Tables"],
-                  },
-                ],
-                audit: [
-                  { timestamp: "2026-03-21 14:11", record: "User", field: "Facilities", before: "2 facilities", after: "1 facility", by: "Stephanie Ayala" },
-                ],
-              },
-              {
-                id: "ahankton",
-                first: "April",
-                last: "Hankton",
-                username: "ahankton",
-                title: "Facility Manager",
-                email: "ahankton@amgexample.com",
-                phone: "(555) 111-0770",
-                status: "Pending MFA",
-                role: "Facility Manager",
-                permissions: ["Portal Access", "Facility Editing", "Benchmark Reporting"],
-                facilitySelections: ["AMG Physical Rehabilitation Hospital - Covington"],
-                assignments: [
-                  {
-                    customer: "Acadiana Management Group",
-                    facilities: ["AMG Physical Rehabilitation Hospital - Covington"],
-                    role: "Facility Manager",
-                    permissions: ["Portal Access", "Facility Editing", "Benchmark Reporting"],
-                  },
-                ],
-                audit: [
-                  { timestamp: "2026-03-18 09:44", record: "User", field: "Status", before: "Invited", after: "Pending MFA", by: "Stephanie Ayala" },
-                ],
-              },
-              {
-                id: "jhargrave",
-                first: "Jordan",
-                last: "Hargrave",
-                username: "jhargrave",
-                title: "Read Only",
-                email: "jhargrave@amgexample.com",
-                phone: "(555) 111-0922",
-                status: "Active",
-                role: "Read Only",
-                permissions: ["Portal Access"],
-                facilitySelections: ["AMG Specialty Hospital - Zachary"],
-                assignments: [
-                  {
-                    customer: "Acadiana Management Group",
-                    facilities: ["AMG Specialty Hospital - Zachary"],
-                    role: "Read Only",
-                    permissions: ["Portal Access"],
-                  },
-                ],
-                audit: [
-                  { timestamp: "2026-03-12 17:05", record: "User", field: "Permissions", before: "None", after: "Portal Access", by: "Stephanie Ayala" },
-                ],
-              },
-            ],
-          },
-          {
-            key: "blend",
-            label: "Blend Subscriber",
-            id: "143",
-            shortName: "BLEND",
-            type: "Regional Health System",
-            startYear: "2021",
-            lookupYear: "2024",
-            accountExecutive: "mstelly@ecgmc.com",
-            sso: "Single Sign-On",
-            flags: {
-              subscriber: true,
-              portalAccess: true,
-              reportable: true,
-              customer: true,
-              coverageOnly: false,
-              mdAdLeOnly: false,
-              salaryData: true,
-              demo: false,
+            {
+              name: "AMG Specialty Hospital - Albuquerque",
+              mdrId: "NM322003",
+              checklistUrl: "albuquerque-checklist",
+              owned: true
             },
-            facilityCatalog: ["Blend North", "Blend South", "Blend Coastal"],
-            facilities: [
-              { name: "Blend North", mdrId: "BL10001", checklistUrl: "blend-north-checklist", owned: true },
-              { name: "Blend South", mdrId: "BL10002", checklistUrl: "blend-south-checklist", owned: true },
-            ],
-            audit: [
-              { timestamp: "2026-03-29 11:12", record: "Subscriber", field: "Salary Data", before: "Disabled", after: "Enabled", by: "Mason Stelly" },
-            ],
-            users: [
-              {
-                id: "rvasquez",
-                first: "Rae",
-                last: "Vasquez",
-                username: "rvasquez",
-                title: "Subscriber Admin",
-                email: "rvasquez@blendexample.com",
-                phone: "(555) 222-1001",
-                status: "Active",
-                role: "Subscriber Admin",
-                permissions: ["Portal Access", "Export Tables", "User Administration"],
-                facilitySelections: ["Blend North", "Blend South"],
-                assignments: [
-                  {
-                    customer: "Blend Subscriber",
-                    facilities: ["Blend North", "Blend South"],
-                    role: "Subscriber Admin",
-                    permissions: ["Portal Access", "Export Tables", "User Administration"],
-                  },
-                ],
-                audit: [
-                  { timestamp: "2026-03-15 07:40", record: "User", field: "Role", before: "Analyst", after: "Subscriber Admin", by: "Mason Stelly" },
-                ],
-              },
-              {
-                id: "mlewis",
-                first: "Morgan",
-                last: "Lewis",
-                username: "mlewis",
-                title: "Analyst",
-                email: "mlewis@blendexample.com",
-                phone: "(555) 222-1141",
-                status: "Suspended",
-                role: "Analyst",
-                permissions: ["Portal Access", "Benchmark Reporting"],
-                facilitySelections: ["Blend Coastal"],
-                assignments: [
-                  {
-                    customer: "Blend Subscriber",
-                    facilities: ["Blend Coastal"],
-                    role: "Analyst",
-                    permissions: ["Portal Access", "Benchmark Reporting"],
-                  },
-                ],
-                audit: [
-                  { timestamp: "2026-03-11 16:25", record: "User", field: "Status", before: "Active", after: "Suspended", by: "Rae Vasquez" },
-                ],
-              },
-            ],
-          },
-          {
-            key: "ecg",
-            label: "ECG Subscriber",
-            id: "244",
-            shortName: "ECG",
-            type: "Specialty Network",
-            startYear: "2019",
-            lookupYear: "",
-            accountExecutive: "jhargrave@ecgmc.com",
-            sso: "OTP",
-            flags: {
-              subscriber: true,
-              portalAccess: true,
-              reportable: false,
-              customer: true,
-              coverageOnly: true,
-              mdAdLeOnly: false,
-              salaryData: false,
-              demo: false,
+            {
+              name: "AMG Specialty Hospital - Central Indiana",
+              mdrId: "IN152025",
+              checklistUrl: "central-indiana-checklist",
+              owned: true
+            }
+          ],
+          audit: [
+            {
+              timestamp: "2026-04-07 09:08",
+              record: "Subscriber",
+              field: "Single Sign On",
+              before: "OTP",
+              after: "Single Sign-On",
+              by: "Jordan Hargrave"
             },
-            facilityCatalog: ["ECG East", "ECG West"],
-            facilities: [
-              { name: "ECG East", mdrId: "EC20001", checklistUrl: "ecg-east-checklist", owned: true },
-              { name: "ECG West", mdrId: "EC20002", checklistUrl: "ecg-west-checklist", owned: false },
-            ],
-            audit: [
-              { timestamp: "2026-03-10 10:10", record: "Subscriber", field: "Coverage ONLY", before: "Off", after: "On", by: "Jordan Hargrave" },
-            ],
-            users: [
-              {
-                id: "cmoore",
-                first: "Casey",
-                last: "Moore",
-                username: "cmoore",
-                title: "Read Only",
-                email: "cmoore@ecgexample.com",
-                phone: "(555) 333-0187",
-                status: "Active",
-                role: "Read Only",
-                permissions: ["Portal Access"],
-                facilitySelections: ["ECG East"],
-                assignments: [
-                  {
-                    customer: "ECG Subscriber",
-                    facilities: ["ECG East"],
-                    role: "Read Only",
-                    permissions: ["Portal Access"],
-                  },
-                ],
-                audit: [
-                  { timestamp: "2026-03-04 08:51", record: "User", field: "Customer", before: "Affiliate", after: "Customer", by: "Jordan Hargrave" },
-                ],
-              },
-              {
-                id: "sgibbs",
-                first: "Sam",
-                last: "Gibbs",
-                username: "sgibbs",
-                title: "Facility Manager",
-                email: "sgibbs@ecgexample.com",
-                phone: "(555) 333-0291",
-                status: "Active",
-                role: "Facility Manager",
-                permissions: ["Portal Access", "Facility Editing"],
-                facilitySelections: ["ECG East", "ECG West"],
-                assignments: [
-                  {
-                    customer: "ECG Subscriber",
-                    facilities: ["ECG East", "ECG West"],
-                    role: "Facility Manager",
-                    permissions: ["Portal Access", "Facility Editing"],
-                  },
-                ],
-                audit: [
-                  { timestamp: "2026-03-02 12:33", record: "User", field: "Facilities", before: "ECG East", after: "ECG East, ECG West", by: "Jordan Hargrave" },
-                ],
-              },
-            ],
-          },
-        ];
+            {
+              timestamp: "2026-04-02 18:02",
+              record: "Subscriber",
+              field: "Short Name",
+              before: "ACMG",
+              after: "AMG",
+              by: "Stephanie Ayala"
+            }
+          ],
+          users: [
+            {
+              id: "sayala",
+              first: "Stephanie",
+              last: "Ayala",
+              username: "sayala",
+              title: "Director, Subscriber Operations",
+              email: "sayala@ecgmc.com",
+              phone: "(555) 110-2200",
+              status: "Active",
+              role: "Subscriber Admin",
+              permissions: ["Subscriber", "Portal Access", "Reportable", "Customer", "Salary Data"],
+              facilitySelections: [
+                "AMG Physical Rehabilitation Hospital - Covington",
+                "AMG Specialty Hospital - Albuquerque"
+              ],
+              audit: [
+                {
+                  timestamp: "2026-04-07 08:20",
+                  record: "User",
+                  field: "Role",
+                  before: "Facility Manager",
+                  after: "Subscriber Admin",
+                  by: "Jordan Hargrave"
+                }
+              ]
+            },
+            {
+              id: "tfontenot",
+              first: "Theo",
+              last: "Fontenot",
+              username: "tfontenot",
+              title: "Senior Financial Analyst",
+              email: "tfontenot@amgexample.com",
+              phone: "(555) 111-0045",
+              status: "Active",
+              role: "Analyst",
+              permissions: ["Portal Access", "Reportable", "MD/AD/LE Only"],
+              facilitySelections: ["AMG Specialty Hospital - Central Indiana"],
+              audit: [
+                {
+                  timestamp: "2026-04-05 14:11",
+                  record: "User",
+                  field: "Facilities",
+                  before: "2 facilities",
+                  after: "1 facility",
+                  by: "Stephanie Ayala"
+                }
+              ]
+            },
+            {
+              id: "ahankton",
+              first: "April",
+              last: "Hankton",
+              username: "ahankton",
+              title: "Facility Operations Manager",
+              email: "ahankton@amgexample.com",
+              phone: "(555) 111-0770",
+              status: "Disabled",
+              role: "Facility Manager",
+              permissions: ["Portal Access", "Customer"],
+              facilitySelections: ["AMG Physical Rehabilitation Hospital - Covington"],
+              audit: [
+                {
+                  timestamp: "2026-03-29 09:44",
+                  record: "User",
+                  field: "Status",
+                  before: "Active",
+                  after: "Disabled",
+                  by: "Stephanie Ayala"
+                }
+              ]
+            },
+            {
+              id: "jhargrave",
+              first: "Jordan",
+              last: "Hargrave",
+              username: "jhargrave",
+              title: "Former Contract Lead",
+              email: "jhargrave@amgexample.com",
+              phone: "(555) 111-0922",
+              status: "Deleted",
+              role: "Read Only",
+              permissions: ["Portal Access", "Coverage Only"],
+              facilitySelections: [],
+              audit: [
+                {
+                  timestamp: "2026-03-12 17:05",
+                  record: "User",
+                  field: "Status",
+                  before: "Disabled",
+                  after: "Deleted",
+                  by: "Stephanie Ayala"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: "blend",
+          label: "Blend Subscriber",
+          id: "143",
+          shortName: "BLEND",
+          type: "Regional Health System",
+          startYear: "2021",
+          lookupYear: "2025",
+          accountExecutive: "Mason Stelly",
+          sso: "Single Sign-On",
+          facilityCatalog: ["Blend North", "Blend South", "Blend Coastal", "Blend Metro"],
+          facilities: [
+            {
+              name: "Blend North",
+              mdrId: "BL10001",
+              checklistUrl: "blend-north-checklist",
+              owned: true
+            },
+            {
+              name: "Blend South",
+              mdrId: "BL10002",
+              checklistUrl: "blend-south-checklist",
+              owned: true
+            },
+            {
+              name: "Blend Coastal",
+              mdrId: "BL10003",
+              checklistUrl: "blend-coastal-checklist",
+              owned: false
+            }
+          ],
+          audit: [
+            {
+              timestamp: "2026-04-01 11:12",
+              record: "Subscriber",
+              field: "Account Executive",
+              before: "Jordan Hargrave",
+              after: "Mason Stelly",
+              by: "Rae Vasquez"
+            }
+          ],
+          users: [
+            {
+              id: "rvasquez",
+              first: "Rae",
+              last: "Vasquez",
+              username: "rvasquez",
+              title: "Regional Subscriber Admin",
+              email: "rvasquez@blendexample.com",
+              phone: "(555) 222-1001",
+              status: "Active",
+              role: "Subscriber Admin",
+              permissions: ["Subscriber", "Portal Access", "Customer", "Reportable"],
+              facilitySelections: ["Blend North", "Blend South"],
+              audit: [
+                {
+                  timestamp: "2026-04-03 07:40",
+                  record: "User",
+                  field: "Role",
+                  before: "Analyst",
+                  after: "Subscriber Admin",
+                  by: "Mason Stelly"
+                }
+              ]
+            },
+            {
+              id: "mlewis",
+              first: "Morgan",
+              last: "Lewis",
+              username: "mlewis",
+              title: "Benchmark Analyst",
+              email: "mlewis@blendexample.com",
+              phone: "(555) 222-1141",
+              status: "Pending MFA",
+              role: "Analyst",
+              permissions: ["Portal Access", "Reportable"],
+              facilitySelections: ["Blend Coastal"],
+              audit: [
+                {
+                  timestamp: "2026-04-06 10:25",
+                  record: "User",
+                  field: "Status",
+                  before: "Invited",
+                  after: "Pending MFA",
+                  by: "Rae Vasquez"
+                }
+              ]
+            },
+            {
+              id: "cgaines",
+              first: "Clare",
+              last: "Gaines",
+              username: "cgaines",
+              title: "Former Quality Lead",
+              email: "cgaines@blendexample.com",
+              phone: "(555) 222-1488",
+              status: "Deleted",
+              role: "Read Only",
+              permissions: ["Portal Access", "Coverage Only"],
+              facilitySelections: ["Blend Metro"],
+              audit: [
+                {
+                  timestamp: "2026-03-18 16:04",
+                  record: "User",
+                  field: "Status",
+                  before: "Disabled",
+                  after: "Deleted",
+                  by: "Rae Vasquez"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          key: "coastal",
+          label: "Coastal Care Alliance",
+          id: "244",
+          shortName: "CCA",
+          type: "Specialty Network",
+          startYear: "2019",
+          lookupYear: "",
+          accountExecutive: "Jordan Hargrave",
+          sso: "OTP",
+          facilityCatalog: ["Coastal East", "Coastal West", "Coastal Rehab"],
+          facilities: [
+            {
+              name: "Coastal East",
+              mdrId: "CC20001",
+              checklistUrl: "coastal-east-checklist",
+              owned: true
+            },
+            {
+              name: "Coastal West",
+              mdrId: "CC20002",
+              checklistUrl: "coastal-west-checklist",
+              owned: false
+            }
+          ],
+          audit: [
+            {
+              timestamp: "2026-03-30 10:10",
+              record: "Subscriber",
+              field: "Look-Up Year",
+              before: "",
+              after: "2025",
+              by: "Jordan Hargrave"
+            }
+          ],
+          users: [
+            {
+              id: "sgibbs",
+              first: "Sam",
+              last: "Gibbs",
+              username: "sgibbs",
+              title: "Facility Operations Lead",
+              email: "sgibbs@coastalexample.com",
+              phone: "(555) 333-0291",
+              status: "Active",
+              role: "Facility Manager",
+              permissions: ["Portal Access", "Customer"],
+              facilitySelections: ["Coastal East", "Coastal West"],
+              audit: [
+                {
+                  timestamp: "2026-03-31 12:33",
+                  record: "User",
+                  field: "Facilities",
+                  before: "Coastal East",
+                  after: "Coastal East, Coastal West",
+                  by: "Jordan Hargrave"
+                }
+              ]
+            },
+            {
+              id: "cmoore",
+              first: "Casey",
+              last: "Moore",
+              username: "cmoore",
+              title: "Read Only Reviewer",
+              email: "cmoore@coastalexample.com",
+              phone: "(555) 333-0187",
+              status: "Disabled",
+              role: "Read Only",
+              permissions: ["Portal Access", "Coverage Only"],
+              facilitySelections: ["Coastal East"],
+              audit: [
+                {
+                  timestamp: "2026-03-24 08:51",
+                  record: "User",
+                  field: "Status",
+                  before: "Active",
+                  after: "Disabled",
+                  by: "Jordan Hargrave"
+                }
+              ]
+            }
+          ]
+        }
+      ];
 
-        const mapLegacyPermissions = (permissions, role, subscriber) => {
-          if (permissions.every((permission) => permissionCatalog.includes(permission))) {
-            return permissionCatalog.filter((permission) => permissions.includes(permission));
-          }
+      const params = new URLSearchParams(window.location.search);
+      const state = {
+        subscriberId: subscribers.some((subscriber) => subscriber.key === params.get("subscriber"))
+          ? params.get("subscriber")
+          : "",
+        subscriberEditing: false,
+        draftFacilities: null,
+        userSearch: "",
+        userStatusFilter: "all",
+        userSort: "last"
+      };
 
-          const mapped = new Set();
-          if (permissions.includes("Portal Access")) mapped.add("Portal Access");
-          if (permissions.includes("Benchmark Reporting")) {
-            mapped.add("Reportable");
-            if (role === "Analyst") mapped.add("MD/AD/LE Only");
-          }
-          if (permissions.includes("Export Tables") || permissions.includes("User Administration") || role === "Subscriber Admin") {
-            mapped.add("Subscriber");
-          }
-          if (permissions.includes("Audit Review") || permissions.includes("Facility Editing") || role === "Facility Manager" || role === "Subscriber Admin") {
-            mapped.add("Customer");
-          }
-          if (role === "Read Only") mapped.add("Coverage Only");
-          if (subscriber.flags?.salaryData && role === "Subscriber Admin") mapped.add("Salary Data");
-          if (subscriber.flags?.demo) mapped.add("Demo");
+      const elements = {
+        selector: document.getElementById("subscriber-selector"),
+        actions: document.getElementById("subscriber-actions"),
+        emptyState: document.getElementById("subscriber-empty-state"),
+        content: document.getElementById("subscriber-content"),
+        subscriberId: document.getElementById("subscriber-id"),
+        subscriberName: document.getElementById("subscriber-name"),
+        subscriberShortName: document.getElementById("subscriber-short-name"),
+        subscriberType: document.getElementById("subscriber-type"),
+        startYear: document.getElementById("start-year"),
+        lookupYear: document.getElementById("lookup-year"),
+        accountExec: document.getElementById("account-exec"),
+        sso: document.getElementById("sso"),
+        facilityAdd: document.getElementById("facility-add"),
+        facilityOptions: document.getElementById("facility-options"),
+        facilitiesBody: document.getElementById("facilities-body"),
+        userSearch: document.getElementById("user-search"),
+        userStatusFilter: document.getElementById("user-status-filter"),
+        userSort: document.getElementById("user-sort"),
+        usersBody: document.getElementById("users-body"),
+        auditBody: document.getElementById("audit-body"),
+        editButton: document.getElementById("edit-subscriber-button"),
+        saveButton: document.getElementById("save-subscriber-button"),
+        cancelButton: document.getElementById("cancel-subscriber-button"),
+        deleteButton: document.getElementById("delete-subscriber-button")
+      };
 
-          return permissionCatalog.filter((permission) => mapped.has(permission));
-        };
+      const getSubscriber = () =>
+        subscribers.find((subscriber) => subscriber.key === state.subscriberId);
 
-        subscribers.forEach((subscriber) => {
-          subscriber.users.forEach((user) => {
-            const normalizedPermissions = mapLegacyPermissions(user.permissions, user.role, subscriber);
-            user.permissions = normalizedPermissions;
-            user.assignments = user.assignments.map((assignment) => ({
-              ...assignment,
-              permissions: normalizedPermissions.slice(),
-            }));
-          });
+      const latestAuditTimestamp = (user) =>
+        user.audit
+          .slice()
+          .sort((left, right) => right.timestamp.localeCompare(left.timestamp))[0]?.timestamp || "Never";
+
+      const getEffectiveSignIn = (subscriber, user) => {
+        if (!subscriber || !user) return "";
+        return user.signInOverride || subscriber.sso;
+      };
+
+      const statusClass = (status) => {
+        if (status === "Active") return "status-active";
+        if (status === "Pending MFA") return "status-pending";
+        if (status === "Deleted") return "status-deleted";
+        return "status-disabled";
+      };
+
+      const matchesStatusFilter = (user) => {
+        if (state.userStatusFilter === "all") return true;
+        if (state.userStatusFilter === "active") {
+          return user.status === "Active" || user.status === "Pending MFA";
+        }
+        if (state.userStatusFilter === "archived") {
+          return user.status === "Disabled" || user.status === "Archived";
+        }
+        if (state.userStatusFilter === "deleted") {
+          return user.status === "Deleted";
+        }
+        return true;
+      };
+
+      const sortUsers = (users) => {
+        const compareText = (leftValue, rightValue) => leftValue.localeCompare(rightValue);
+
+        return users.slice().sort((left, right) => {
+          if (state.userSort === "first") {
+            return compareText(
+              `${left.first} ${left.last} ${left.username}`.toLowerCase(),
+              `${right.first} ${right.last} ${right.username}`.toLowerCase()
+            );
+          }
+          if (state.userSort === "username") {
+            return compareText(left.username.toLowerCase(), right.username.toLowerCase());
+          }
+          if (state.userSort === "role") {
+            return compareText(
+              `${left.role} ${left.last}`.toLowerCase(),
+              `${right.role} ${right.last}`.toLowerCase()
+            );
+          }
+          if (state.userSort === "status") {
+            return compareText(
+              `${left.status} ${left.last}`.toLowerCase(),
+              `${right.status} ${right.last}`.toLowerCase()
+            );
+          }
+          if (state.userSort === "facilities") {
+            if (left.facilitySelections.length !== right.facilitySelections.length) {
+              return right.facilitySelections.length - left.facilitySelections.length;
+            }
+            return compareText(
+              `${left.last} ${left.first}`.toLowerCase(),
+              `${right.last} ${right.first}`.toLowerCase()
+            );
+          }
+          if (state.userSort === "updated") {
+            return latestAuditTimestamp(right).localeCompare(latestAuditTimestamp(left));
+          }
+          return compareText(
+            `${left.last} ${left.first} ${left.username}`.toLowerCase(),
+            `${right.last} ${right.first} ${right.username}`.toLowerCase()
+          );
+        });
+      };
+
+      const syncTooltips = () => {
+        document.querySelectorAll(".info-icon[title]").forEach((icon) => {
+          icon.dataset.tooltip = icon.getAttribute("title");
+        });
+      };
+
+      const syncUrl = () => {
+        const next = new URLSearchParams();
+        if (state.subscriberId) next.set("subscriber", state.subscriberId);
+        history.replaceState({}, "", `${window.location.pathname}${next.toString() ? `?${next.toString()}` : ""}`);
+      };
+
+      const syncEditState = () => {
+        document.querySelectorAll(".subscriber-editable").forEach((field) => {
+          field.disabled = !state.subscriberEditing;
         });
 
-        const params = new URLSearchParams(window.location.search);
-        const initialSubscriberId = subscribers.some((subscriber) => subscriber.key === params.get("subscriber"))
-          ? params.get("subscriber")
-          : "amg";
+        elements.editButton.disabled = !state.subscriberId;
+        elements.editButton.classList.toggle("is-hidden", state.subscriberEditing);
+        elements.saveButton.classList.toggle("is-hidden", !state.subscriberEditing);
+        elements.cancelButton.classList.toggle("is-hidden", !state.subscriberEditing);
+      };
 
-        const state = {
-          subscriberId: initialSubscriberId,
-          subscriberEditing: false,
-          userSearch: "",
-          userSort: "last",
-        };
+      const exportTable = (tableId, filename) => {
+        const table = document.getElementById(tableId);
+        if (!table) return;
 
-        const elements = {
-          subscriberSelector: document.getElementById("subscriber-selector"),
-          openUserManagementLink: document.getElementById("open-user-management-link"),
-          subscriberName: document.getElementById("subscriber-name"),
-          subscriberShortName: document.getElementById("subscriber-short-name"),
-          subscriberIdField: document.getElementById("subscriber-id"),
-          subscriberType: document.getElementById("subscriber-type"),
-          subscriberStartYear: document.getElementById("subscriber-start-year"),
-          subscriberLookupYear: document.getElementById("subscriber-lookup-year"),
-          accountExecutive: document.getElementById("account-executive"),
-          subscriberSso: document.getElementById("subscriber-sso"),
-          permissionSummary: document.getElementById("subscriber-permission-summary"),
-          subscriberFacilitySearch: document.getElementById("subscriber-facility-search"),
-          subscriberFacilityOptions: document.getElementById("subscriber-facility-options"),
-          subscriberFacilitiesBody: document.getElementById("subscriber-facilities-body"),
-          subscriberAuditBody: document.getElementById("subscriber-audit-body"),
-          editSubscriberButton: document.getElementById("edit-subscriber-button"),
-          saveSubscriberButton: document.getElementById("save-subscriber-button"),
-          deleteSubscriberButton: document.getElementById("delete-subscriber-button"),
-          userSearch: document.getElementById("subscriber-user-search"),
-          userSort: document.getElementById("subscriber-user-sort"),
-          userTableBody: document.getElementById("subscriber-user-table-body"),
-        };
+        const rows = Array.from(table.querySelectorAll("tr")).map((row) =>
+          Array.from(row.querySelectorAll("th, td"))
+            .map((cell) => `"${cell.innerText.replace(/\n/g, " ").replace(/"/g, '""')}"`)
+            .join(",")
+        );
 
-        const getSubscriber = () => subscribers.find((subscriber) => subscriber.key === state.subscriberId);
-        const getUsersForSubscriber = () => getSubscriber().users;
-        const formatUserLabel = (user) => `${user.last}, ${user.first} (@${user.username})`;
-        const syncUrl = () => {
-          const nextParams = new URLSearchParams();
-          nextParams.set("subscriber", state.subscriberId);
-          window.history.replaceState({}, "", `${window.location.pathname}?${nextParams.toString()}`);
-        };
+        const blob = new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${filename}.csv`;
+        link.click();
+        URL.revokeObjectURL(url);
+      };
 
-        const buildUserPortalHref = (subscriberKey, userId = "") => {
-          const nextParams = new URLSearchParams();
-          nextParams.set("subscriber", subscriberKey);
-          if (userId) nextParams.set("user", userId);
-          return `user-detail.html?${nextParams.toString()}`;
-        };
-
-        const exportTable = (tableId, filename) => {
-          const table = document.getElementById(tableId);
-          if (!table) return;
-
-          const rows = Array.from(table.querySelectorAll("tr")).map((row) =>
-            Array.from(row.querySelectorAll("th, td"))
-              .map((cell) => `"${cell.innerText.replace(/\n/g, " ").replace(/"/g, '""')}"`)
-              .join(",")
-          );
-
-          const blob = new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8;" });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `${filename}.csv`;
-          link.click();
-          URL.revokeObjectURL(url);
-        };
-
-        const setTooltipData = () => {
-          document.querySelectorAll(".info-icon[title]").forEach((icon) => {
-            icon.dataset.tooltip = icon.getAttribute("title");
-          });
-        };
-
-        const syncEditState = () => {
-          document.querySelectorAll(".subscriber-editable").forEach((field) => {
-            field.disabled = !state.subscriberEditing;
-          });
-
-          elements.editSubscriberButton.disabled = state.subscriberEditing;
-          elements.editSubscriberButton.textContent = state.subscriberEditing ? "Editing Enabled" : "Edit Subscriber";
-          elements.saveSubscriberButton.classList.toggle("visually-hidden", !state.subscriberEditing);
-        };
-
-        const renderSubscriberSelector = () => {
-          elements.subscriberSelector.innerHTML = subscribers
-            .map((subscriber) => `<option value="${subscriber.key}">${subscriber.label}</option>`)
-            .join("");
-          elements.subscriberSelector.value = state.subscriberId;
-        };
-
-        const renderFacilities = (subscriber) => {
-          elements.subscriberFacilityOptions.innerHTML = subscriber.facilityCatalog
-            .map((facility) => `<option value="${facility}"></option>`)
-            .join("");
-
-          elements.subscriberFacilitiesBody.innerHTML = subscriber.facilities
+      const renderSelector = () => {
+        elements.selector.innerHTML = `
+          <option value="">Select a subscriber...</option>
+          ${subscribers
             .map(
-              (facility) => `
-                <tr>
-                  <td>${facility.name}</td>
-                  <td>${facility.mdrId}</td>
-                  <td><a href="#">${facility.checklistUrl}</a></td>
-                  <td>${facility.owned ? "Yes" : "No"}</td>
-                </tr>
-              `
+              (subscriber) =>
+                `<option value="${subscriber.key}">${subscriber.label}</option>`
             )
-            .join("");
-        };
+            .join("")}
+        `;
+        elements.selector.value = state.subscriberId;
+      };
 
-        const renderPermissionSummary = (subscriber) => {
-          elements.permissionSummary.innerHTML = permissionCatalog
-            .map((permission) => {
-              const count = subscriber.users.filter((user) => user.permissions.includes(permission)).length;
-              return `
-                <div class="permission-summary-card">
-                  <strong>${permission}</strong>
-                  <span>${count} ${count === 1 ? "user" : "users"}</span>
-                </div>
-              `;
-            })
-            .join("");
-        };
+      const renderFacilities = (subscriber) => {
+        elements.facilityOptions.innerHTML = subscriber.facilityCatalog
+          .map((facility) => `<option value="${facility}"></option>`)
+          .join("");
 
-        const getSortedUsers = () => {
-          const query = state.userSearch.trim().toLowerCase();
-          const subscriber = getSubscriber();
+        const facilities = state.subscriberEditing
+          ? (state.draftFacilities || [])
+          : subscriber.facilities;
 
-          return subscriber.users
-            .slice()
-            .filter((user) => {
-              if (!query) return true;
-              return [
-                user.last,
-                user.first,
-                user.username,
-                user.role,
-                user.status,
-              ]
-                .join(" ")
-                .toLowerCase()
-                .includes(query);
-            })
-            .sort((left, right) => {
-              const compareText = (leftValue, rightValue) => leftValue.localeCompare(rightValue);
-              switch (state.userSort) {
-                case "first":
-                  return compareText(`${left.first} ${left.last} ${left.username}`.toLowerCase(), `${right.first} ${right.last} ${right.username}`.toLowerCase());
-                case "username":
-                  return compareText(left.username.toLowerCase(), right.username.toLowerCase());
-                case "role":
-                  return compareText(`${left.role} ${left.last}`.toLowerCase(), `${right.role} ${right.last}`.toLowerCase());
-                case "status":
-                  return compareText(`${left.status} ${left.last}`.toLowerCase(), `${right.status} ${right.last}`.toLowerCase());
-                case "facilities":
-                  if (left.facilitySelections.length !== right.facilitySelections.length) {
-                    return right.facilitySelections.length - left.facilitySelections.length;
-                  }
-                  return compareText(`${left.last} ${left.first}`.toLowerCase(), `${right.last} ${right.first}`.toLowerCase());
-                case "last":
-                default:
-                  return compareText(`${left.last} ${left.first} ${left.username}`.toLowerCase(), `${right.last} ${right.first} ${right.username}`.toLowerCase());
-              }
-            });
-        };
-
-        const renderUserTable = () => {
-          const subscriber = getSubscriber();
-          const rows = getSortedUsers();
-
-          elements.openUserManagementLink.href = buildUserPortalHref(subscriber.key);
-
-          if (!rows.length) {
-            elements.userTableBody.innerHTML = `
+        elements.facilitiesBody.innerHTML = facilities
+          .map(
+            (facility) => `
               <tr>
-                <td colspan="8">
-                  <div class="search-empty">No associated users match that search.</div>
+                <td>${facility.name}</td>
+                <td>${facility.mdrId}</td>
+                <td>${facility.checklistUrl}</td>
+                <td>${facility.owned ? "Yes" : "No"}</td>
+                <td>
+                  ${
+                    state.subscriberEditing
+                      ? `<button class="btn-muted table-row-link" type="button" data-remove-subscriber-facility="${facility.name}">Remove</button>`
+                      : "—"
+                  }
                 </td>
               </tr>
-            `;
-            return;
-          }
+            `
+          )
+          .join("");
+      };
 
-          elements.userTableBody.innerHTML = rows
-            .map(
-              (user) => `
-                <tr>
-                  <td>${user.last}</td>
-                  <td>${user.first}</td>
-                  <td>${user.username}</td>
-                  <td>${user.role}</td>
-                  <td>${user.permissions.join(", ")}</td>
-                  <td>${user.facilitySelections.length}</td>
-                  <td>${user.status}</td>
-                  <td><a class="table-row-link" href="${buildUserPortalHref(subscriber.key, user.id)}">Open</a></td>
-                </tr>
-              `
-            )
-            .join("");
-        };
+      const renderUsers = (subscriber) => {
+        const query = state.userSearch.trim().toLowerCase();
+        const filteredUsers = sortUsers(
+          subscriber.users.filter((user) => {
+            if (!matchesStatusFilter(user)) return false;
+            if (!query) return true;
+            return [
+              user.last,
+              user.first,
+              user.username,
+              user.title,
+              user.role,
+              user.email
+            ]
+              .join(" ")
+              .toLowerCase()
+              .includes(query);
+          })
+        );
 
-        const renderAuditTrail = () => {
-          const subscriber = getSubscriber();
-          const allUserAudit = subscriber.users.flatMap((user) => user.audit);
-          const rows = [...subscriber.audit, ...allUserAudit].sort((left, right) => right.timestamp.localeCompare(left.timestamp));
+        if (!filteredUsers.length) {
+          elements.usersBody.innerHTML = `
+            <tr>
+              <td colspan="9">
+                <div class="search-empty">
+                  No users matched the current search and filter settings.
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
 
-          elements.subscriberAuditBody.innerHTML = rows
-            .map(
-              (entry) => `
-                <tr>
-                  <td>${entry.timestamp}</td>
-                  <td>${entry.record}</td>
-                  <td>${entry.field}</td>
-                  <td>${entry.before}</td>
-                  <td>${entry.after}</td>
-                  <td>${entry.by}</td>
-                </tr>
-              `
-            )
-            .join("");
-        };
+        elements.usersBody.innerHTML = filteredUsers
+          .map(
+            (user) => `
+              <tr class="clickable-row" tabindex="0" data-user-id="${user.id}">
+                <td>${user.last}</td>
+                <td>${user.first}</td>
+                <td>${user.username}</td>
+                <td>${getEffectiveSignIn(subscriber, user)}</td>
+                <td>${user.role}</td>
+                <td>${user.facilitySelections.length}</td>
+                <td>${user.permissions.join(", ")}</td>
+                <td><span class="status-badge ${statusClass(user.status)}">${user.status}</span></td>
+                <td>${latestAuditTimestamp(user)}</td>
+              </tr>
+            `
+          )
+          .join("");
 
-        const renderSubscriber = () => {
-          const subscriber = getSubscriber();
-          elements.subscriberSelector.value = subscriber.key;
-          elements.userSort.value = state.userSort;
-          elements.subscriberIdField.value = subscriber.id;
-          elements.subscriberName.value = subscriber.label;
-          elements.subscriberShortName.value = subscriber.shortName;
-          elements.subscriberType.value = subscriber.type;
-          elements.subscriberStartYear.value = subscriber.startYear;
-          elements.subscriberLookupYear.value = subscriber.lookupYear;
-          elements.accountExecutive.value = subscriber.accountExecutive;
-          elements.subscriberSso.value = subscriber.sso;
+        elements.usersBody.querySelectorAll("[data-user-id]").forEach((row) => {
+          const navigate = () => {
+            window.location.href = `user-detail.html?subscriber=${encodeURIComponent(
+              subscriber.key
+            )}&user=${encodeURIComponent(row.dataset.userId)}`;
+          };
+          row.addEventListener("click", navigate);
+          row.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              navigate();
+            }
+          });
+        });
+      };
 
-          renderFacilities(subscriber);
-          renderPermissionSummary(subscriber);
-          renderUserTable();
-          renderAuditTrail();
+      const renderAudit = (subscriber) => {
+        const rows = [...subscriber.audit, ...subscriber.users.flatMap((user) => user.audit)].sort(
+          (left, right) => right.timestamp.localeCompare(left.timestamp)
+        );
+
+        elements.auditBody.innerHTML = rows
+          .map(
+            (entry) => `
+              <tr>
+                <td>${entry.timestamp}</td>
+                <td>${entry.record}</td>
+                <td>${entry.field}</td>
+                <td>${entry.before}</td>
+                <td>${entry.after}</td>
+                <td>${entry.by}</td>
+              </tr>
+            `
+          )
+          .join("");
+      };
+
+      const renderSubscriber = () => {
+        const subscriber = getSubscriber();
+        const hasSelection = Boolean(subscriber);
+
+        elements.actions.classList.toggle("is-hidden", !hasSelection);
+        elements.emptyState.classList.toggle("is-hidden", hasSelection);
+        elements.content.classList.toggle("is-hidden", !hasSelection);
+
+        if (!subscriber) {
           syncEditState();
           syncUrl();
-        };
+          return;
+        }
 
-        const collectSubscriberChanges = () => {
-          const subscriber = getSubscriber();
-          const previousName = subscriber.label;
+        elements.subscriberId.value = subscriber.id;
+        elements.subscriberName.value = subscriber.label;
+        elements.subscriberShortName.value = subscriber.shortName;
+        elements.subscriberType.value = subscriber.type;
+        elements.startYear.value = subscriber.startYear;
+        elements.lookupYear.value = subscriber.lookupYear;
+        elements.accountExec.value = subscriber.accountExecutive;
+        elements.sso.value = subscriber.sso;
+        state.draftFacilities = state.subscriberEditing
+          ? (state.draftFacilities || subscriber.facilities.map((facility) => ({ ...facility })))
+          : null;
 
-          subscriber.id = elements.subscriberIdField.value.trim();
-          subscriber.label = elements.subscriberName.value.trim();
-          subscriber.shortName = elements.subscriberShortName.value.trim();
-          subscriber.type = elements.subscriberType.value;
-          subscriber.startYear = elements.subscriberStartYear.value.trim();
-          subscriber.lookupYear = elements.subscriberLookupYear.value.trim();
-          subscriber.accountExecutive = elements.accountExecutive.value.trim();
-          subscriber.sso = elements.subscriberSso.value;
+        renderFacilities(subscriber);
+        renderUsers(subscriber);
+        renderAudit(subscriber);
+        syncEditState();
+        syncUrl();
+      };
 
-          const newFacility = elements.subscriberFacilitySearch.value.trim();
-          if (newFacility && !subscriber.facilities.some((facility) => facility.name === newFacility)) {
-            subscriber.facilities.push({
-              name: newFacility,
-              mdrId: `NEW${String(subscriber.facilities.length + 1).padStart(4, "0")}`,
-              checklistUrl: "new-checklist",
-              owned: false,
-            });
-            subscriber.facilityCatalog.push(newFacility);
-            elements.subscriberFacilitySearch.value = "";
+      const collectChanges = () => {
+        const subscriber = getSubscriber();
+        if (!subscriber) return;
+
+        const previousName = subscriber.label;
+        subscriber.id = elements.subscriberId.value.trim();
+        subscriber.label = elements.subscriberName.value.trim();
+        subscriber.shortName = elements.subscriberShortName.value.trim();
+        subscriber.type = elements.subscriberType.value;
+        subscriber.startYear = elements.startYear.value.trim();
+        subscriber.lookupYear = elements.lookupYear.value.trim();
+        subscriber.accountExecutive = elements.accountExec.value.trim();
+        subscriber.sso = elements.sso.value;
+        subscriber.facilities = (state.draftFacilities || subscriber.facilities).map((facility) => ({
+          ...facility
+        }));
+        subscriber.facilities.forEach((facility) => {
+          if (!subscriber.facilityCatalog.includes(facility.name)) {
+            subscriber.facilityCatalog.push(facility.name);
           }
+        });
+        elements.facilityAdd.value = "";
+        state.draftFacilities = null;
 
-          subscriber.audit.unshift({
-            timestamp: "2026-04-02 18:02",
-            record: "Subscriber",
-            field: "Fields Submitted",
-            before: previousName,
-            after: subscriber.label,
-            by: "Super User",
-          });
-        };
+        subscriber.audit.unshift({
+          timestamp: "2026-04-07 11:15",
+          record: "Subscriber",
+          field: "Fields Submitted",
+          before: previousName,
+          after: subscriber.label,
+          by: "Super User"
+        });
+      };
 
-        const confirmDoubleDelete = (label) =>
-          window.confirm(`Delete ${label}?`) &&
-          window.confirm(`This action is permanent. Delete ${label}?`);
+      renderSelector();
+      renderSubscriber();
+      syncTooltips();
 
-        renderSubscriberSelector();
+      elements.selector.addEventListener("change", () => {
+        state.subscriberId = elements.selector.value;
+        state.subscriberEditing = false;
+        state.draftFacilities = null;
+        state.userSearch = "";
+        state.userStatusFilter = "all";
+        state.userSort = "last";
+        elements.userSearch.value = "";
+        elements.userStatusFilter.value = "all";
+        elements.userSort.value = "last";
         renderSubscriber();
-        setTooltipData();
+      });
 
-        elements.subscriberSelector.addEventListener("change", () => {
-          state.subscriberId = elements.subscriberSelector.value;
-          state.userSearch = "";
-          state.userSort = "last";
-          elements.userSearch.value = "";
-          elements.userSort.value = state.userSort;
-          state.subscriberEditing = false;
-          renderSubscriber();
-        });
+      elements.userSearch.addEventListener("input", () => {
+        state.userSearch = elements.userSearch.value;
+        const subscriber = getSubscriber();
+        if (subscriber) renderUsers(subscriber);
+      });
 
-        elements.userSearch.addEventListener("input", () => {
-          state.userSearch = elements.userSearch.value;
-          renderUserTable();
-        });
+      elements.userStatusFilter.addEventListener("change", () => {
+        state.userStatusFilter = elements.userStatusFilter.value;
+        const subscriber = getSubscriber();
+        if (subscriber) renderUsers(subscriber);
+      });
 
-        elements.userSort.addEventListener("change", () => {
-          state.userSort = elements.userSort.value;
-          renderUserTable();
-        });
+      elements.userSort.addEventListener("change", () => {
+        state.userSort = elements.userSort.value;
+        const subscriber = getSubscriber();
+        if (subscriber) renderUsers(subscriber);
+      });
 
-        elements.editSubscriberButton.addEventListener("click", () => {
-          state.subscriberEditing = true;
-          syncEditState();
-        });
+      elements.editButton.addEventListener("click", () => {
+        const subscriber = getSubscriber();
+        if (!subscriber) return;
+        state.draftFacilities = subscriber.facilities.map((facility) => ({ ...facility }));
+        state.subscriberEditing = true;
+        renderSubscriber();
+      });
 
-        elements.saveSubscriberButton.addEventListener("click", () => {
-          if (!window.confirm("Submit subscriber changes?")) return;
-          collectSubscriberChanges();
-          state.subscriberEditing = false;
-          renderSubscriber();
-        });
+      elements.saveButton.addEventListener("click", () => {
+        if (!window.confirm("Submit subscriber changes?")) return;
+        collectChanges();
+        state.subscriberEditing = false;
+        renderSubscriber();
+      });
 
-        elements.deleteSubscriberButton.addEventListener("click", () => {
-          if (!confirmDoubleDelete(`${getSubscriber().label} subscriber`)) return;
-          window.alert("Subscriber delete queued for approval.");
-        });
+      elements.cancelButton.addEventListener("click", () => {
+        state.subscriberEditing = false;
+        state.draftFacilities = null;
+        renderSubscriber();
+      });
 
-        document.querySelectorAll("[data-export-table]").forEach((button) => {
-          button.addEventListener("click", () => {
-            exportTable(button.dataset.exportTable, button.dataset.exportName);
+      elements.facilityAdd.addEventListener("change", () => {
+        if (!state.subscriberEditing) return;
+        const newFacility = elements.facilityAdd.value.trim();
+        if (!newFacility) return;
+
+        if (!state.draftFacilities.some((facility) => facility.name === newFacility)) {
+          state.draftFacilities.push({
+            name: newFacility,
+            mdrId: `NEW${String(state.draftFacilities.length + 1).padStart(4, "0")}`,
+            checklistUrl: "new-checklist",
+            owned: false
           });
+        }
+
+        elements.facilityAdd.value = "";
+        const subscriber = getSubscriber();
+        if (subscriber) renderFacilities(subscriber);
+      });
+
+      elements.facilitiesBody.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-subscriber-facility]");
+        if (!button || !state.subscriberEditing) return;
+        state.draftFacilities = state.draftFacilities.filter(
+          (facility) => facility.name !== button.dataset.removeSubscriberFacility
+        );
+        const subscriber = getSubscriber();
+        if (subscriber) renderFacilities(subscriber);
+      });
+
+      elements.deleteButton.addEventListener("click", () => {
+        const subscriber = getSubscriber();
+        if (!subscriber) return;
+        if (!window.confirm(`Delete ${subscriber.label} subscriber?`)) return;
+        if (!window.confirm(`This action is permanent. Delete ${subscriber.label} subscriber?`)) return;
+        window.alert("Subscriber delete queued for approval.");
+      });
+
+      document.querySelectorAll("[data-export-table]").forEach((button) => {
+        button.addEventListener("click", () => {
+          exportTable(button.dataset.exportTable, button.dataset.exportName);
         });
-      }
+      });
     </script>
   </body>
 </html>
