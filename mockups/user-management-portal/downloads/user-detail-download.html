@@ -511,8 +511,64 @@
       .summary-item, .permission-summary-card { padding: 14px 16px; }
       .summary-item strong, .permission-summary-card strong { display: block; margin-bottom: 6px; color: var(--navy); }
       .summary-item span, .permission-summary-card span { color: var(--muted); font-weight: 600; }
+      .summary-item.full-span { grid-column: 1 / -1; }
 
       .panel-subsection { padding: 16px; }
+
+      .advanced-settings {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface-soft);
+        overflow: hidden;
+      }
+
+      .advanced-settings summary {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 20px;
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .advanced-settings summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .advanced-settings summary::after {
+        content: "+";
+        flex: 0 0 auto;
+        color: var(--navy-soft);
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .advanced-settings[open] summary::after {
+        content: "–";
+      }
+
+      .advanced-settings summary div {
+        display: grid;
+        gap: 4px;
+      }
+
+      .advanced-settings summary strong {
+        color: var(--navy);
+        font-size: 1.02rem;
+      }
+
+      .advanced-settings summary span {
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+
+      .advanced-settings-body {
+        padding: 0 20px 20px;
+        border-top: 1px solid var(--border);
+      }
 
       .pill, .chip {
         display: inline-flex;
@@ -1070,13 +1126,19 @@
 
                 <section class="panel-subsection">
                   <h3>Linked Subscriber Summary</h3>
-                  <p>Customer context that drives the selected user's hierarchy, sign-in policy, and facility access.</p>
+                  <p>Customer context and inherited defaults for the selected user.</p>
                   <div class="summary-card-grid">
                     <div class="summary-item"><strong>Customer</strong><span id="summary-customer"></span></div>
                     <div class="summary-item"><strong>Customer ID</strong><span id="summary-customer-id"></span></div>
                     <div class="summary-item"><strong>Type</strong><span id="summary-type"></span></div>
                     <div class="summary-item"><strong>Organization Sign In</strong><span id="summary-sso"></span></div>
                     <div class="summary-item"><strong>Effective User Sign In</strong><span id="summary-effective-sso"></span></div>
+                    <div class="summary-item"><strong>Default Role</strong><span id="summary-default-role"></span></div>
+                    <div class="summary-item"><strong>Default Visibility</strong><span id="summary-default-visibility"></span></div>
+                    <div class="summary-item full-span">
+                      <strong>Default Permissions</strong>
+                      <span id="summary-default-permissions"></span>
+                    </div>
                   </div>
                 </section>
 
@@ -1113,8 +1175,12 @@
 
                 <section class="panel-subsection">
                   <h3>Access and Hierarchy</h3>
-                  <p>Control customer scope, user sign-in inheritance, facilities, role, and permission flags.</p>
+                  <p>Subscriber defaults prefill the access model below. Edit the user only when an individual override is needed.</p>
                   <div class="assignment-grid">
+                    <div class="summary-item full-span">
+                      <strong>Inherited From Subscriber</strong>
+                      <span id="inherited-access-summary"></span>
+                    </div>
                     <div class="detail-field">
                       <label class="field-label" for="customer-field"><span>Customer</span></label>
                       <input id="customer-field" class="field" disabled />
@@ -1158,6 +1224,22 @@
                         <option>MDR Staff</option>
                       </select>
                     </div>
+                    <div class="detail-field">
+                      <label class="field-label" for="visibility-scope">
+                        <span>Visibility</span>
+                        <span
+                          class="info-icon"
+                          tabindex="0"
+                          title="Visibility is inherited from the subscriber by default. Override it here when a user should only see assigned facilities or needs broader support access."
+                          >i</span
+                        >
+                      </label>
+                      <select id="visibility-scope" class="select editable" disabled>
+                        <option>All subscriber facilities</option>
+                        <option>Assigned facilities only</option>
+                        <option>Cross-subscriber support</option>
+                      </select>
+                    </div>
                     <div class="detail-field full">
                       <label class="field-label" for="facility-search">
                         <span>Select Facility</span>
@@ -1179,52 +1261,44 @@
                       <div id="facility-chips" class="chip-list"></div>
                     </div>
                     <div class="detail-field full">
-                      <label class="field-label"><span>Permission Flags</span></label>
+                      <label class="field-label"><span>Permissions</span></label>
                       <div id="permission-grid" class="permission-grid"></div>
                     </div>
                   </div>
                 </section>
 
-                <section class="panel-subsection">
-                  <h3>Legacy Fields</h3>
-                  <p>Legacy benchmark assignments and supplemental MDR identifiers retained for existing workflows.</p>
-                  <div class="dense-grid">
-                    <div class="detail-field">
-                      <label class="field-label" for="regional-benchmarks">
-                        <span>Regional Benchmarks</span>
-                        <span
-                          class="info-icon"
-                          tabindex="0"
-                          title="Legacy benchmark scopes assigned to the user. Hold Command while editing to select multiple benchmark groups."
-                          >i</span
-                        >
-                      </label>
-                      <select
-                        id="regional-benchmarks"
-                        class="select editable multi-select"
-                        multiple
-                        size="6"
-                        disabled
-                      ></select>
+                <details class="advanced-settings">
+                  <summary>
+                    <div>
+                      <strong>Advanced Settings</strong>
+                      <span>Specialty access controls and legacy identifiers.</span>
                     </div>
-                    <div class="detail-field">
-                      <label class="field-label" for="additional-mdr-ids">
-                        <span>Additional MDR IDs</span>
-                        <span
-                          class="info-icon"
-                          tabindex="0"
+                  </summary>
+                  <div class="advanced-settings-body">
+                    <div class="dense-grid">
+                      <div class="detail-field full">
+                        <label class="field-label"><span>Specialty Access</span></label>
+                        <div id="advanced-permission-grid" class="permission-grid"></div>
+                      </div>
+                      <div class="detail-field">
+                        <label class="field-label" for="additional-mdr-ids">
+                          <span>Additional MDR IDs</span>
+                          <span
+                            class="info-icon"
+                            tabindex="0"
                           title="List one MDR ID per line for any secondary identifiers this user still needs for legacy workflows or exports."
-                          >i</span
-                        >
-                      </label>
-                      <textarea
-                        id="additional-mdr-ids"
-                        class="field editable field-textarea"
-                        disabled
-                      ></textarea>
+                            >i</span
+                          >
+                        </label>
+                        <textarea
+                          id="additional-mdr-ids"
+                          class="field editable field-textarea"
+                          disabled
+                        ></textarea>
+                      </div>
                     </div>
                   </div>
-                </section>
+                </details>
 
                 <section class="panel-subsection">
                   <div class="table-toolbar">
@@ -1248,12 +1322,13 @@
                       <thead>
                         <tr>
                           <th>Customer</th>
+                          <th>Visibility</th>
                           <th>State</th>
                           <th>Facilities</th>
                           <th>Role</th>
                           <th>Sign In</th>
-                          <th>Regional Benchmarks</th>
-                          <th>Permission Flags</th>
+                          <th>Permissions</th>
+                          <th>Advanced Settings</th>
                         </tr>
                       </thead>
                       <tbody id="assignment-body"></tbody>
@@ -1302,27 +1377,60 @@
     </main>
 
     <script>
-      const permissionCatalog = [
-        "Subscriber",
-        "Portal Access",
-        "Reportable",
-        "Customer",
-        "Coverage Only",
-        "MD/AD/LE Only",
+      const permissionCatalog = ["Coverage Only", "MD/AD/LE Only"];
+
+      const advancedPermissionCatalog = [
+        "90th Percentile",
+        "Analytics/Customer BM Report",
+        "Audit Tool",
         "Salary Data",
-        "Demo"
+        "TCR Access",
+        "RFMV Access"
       ];
 
-      const regionalBenchmarkCatalog = [
-        "All Acute Hospitals",
-        "All Facility Types",
-        "All Acute Trauma",
-        "All Acute Non-Trauma",
-        "All Facilities Trauma",
-        "Regional Peers",
-        "Rehab Facilities",
-        "Children's Hospitals"
-      ];
+      const allPermissionCatalog = [...permissionCatalog, ...advancedPermissionCatalog];
+
+      const rolePermissionDefaults = {
+        "Subscriber Admin": [
+          "Coverage Only",
+          "MD/AD/LE Only",
+          "Analytics/Customer BM Report",
+          "Audit Tool",
+          "Salary Data",
+          "90th Percentile",
+          "TCR Access"
+        ],
+        "Facility Manager": ["Coverage Only", "MD/AD/LE Only", "Audit Tool", "Salary Data"],
+        Analyst: [
+          "MD/AD/LE Only",
+          "Analytics/Customer BM Report",
+          "Salary Data",
+          "90th Percentile"
+        ],
+        "Read Only": ["Coverage Only"],
+        "MDR Staff": [
+          "Coverage Only",
+          "MD/AD/LE Only",
+          "Analytics/Customer BM Report",
+          "Audit Tool",
+          "Salary Data",
+          "TCR Access",
+          "RFMV Access"
+        ]
+      };
+
+      const roleVisibilityDefaults = {
+        "Subscriber Admin": "All subscriber facilities",
+        "Facility Manager": "Assigned facilities only",
+        Analyst: "Assigned facilities only",
+        "Read Only": "Assigned facilities only",
+        "MDR Staff": "Cross-subscriber support"
+      };
+
+      const normalizePermissionName = (permission) =>
+        permission === "Custom Benchmark Exports"
+          ? "Analytics/Customer BM Report"
+          : permission;
 
       const subscribers = [
         {
@@ -1331,6 +1439,12 @@
           id: "88",
           type: "General Acute Care Hospital",
           sso: "OTP",
+          accessDefaults: {
+            role: "Analyst",
+            visibility: "Assigned facilities only",
+            permissions: ["MD/AD/LE Only", "Salary Data", "Analytics/Customer BM Report"],
+            facilities: ["AMG Specialty Hospital - Central Indiana"]
+          },
           facilityCatalog: [
             "AMG Physical Rehabilitation Hospital - Covington",
             "AMG Specialty Hospital - Albuquerque",
@@ -1349,7 +1463,13 @@
               phone: "(555) 110-2200",
               status: "Active",
               role: "Subscriber Admin",
-              permissions: ["Subscriber", "Portal Access", "Reportable", "Customer", "Salary Data"],
+              permissions: [
+                "Coverage Only",
+                "MD/AD/LE Only",
+                "Salary Data",
+                "Analytics/Customer BM Report",
+                "90th Percentile"
+              ],
               facilitySelections: [
                 "AMG Physical Rehabilitation Hospital - Covington",
                 "AMG Specialty Hospital - Albuquerque"
@@ -1375,7 +1495,7 @@
               phone: "(555) 111-0045",
               status: "Active",
               role: "Analyst",
-              permissions: ["Portal Access", "Reportable", "MD/AD/LE Only"],
+              permissions: ["MD/AD/LE Only", "Salary Data", "90th Percentile"],
               facilitySelections: ["AMG Specialty Hospital - Central Indiana"],
               audit: [
                 {
@@ -1398,7 +1518,7 @@
               phone: "(555) 111-0770",
               status: "Disabled",
               role: "Facility Manager",
-              permissions: ["Portal Access", "Customer"],
+              permissions: ["Coverage Only", "MD/AD/LE Only", "Salary Data"],
               facilitySelections: ["AMG Physical Rehabilitation Hospital - Covington"],
               audit: [
                 {
@@ -1421,7 +1541,7 @@
               phone: "(555) 111-0922",
               status: "Deleted",
               role: "Read Only",
-              permissions: ["Portal Access", "Coverage Only"],
+              permissions: ["Coverage Only"],
               facilitySelections: [],
               audit: [
                 {
@@ -1442,6 +1562,17 @@
           id: "143",
           type: "Regional Health System",
           sso: "Single Sign-On",
+          accessDefaults: {
+            role: "Subscriber Admin",
+            visibility: "All subscriber facilities",
+            permissions: [
+              "Coverage Only",
+              "MD/AD/LE Only",
+              "Salary Data",
+              "90th Percentile"
+            ],
+            facilities: ["Blend North", "Blend South"]
+          },
           facilityCatalog: ["Blend North", "Blend South", "Blend Coastal", "Blend Metro"],
           users: [
             {
@@ -1454,7 +1585,7 @@
               phone: "(555) 222-1001",
               status: "Active",
               role: "Subscriber Admin",
-              permissions: ["Subscriber", "Portal Access", "Customer", "Reportable"],
+              permissions: ["Coverage Only", "MD/AD/LE Only", "Salary Data", "90th Percentile"],
               facilitySelections: ["Blend North", "Blend South"],
               audit: [
                 {
@@ -1477,7 +1608,7 @@
               phone: "(555) 222-1141",
               status: "Pending MFA",
               role: "Analyst",
-              permissions: ["Portal Access", "Reportable"],
+              permissions: ["MD/AD/LE Only", "Salary Data", "90th Percentile"],
               facilitySelections: ["Blend Coastal"],
               audit: [
                 {
@@ -1500,7 +1631,7 @@
               phone: "(555) 222-1488",
               status: "Deleted",
               role: "Read Only",
-              permissions: ["Portal Access", "Coverage Only"],
+              permissions: ["Coverage Only"],
               facilitySelections: ["Blend Metro"],
               audit: [
                 {
@@ -1521,6 +1652,12 @@
           id: "244",
           type: "Specialty Network",
           sso: "OTP",
+          accessDefaults: {
+            role: "Facility Manager",
+            visibility: "Assigned facilities only",
+            permissions: ["Coverage Only", "MD/AD/LE Only", "Salary Data"],
+            facilities: ["Coastal East"]
+          },
           facilityCatalog: ["Coastal East", "Coastal West", "Coastal Rehab"],
           users: [
             {
@@ -1533,7 +1670,7 @@
               phone: "(555) 333-0291",
               status: "Active",
               role: "Facility Manager",
-              permissions: ["Portal Access", "Customer"],
+              permissions: ["Coverage Only", "MD/AD/LE Only", "Salary Data"],
               facilitySelections: ["Coastal East", "Coastal West"],
               audit: [
                 {
@@ -1556,7 +1693,7 @@
               phone: "(555) 333-0187",
               status: "Disabled",
               role: "Read Only",
-              permissions: ["Portal Access", "Coverage Only"],
+              permissions: ["Coverage Only"],
               facilitySelections: ["Coastal East"],
               audit: [
                 {
@@ -1584,7 +1721,7 @@
           state: "IN",
           signInOverride: "Single Sign-On",
           additionalMdrIds: ["2040", "2040-ALT"],
-          regionalBenchmarks: ["All Acute Non-Trauma", "All Facility Types"]
+          regionalBenchmarks: ["All Acute Non-Trauma", "Regional Peers"]
         },
         ahankton: {
           state: "LA",
@@ -1602,7 +1739,7 @@
           state: "TX",
           signInOverride: null,
           additionalMdrIds: ["3001", "3001-W"],
-          regionalBenchmarks: ["All Facility Types", "Regional Peers"]
+          regionalBenchmarks: ["All Acute Trauma", "Regional Peers"]
         },
         mlewis: {
           state: "CA",
@@ -1631,14 +1768,34 @@
       };
 
       subscribers.forEach((subscriber) => {
+        subscriber.accessDefaults.permissions = subscriber.accessDefaults.permissions.filter((permission) =>
+          permissionCatalog.includes(permission)
+        );
+        subscriber.accessDefaults.facilities = subscriber.accessDefaults.facilities.filter((facility) =>
+          subscriber.facilityCatalog.includes(facility)
+        );
+
         subscriber.users.forEach((user) => {
           const profile = userEnhancements[user.id] || {};
+          const retainedPermissions = (user.permissions || [])
+            .map(normalizePermissionName)
+            .filter((permission) =>
+              allPermissionCatalog.includes(permission)
+          );
+          const inheritedPermissions =
+            rolePermissionDefaults[user.role] || subscriber.accessDefaults.permissions;
           user.state = profile.state || "";
           user.signInOverride = Object.prototype.hasOwnProperty.call(profile, "signInOverride")
             ? profile.signInOverride
             : null;
           user.additionalMdrIds = (profile.additionalMdrIds || []).slice();
-          user.regionalBenchmarks = (profile.regionalBenchmarks || []).slice();
+          user.permissions = Array.from(
+            new Set([...(inheritedPermissions || []), ...retainedPermissions])
+          );
+          user.visibility = user.visibility || roleVisibilityDefaults[user.role] || subscriber.accessDefaults.visibility;
+          if (!user.facilitySelections.length && subscriber.accessDefaults.facilities.length) {
+            user.facilitySelections = subscriber.accessDefaults.facilities.slice();
+          }
         });
       });
 
@@ -1701,6 +1858,10 @@
         summaryType: document.getElementById("summary-type"),
         summarySso: document.getElementById("summary-sso"),
         summaryEffectiveSso: document.getElementById("summary-effective-sso"),
+        summaryDefaultRole: document.getElementById("summary-default-role"),
+        summaryDefaultVisibility: document.getElementById("summary-default-visibility"),
+        summaryDefaultPermissions: document.getElementById("summary-default-permissions"),
+        inheritedAccessSummary: document.getElementById("inherited-access-summary"),
         lastName: document.getElementById("last-name"),
         firstName: document.getElementById("first-name"),
         username: document.getElementById("username"),
@@ -1712,12 +1873,13 @@
         signInPolicy: document.getElementById("sign-in-policy"),
         signInNote: document.getElementById("sign-in-note"),
         role: document.getElementById("role"),
+        visibilityScope: document.getElementById("visibility-scope"),
         facilitySearch: document.getElementById("facility-search"),
         facilityOptions: document.getElementById("facility-options"),
         facilityChips: document.getElementById("facility-chips"),
-        regionalBenchmarks: document.getElementById("regional-benchmarks"),
         additionalMdrIds: document.getElementById("additional-mdr-ids"),
         permissionGrid: document.getElementById("permission-grid"),
+        advancedPermissionGrid: document.getElementById("advanced-permission-grid"),
         assignmentBody: document.getElementById("assignment-body"),
         auditBody: document.getElementById("audit-body"),
         editButton: document.getElementById("edit-user-button"),
@@ -1752,6 +1914,22 @@
           return `Currently inheriting ${subscriber.sso} from ${subscriber.label}.`;
         }
         return `Override enabled. ${user.first} ${user.last} signs in with ${effectiveSignIn} instead of the subscriber default (${subscriber.sso}).`;
+      };
+
+      const formatPermissionList = (permissions) =>
+        permissions.length ? permissions.join(", ") : "No permissions selected";
+
+      const getCorePermissions = (permissions) =>
+        permissions.filter((permission) => permissionCatalog.includes(permission));
+
+      const getAdvancedPermissions = (permissions) =>
+        permissions.filter((permission) => advancedPermissionCatalog.includes(permission));
+
+      const getInheritedAccessSummary = (subscriber) => {
+        if (!subscriber) return "";
+        return `${subscriber.accessDefaults.role} by default, ${subscriber.accessDefaults.visibility}, ${formatPermissionList(
+          subscriber.accessDefaults.permissions
+        )}.`;
       };
 
       const latestAuditTimestamp = (user) =>
@@ -1832,22 +2010,6 @@
         document.querySelectorAll(".info-icon[title]").forEach((icon) => {
           icon.dataset.tooltip = icon.getAttribute("title");
         });
-      };
-
-      const setMultiSelectValue = (selectElement, values) => {
-        Array.from(selectElement.options).forEach((option) => {
-          option.selected = values.includes(option.value);
-        });
-      };
-
-      const renderRegionalBenchmarks = (user) => {
-        elements.regionalBenchmarks.innerHTML = regionalBenchmarkCatalog
-          .map(
-            (benchmark) =>
-              `<option value="${benchmark}">${benchmark}</option>`
-          )
-          .join("");
-        setMultiSelectValue(elements.regionalBenchmarks, user?.regionalBenchmarks || []);
       };
 
       const renderFacilityChips = (user) => {
@@ -1977,17 +2139,36 @@
           .join("");
       };
 
+      const renderAdvancedPermissions = (user) => {
+        elements.advancedPermissionGrid.innerHTML = advancedPermissionCatalog
+          .map(
+            (permission) => `
+              <label>
+                <input
+                  class="editable"
+                  type="checkbox"
+                  value="${permission}"
+                  ${user.permissions.includes(permission) ? "checked" : ""}
+                />
+                <span>${permission}</span>
+              </label>
+            `
+          )
+          .join("");
+      };
+
       const renderAssignments = (subscriber, user) => {
         const effectiveSignIn = getEffectiveSignIn(subscriber, user) || "Not set";
         elements.assignmentBody.innerHTML = `
           <tr>
             <td>${subscriber.label}</td>
+            <td>${user.visibility || subscriber.accessDefaults.visibility}</td>
             <td>${user.state || "Not set"}</td>
             <td>${user.facilitySelections.join(", ") || "None assigned"}</td>
             <td>${user.role}</td>
             <td>${effectiveSignIn}</td>
-            <td>${user.regionalBenchmarks.join(", ") || "None assigned"}</td>
-            <td>${user.permissions.join(", ")}</td>
+            <td>${formatPermissionList(getCorePermissions(user.permissions))}</td>
+            <td>${formatPermissionList(getAdvancedPermissions(user.permissions))}</td>
           </tr>
         `;
       };
@@ -2026,6 +2207,16 @@
           elements.summaryType.textContent = subscriber ? subscriber.type : "";
           elements.summarySso.textContent = subscriber ? subscriber.sso : "";
           elements.summaryEffectiveSso.textContent = "";
+          elements.summaryDefaultRole.textContent = subscriber ? subscriber.accessDefaults.role : "";
+          elements.summaryDefaultVisibility.textContent = subscriber
+            ? subscriber.accessDefaults.visibility
+            : "";
+          elements.summaryDefaultPermissions.textContent = subscriber
+            ? formatPermissionList(subscriber.accessDefaults.permissions)
+            : "";
+          elements.inheritedAccessSummary.textContent = subscriber
+            ? getInheritedAccessSummary(subscriber)
+            : "";
           elements.lastName.value = "";
           elements.firstName.value = "";
           elements.username.value = "";
@@ -2038,16 +2229,19 @@
           elements.signInNote.textContent = subscriber
             ? `Currently inheriting ${subscriber.sso} from ${subscriber.label}.`
             : "";
-          elements.role.value = "Subscriber Admin";
+          elements.role.value = subscriber ? subscriber.accessDefaults.role : "Subscriber Admin";
+          elements.visibilityScope.value = subscriber
+            ? subscriber.accessDefaults.visibility
+            : "Assigned facilities only";
           elements.facilitySearch.value = "";
           elements.facilityOptions.innerHTML = subscriber
             ? subscriber.facilityCatalog.map((facility) => `<option value="${facility}"></option>`).join("")
             : "";
           state.draftFacilitySelections = null;
           renderFacilityChips(null);
-          renderRegionalBenchmarks(null);
           elements.additionalMdrIds.value = "";
           elements.permissionGrid.innerHTML = "";
+          elements.advancedPermissionGrid.innerHTML = "";
           elements.assignmentBody.innerHTML = "";
           elements.auditBody.innerHTML = "";
           syncEditState();
@@ -2060,10 +2254,16 @@
         elements.summaryType.textContent = subscriber.type;
         elements.summarySso.textContent = subscriber.sso;
         elements.summaryEffectiveSso.textContent = getEffectiveSignIn(subscriber, user);
+        elements.summaryDefaultRole.textContent = subscriber.accessDefaults.role;
+        elements.summaryDefaultVisibility.textContent = subscriber.accessDefaults.visibility;
+        elements.summaryDefaultPermissions.textContent = formatPermissionList(
+          subscriber.accessDefaults.permissions
+        );
+        elements.inheritedAccessSummary.textContent = getInheritedAccessSummary(subscriber);
         elements.userHeading.textContent = formatUserLabel(user);
         elements.userSummary.textContent = `${user.title} with access to ${user.facilitySelections.length} ${
           user.facilitySelections.length === 1 ? "facility" : "facilities"
-        } for ${subscriber.label}.`;
+        } for ${subscriber.label}. ${user.visibility}.`;
         elements.userStatusPill.innerHTML = `<span class="status-badge ${statusClass(user.status)}">${user.status}</span>`;
         elements.userRolePill.textContent = user.role;
         elements.lastName.value = user.last;
@@ -2077,6 +2277,7 @@
         elements.signInPolicy.value = getSignInPolicyValue(user);
         elements.signInNote.textContent = getSignInNote(subscriber, user);
         elements.role.value = user.role;
+        elements.visibilityScope.value = user.visibility || subscriber.accessDefaults.visibility;
         elements.facilitySearch.value = "";
         elements.facilityOptions.innerHTML = subscriber.facilityCatalog
           .map((facility) => `<option value="${facility}"></option>`)
@@ -2085,10 +2286,10 @@
           ? (state.draftFacilitySelections || user.facilitySelections.slice())
           : null;
         renderFacilityChips(user);
-        renderRegionalBenchmarks(user);
         elements.additionalMdrIds.value = user.additionalMdrIds.join("\n");
 
         renderPermissions(user);
+        renderAdvancedPermissions(user);
         renderAssignments(subscriber, user);
         renderAudit(user);
         syncEditState();
@@ -2142,7 +2343,7 @@
               >
                 <strong>${formatUserLabel(user)}</strong>
                 <span>${user.title}</span>
-                <small>${user.role} | ${user.facilitySelections.length} ${
+                <small>${user.role} | ${user.visibility} | ${user.facilitySelections.length} ${
                   user.facilitySelections.length === 1 ? "facility" : "facilities"
                 } | ${user.status}</small>
               </button>
@@ -2217,16 +2418,19 @@
             ? "OTP"
             : "Single Sign-On";
         user.role = elements.role.value;
-        user.regionalBenchmarks = Array.from(elements.regionalBenchmarks.selectedOptions).map(
-          (option) => option.value
-        );
+        user.visibility = elements.visibilityScope.value;
         user.additionalMdrIds = elements.additionalMdrIds.value
           .split(/\n|,/)
           .map((value) => value.trim())
           .filter(Boolean);
-        user.permissions = Array.from(
+        user.permissions = [
+          ...Array.from(
           elements.permissionGrid.querySelectorAll("input:checked")
-        ).map((input) => input.value);
+          ).map((input) => input.value),
+          ...Array.from(
+            elements.advancedPermissionGrid.querySelectorAll("input:checked")
+          ).map((input) => input.value)
+        ];
 
         user.facilitySelections = (state.draftFacilitySelections || user.facilitySelections).slice();
         elements.facilitySearch.value = "";

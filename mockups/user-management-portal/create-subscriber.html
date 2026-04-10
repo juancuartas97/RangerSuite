@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Subscriber</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <span class="menu-icon">☰</span>
+      <details class="user-menu">
+        <summary class="user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="user-summary-caret">▾</span>
+        </summary>
+        <div class="user-dropdown">
+          <a class="user-dropdown-link" href="../updated-pages/account.html">My Account</a>
+          <a class="user-dropdown-link" href="../updated-pages/admin.html">Admin</a>
+        </div>
+      </details>
+    </header>
+
+    <main class="page" id="create-subscriber-page">
+      <div class="breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <a href="../updated-pages/admin.html">Admin</a>
+        <span>/</span>
+        <span>Create Subscriber</span>
+      </div>
+
+      <div class="page-header">
+        <div>
+          <h1>Create Subscriber</h1>
+          <p class="page-copy">Create a new subscriber and define the inherited access model for its users.</p>
+        </div>
+        <div class="action-bar">
+          <button class="btn-soft" id="save-draft-button" type="button">Save Draft</button>
+          <button class="btn-primary" id="create-subscriber-button" type="button">Create Subscriber</button>
+        </div>
+      </div>
+
+      <div class="workspace-grid">
+        <div class="workspace-main">
+          <section class="panel detail-panel">
+            <h2>Subscriber Profile</h2>
+            <div class="detail-fields">
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-name"><span>Name</span></label>
+                <input id="subscriber-name" class="field" value="New Horizon Health" />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="subscriber-short-name"><span>Short Name</span></label>
+                <input id="subscriber-short-name" class="field" value="NHH" />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="lookup-year"><span>Look-Up Year</span></label>
+                <input id="lookup-year" class="field" value="2026" />
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="account-exec"><span>Account Executive</span></label>
+                <select id="account-exec" class="select"></select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="sso"><span>Single Sign On</span></label>
+                <select id="sso" class="select">
+                  <option>OTP</option>
+                  <option selected>Single Sign-On</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <details class="advanced-settings" open>
+            <summary>
+              <div>
+                <strong>Advanced Settings</strong>
+                <span>Subscriber type and lifecycle settings.</span>
+              </div>
+            </summary>
+            <div class="advanced-settings-body">
+              <div class="dense-grid">
+                <div class="detail-field">
+                  <label class="field-label" for="subscriber-type"><span>Type</span></label>
+                  <select id="subscriber-type" class="select">
+                    <option>General Acute Care Hospital</option>
+                    <option selected>Regional Health System</option>
+                    <option>Specialty Network</option>
+                    <option>Children's Hospital</option>
+                  </select>
+                </div>
+                <div class="detail-field">
+                  <label class="field-label" for="start-year"><span>Start Year</span></label>
+                  <input id="start-year" class="field" value="2026" />
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <section class="panel detail-panel">
+            <h2>Inherited User Access</h2>
+            <div class="assignment-grid">
+              <div class="detail-field">
+                <label class="field-label" for="default-role"><span>Default Role</span></label>
+                <select id="default-role" class="select">
+                  <option>Subscriber Admin</option>
+                  <option>Facility Manager</option>
+                  <option selected>Analyst</option>
+                  <option>Read Only</option>
+                  <option>MDR Staff</option>
+                </select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="default-visibility"><span>Default Visibility</span></label>
+                <select id="default-visibility" class="select">
+                  <option>All subscriber facilities</option>
+                  <option selected>Assigned facilities only</option>
+                  <option>Cross-subscriber support</option>
+                </select>
+              </div>
+              <div class="detail-field full">
+                <label class="field-label"><span>Default Permissions</span></label>
+                <div id="permission-grid" class="permission-grid"></div>
+              </div>
+              <div class="detail-field full">
+                <label class="field-label"><span>Default Advanced Settings</span></label>
+                <div id="advanced-permission-grid" class="permission-grid"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="table-toolbar">
+              <div class="title-line">
+                <h2>Facilities</h2>
+                <span>Add facilities now or leave the list lean and expand it later.</span>
+              </div>
+            </div>
+            <div class="table-panel-tools">
+              <div class="assignment-grid">
+                <div class="detail-field full">
+                  <label class="field-label" for="facility-add"><span>Add Facility</span></label>
+                  <input
+                    id="facility-add"
+                    class="field"
+                    list="facility-options"
+                    placeholder="Search facility name..."
+                  />
+                  <datalist id="facility-options"></datalist>
+                </div>
+              </div>
+            </div>
+            <div class="table-shell">
+              <table class="table" id="facilities-table">
+                <thead>
+                  <tr>
+                    <th>Facility</th>
+                    <th>MDR ID</th>
+                    <th>Status</th>
+                    <th>Owned</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="facilities-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="workspace-side">
+          <section class="panel">
+            <div class="selected-user-shell">
+              <section class="panel-subsection">
+                <h3>Draft Summary</h3>
+                <div class="summary-card-grid">
+                  <div class="summary-item"><strong>Subscriber</strong><span id="summary-name"></span></div>
+                  <div class="summary-item"><strong>Type</strong><span id="summary-type"></span></div>
+                  <div class="summary-item"><strong>Sign In</strong><span id="summary-sso"></span></div>
+                  <div class="summary-item"><strong>Account Executive</strong><span id="summary-exec"></span></div>
+                  <div class="summary-item"><strong>Default Role</strong><span id="summary-role"></span></div>
+                  <div class="summary-item"><strong>Visibility</strong><span id="summary-visibility"></span></div>
+                  <div class="summary-item full-span"><strong>Permissions</strong><span id="summary-permissions"></span></div>
+                  <div class="summary-item full-span"><strong>Advanced Settings</strong><span id="summary-advanced"></span></div>
+                  <div class="summary-item full-span"><strong>Facilities</strong><span id="summary-facilities"></span></div>
+                </div>
+              </section>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const permissionCatalog = ["Coverage Only", "MD/AD/LE Only"];
+      const advancedPermissionCatalog = [
+        "90th Percentile",
+        "Analytics/Customer BM Report",
+        "Audit Tool",
+        "Salary Data",
+        "TCR Access",
+        "RFMV Access"
+      ];
+      const ecgUsers = [
+        "Stephanie Ayala",
+        "Mason Stelly",
+        "Jordan Hargrave",
+        "Juan Cuartas",
+        "Annie Case"
+      ];
+      const facilityCatalog = [
+        "New Horizon North",
+        "New Horizon South",
+        "New Horizon Central",
+        "New Horizon Rehab"
+      ];
+
+      const state = {
+        facilities: [
+          { name: "New Horizon North", mdrId: "NH10001", status: "Active", owned: true },
+          { name: "New Horizon South", mdrId: "NH10002", status: "Active", owned: false }
+        ]
+      };
+
+      const elements = {
+        subscriberName: document.getElementById("subscriber-name"),
+        subscriberType: document.getElementById("subscriber-type"),
+        accountExec: document.getElementById("account-exec"),
+        sso: document.getElementById("sso"),
+        defaultRole: document.getElementById("default-role"),
+        defaultVisibility: document.getElementById("default-visibility"),
+        permissionGrid: document.getElementById("permission-grid"),
+        advancedPermissionGrid: document.getElementById("advanced-permission-grid"),
+        facilityAdd: document.getElementById("facility-add"),
+        facilityOptions: document.getElementById("facility-options"),
+        facilitiesBody: document.getElementById("facilities-body"),
+        summaryName: document.getElementById("summary-name"),
+        summaryType: document.getElementById("summary-type"),
+        summarySso: document.getElementById("summary-sso"),
+        summaryExec: document.getElementById("summary-exec"),
+        summaryRole: document.getElementById("summary-role"),
+        summaryVisibility: document.getElementById("summary-visibility"),
+        summaryPermissions: document.getElementById("summary-permissions"),
+        summaryAdvanced: document.getElementById("summary-advanced"),
+        summaryFacilities: document.getElementById("summary-facilities"),
+        saveDraft: document.getElementById("save-draft-button"),
+        createSubscriber: document.getElementById("create-subscriber-button")
+      };
+
+      const formatPermissionList = (permissions) =>
+        permissions.length ? permissions.join(", ") : "No permissions selected";
+
+      const selectedPermissions = (container) =>
+        Array.from(container.querySelectorAll("input:checked")).map((input) => input.value);
+
+      const renderPermissionGrid = (element, catalog, defaults) => {
+        element.innerHTML = catalog
+          .map(
+            (permission) => `
+              <label>
+                <input type="checkbox" value="${permission}" ${defaults.includes(permission) ? "checked" : ""} />
+                <span>${permission}</span>
+              </label>
+            `
+          )
+          .join("");
+      };
+
+      const renderFacilities = () => {
+        elements.facilityOptions.innerHTML = facilityCatalog
+          .map((facility) => `<option value="${facility}"></option>`)
+          .join("");
+
+        elements.facilitiesBody.innerHTML = state.facilities
+          .map(
+            (facility) => `
+              <tr>
+                <td>${facility.name}</td>
+                <td>${facility.mdrId}</td>
+                <td><span class="status-badge ${facility.status === "Active" ? "status-active" : "status-disabled"}">${facility.status}</span></td>
+                <td>${facility.owned ? "Yes" : "No"}</td>
+                <td><button class="btn-muted table-row-link" type="button" data-remove-facility="${facility.name}">Remove</button></td>
+              </tr>
+            `
+          )
+          .join("");
+      };
+
+      const renderSummary = () => {
+        elements.summaryName.textContent = elements.subscriberName.value.trim() || "Untitled subscriber";
+        elements.summaryType.textContent = elements.subscriberType.value;
+        elements.summarySso.textContent = elements.sso.value;
+        elements.summaryExec.textContent = elements.accountExec.value;
+        elements.summaryRole.textContent = elements.defaultRole.value;
+        elements.summaryVisibility.textContent = elements.defaultVisibility.value;
+        elements.summaryPermissions.textContent = formatPermissionList(
+          selectedPermissions(elements.permissionGrid)
+        );
+        elements.summaryAdvanced.textContent = formatPermissionList(
+          selectedPermissions(elements.advancedPermissionGrid)
+        );
+        elements.summaryFacilities.textContent = state.facilities.length
+          ? state.facilities.map((facility) => facility.name).join(", ")
+          : "No facilities added";
+      };
+
+      elements.accountExec.innerHTML = ecgUsers
+        .map(
+          (name) => `<option value="${name}" ${name === "Mason Stelly" ? "selected" : ""}>${name}</option>`
+        )
+        .join("");
+
+      renderPermissionGrid(elements.permissionGrid, permissionCatalog, ["MD/AD/LE Only"]);
+      renderPermissionGrid(elements.advancedPermissionGrid, advancedPermissionCatalog, [
+        "Analytics/Customer BM Report",
+        "Salary Data",
+        "90th Percentile"
+      ]);
+      renderFacilities();
+      renderSummary();
+
+      [
+        elements.subscriberName,
+        elements.subscriberType,
+        elements.accountExec,
+        elements.sso,
+        elements.defaultRole,
+        elements.defaultVisibility
+      ].forEach((element) => {
+        element.addEventListener("input", renderSummary);
+        element.addEventListener("change", renderSummary);
+      });
+
+      elements.permissionGrid.addEventListener("change", renderSummary);
+      elements.advancedPermissionGrid.addEventListener("change", renderSummary);
+
+      elements.facilityAdd.addEventListener("change", () => {
+        const newFacility = elements.facilityAdd.value.trim();
+        if (!newFacility) return;
+
+        if (!state.facilities.some((facility) => facility.name === newFacility)) {
+          state.facilities.push({
+            name: newFacility,
+            mdrId: `NH${String(state.facilities.length + 10001)}`,
+            status: "Active",
+            owned: false
+          });
+        }
+
+        elements.facilityAdd.value = "";
+        renderFacilities();
+        renderSummary();
+      });
+
+      elements.facilitiesBody.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-facility]");
+        if (!button) return;
+        state.facilities = state.facilities.filter(
+          (facility) => facility.name !== button.dataset.removeFacility
+        );
+        renderFacilities();
+        renderSummary();
+      });
+
+      elements.saveDraft.addEventListener("click", () => {
+        window.alert("Subscriber draft saved locally for review.");
+      });
+
+      elements.createSubscriber.addEventListener("click", () => {
+        if (!window.confirm("Create this subscriber?")) return;
+        window.alert("Subscriber queued for creation.");
+      });
+    </script>
+  </body>
+</html>

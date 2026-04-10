@@ -511,8 +511,64 @@
       .summary-item, .permission-summary-card { padding: 14px 16px; }
       .summary-item strong, .permission-summary-card strong { display: block; margin-bottom: 6px; color: var(--navy); }
       .summary-item span, .permission-summary-card span { color: var(--muted); font-weight: 600; }
+      .summary-item.full-span { grid-column: 1 / -1; }
 
       .panel-subsection { padding: 16px; }
+
+      .advanced-settings {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface-soft);
+        overflow: hidden;
+      }
+
+      .advanced-settings summary {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 20px;
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .advanced-settings summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .advanced-settings summary::after {
+        content: "+";
+        flex: 0 0 auto;
+        color: var(--navy-soft);
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .advanced-settings[open] summary::after {
+        content: "–";
+      }
+
+      .advanced-settings summary div {
+        display: grid;
+        gap: 4px;
+      }
+
+      .advanced-settings summary strong {
+        color: var(--navy);
+        font-size: 1.02rem;
+      }
+
+      .advanced-settings summary span {
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+
+      .advanced-settings-body {
+        padding: 0 20px 20px;
+        border-top: 1px solid var(--border);
+      }
 
       .pill, .chip {
         display: inline-flex;
@@ -937,6 +993,7 @@
             <button class="btn-muted" id="change-subscriber-button" type="button">
               Change Subscriber
             </button>
+            <a class="btn-primary" href="create-subscriber-download.html">Create New Subscriber</a>
             <div class="action-bar" id="subscriber-actions">
               <button class="btn-soft" id="edit-subscriber-button" type="button">Edit Subscriber</button>
               <button class="btn-primary is-hidden" id="save-subscriber-button" type="button">
@@ -1004,33 +1061,12 @@
                   <input id="subscriber-short-name" class="field subscriber-editable" disabled />
                 </div>
                 <div class="detail-field">
-                  <label class="field-label" for="subscriber-type">
-                    <span>Type</span>
-                    <span
-                      class="info-icon"
-                      tabindex="0"
-                      title="Customer classification used to drive reporting and benchmark context."
-                      >i</span
-                    >
-                  </label>
-                  <select id="subscriber-type" class="select subscriber-editable" disabled>
-                    <option>General Acute Care Hospital</option>
-                    <option>Regional Health System</option>
-                    <option>Specialty Network</option>
-                    <option>Children's Hospital</option>
-                  </select>
-                </div>
-                <div class="detail-field">
-                  <label class="field-label" for="start-year"><span>Start Year</span></label>
-                  <input id="start-year" class="field subscriber-editable" disabled />
-                </div>
-                <div class="detail-field">
                   <label class="field-label" for="lookup-year"><span>Look-Up Year</span></label>
                   <input id="lookup-year" class="field subscriber-editable" disabled />
                 </div>
                 <div class="detail-field">
                   <label class="field-label" for="account-exec"><span>Account Executive</span></label>
-                  <input id="account-exec" class="field subscriber-editable" disabled />
+                  <select id="account-exec" class="select subscriber-editable" disabled></select>
                 </div>
                 <div class="detail-field">
                   <label class="field-label" for="sso">
@@ -1049,6 +1085,40 @@
                 </div>
               </div>
             </section>
+
+            <details class="advanced-settings">
+              <summary>
+                <div>
+                  <strong>Advanced Settings</strong>
+                  <span>Less frequently changed subscriber configuration.</span>
+                </div>
+              </summary>
+              <div class="advanced-settings-body">
+                <div class="dense-grid">
+                  <div class="detail-field">
+                    <label class="field-label" for="subscriber-type">
+                      <span>Type</span>
+                      <span
+                        class="info-icon"
+                        tabindex="0"
+                        title="Customer classification used to drive reporting and benchmark context."
+                        >i</span
+                      >
+                    </label>
+                    <select id="subscriber-type" class="select subscriber-editable" disabled>
+                      <option>General Acute Care Hospital</option>
+                      <option>Regional Health System</option>
+                      <option>Specialty Network</option>
+                      <option>Children's Hospital</option>
+                    </select>
+                  </div>
+                  <div class="detail-field">
+                    <label class="field-label" for="start-year"><span>Start Year</span></label>
+                    <input id="start-year" class="field subscriber-editable" disabled />
+                  </div>
+                </div>
+              </div>
+            </details>
 
             <section class="panel">
               <div class="table-toolbar">
@@ -1136,9 +1206,11 @@
                       <th>First Name</th>
                       <th>Username</th>
                       <th>User Sign In</th>
+                      <th>Visibility</th>
                       <th>Role</th>
                       <th>Facilities</th>
-                      <th>Permission Flags</th>
+                      <th>Permissions</th>
+                      <th>Advanced Settings</th>
                       <th>Status</th>
                       <th>Last Updated</th>
                     </tr>
@@ -1150,6 +1222,51 @@
           </div>
 
           <div class="workspace-side">
+            <section class="panel detail-panel">
+              <h2>Inherited User Access</h2>
+              <p>These subscriber defaults prefill new users and act as the parent model for user-level overrides.</p>
+              <div class="assignment-grid">
+                <div class="detail-field">
+                  <label class="field-label" for="default-role"><span>Default Role</span></label>
+                  <select id="default-role" class="select subscriber-editable" disabled>
+                    <option>Subscriber Admin</option>
+                    <option>Facility Manager</option>
+                    <option>Analyst</option>
+                    <option>Read Only</option>
+                    <option>MDR Staff</option>
+                  </select>
+                </div>
+                <div class="detail-field">
+                  <label class="field-label" for="default-visibility">
+                    <span>Default Visibility</span>
+                    <span
+                      class="info-icon"
+                      tabindex="0"
+                      title="This visibility rule is inherited by new users until it is overridden on an individual user record."
+                      >i</span
+                    >
+                  </label>
+                  <select id="default-visibility" class="select subscriber-editable" disabled>
+                    <option>All subscriber facilities</option>
+                    <option>Assigned facilities only</option>
+                    <option>Cross-subscriber support</option>
+                  </select>
+                </div>
+                <div class="summary-item full-span">
+                  <strong>Inherited User Model</strong>
+                  <span id="subscriber-inherited-summary"></span>
+                </div>
+                <div class="detail-field full">
+                  <label class="field-label"><span>Default Permissions</span></label>
+                  <div id="subscriber-permission-grid" class="permission-grid"></div>
+                </div>
+                <div class="detail-field full">
+                  <label class="field-label"><span>Default Advanced Settings</span></label>
+                  <div id="subscriber-advanced-permission-grid" class="permission-grid"></div>
+                </div>
+              </div>
+            </section>
+
             <section class="panel">
               <div class="table-toolbar">
                 <div class="title-line">
@@ -1196,7 +1313,7 @@
                     <tr>
                       <th>Facility</th>
                       <th>MDR ID</th>
-                      <th>Checklist URL</th>
+                      <th>Status</th>
                       <th>Owned</th>
                       <th>Actions</th>
                     </tr>
@@ -1245,6 +1362,69 @@
     </main>
 
     <script>
+      const permissionCatalog = ["Coverage Only", "MD/AD/LE Only"];
+
+      const advancedPermissionCatalog = [
+        "90th Percentile",
+        "Analytics/Customer BM Report",
+        "Audit Tool",
+        "Salary Data",
+        "TCR Access",
+        "RFMV Access"
+      ];
+
+      const allPermissionCatalog = [...permissionCatalog, ...advancedPermissionCatalog];
+
+      const rolePermissionDefaults = {
+        "Subscriber Admin": [
+          "Coverage Only",
+          "MD/AD/LE Only",
+          "Analytics/Customer BM Report",
+          "Audit Tool",
+          "Salary Data",
+          "90th Percentile",
+          "TCR Access"
+        ],
+        "Facility Manager": ["Coverage Only", "MD/AD/LE Only", "Audit Tool", "Salary Data"],
+        Analyst: [
+          "MD/AD/LE Only",
+          "Analytics/Customer BM Report",
+          "Salary Data",
+          "90th Percentile"
+        ],
+        "Read Only": ["Coverage Only"],
+        "MDR Staff": [
+          "Coverage Only",
+          "MD/AD/LE Only",
+          "Analytics/Customer BM Report",
+          "Audit Tool",
+          "Salary Data",
+          "TCR Access",
+          "RFMV Access"
+        ]
+      };
+
+      const roleVisibilityDefaults = {
+        "Subscriber Admin": "All subscriber facilities",
+        "Facility Manager": "Assigned facilities only",
+        Analyst: "Assigned facilities only",
+        "Read Only": "Assigned facilities only",
+        "MDR Staff": "Cross-subscriber support"
+      };
+
+      const ecgUsers = [
+        "Stephanie Ayala",
+        "Mason Stelly",
+        "Jordan Hargrave",
+        "Juan Cuartas",
+        "Annie Case"
+      ];
+
+      const normalizePermissionName = (permission) =>
+        permission === "Custom Benchmark Exports"
+          ? "Analytics/Customer BM Report"
+          : permission;
+
       const subscribers = [
         {
           key: "amg",
@@ -1256,6 +1436,12 @@
           lookupYear: "2024",
           accountExecutive: "Stephanie Ayala",
           sso: "OTP",
+          accessDefaults: {
+            role: "Analyst",
+            visibility: "Assigned facilities only",
+            permissions: ["MD/AD/LE Only", "Salary Data", "Analytics/Customer BM Report"],
+            facilities: ["AMG Specialty Hospital - Central Indiana"]
+          },
           facilityCatalog: [
             "AMG Physical Rehabilitation Hospital - Covington",
             "AMG Specialty Hospital - Albuquerque",
@@ -1312,7 +1498,13 @@
               phone: "(555) 110-2200",
               status: "Active",
               role: "Subscriber Admin",
-              permissions: ["Subscriber", "Portal Access", "Reportable", "Customer", "Salary Data"],
+              permissions: [
+                "Coverage Only",
+                "MD/AD/LE Only",
+                "Salary Data",
+                "Analytics/Customer BM Report",
+                "90th Percentile"
+              ],
               facilitySelections: [
                 "AMG Physical Rehabilitation Hospital - Covington",
                 "AMG Specialty Hospital - Albuquerque"
@@ -1338,7 +1530,7 @@
               phone: "(555) 111-0045",
               status: "Active",
               role: "Analyst",
-              permissions: ["Portal Access", "Reportable", "MD/AD/LE Only"],
+              permissions: ["MD/AD/LE Only", "Salary Data", "90th Percentile"],
               facilitySelections: ["AMG Specialty Hospital - Central Indiana"],
               audit: [
                 {
@@ -1361,7 +1553,7 @@
               phone: "(555) 111-0770",
               status: "Disabled",
               role: "Facility Manager",
-              permissions: ["Portal Access", "Customer"],
+              permissions: ["Coverage Only", "MD/AD/LE Only", "Salary Data"],
               facilitySelections: ["AMG Physical Rehabilitation Hospital - Covington"],
               audit: [
                 {
@@ -1384,7 +1576,7 @@
               phone: "(555) 111-0922",
               status: "Deleted",
               role: "Read Only",
-              permissions: ["Portal Access", "Coverage Only"],
+              permissions: ["Coverage Only"],
               facilitySelections: [],
               audit: [
                 {
@@ -1409,6 +1601,17 @@
           lookupYear: "2025",
           accountExecutive: "Mason Stelly",
           sso: "Single Sign-On",
+          accessDefaults: {
+            role: "Subscriber Admin",
+            visibility: "All subscriber facilities",
+            permissions: [
+              "Coverage Only",
+              "MD/AD/LE Only",
+              "Salary Data",
+              "90th Percentile"
+            ],
+            facilities: ["Blend North", "Blend South"]
+          },
           facilityCatalog: ["Blend North", "Blend South", "Blend Coastal", "Blend Metro"],
           facilities: [
             {
@@ -1451,7 +1654,7 @@
               phone: "(555) 222-1001",
               status: "Active",
               role: "Subscriber Admin",
-              permissions: ["Subscriber", "Portal Access", "Customer", "Reportable"],
+              permissions: ["Coverage Only", "MD/AD/LE Only", "Salary Data", "90th Percentile"],
               facilitySelections: ["Blend North", "Blend South"],
               audit: [
                 {
@@ -1474,7 +1677,7 @@
               phone: "(555) 222-1141",
               status: "Pending MFA",
               role: "Analyst",
-              permissions: ["Portal Access", "Reportable"],
+              permissions: ["MD/AD/LE Only", "Salary Data", "90th Percentile"],
               facilitySelections: ["Blend Coastal"],
               audit: [
                 {
@@ -1497,7 +1700,7 @@
               phone: "(555) 222-1488",
               status: "Deleted",
               role: "Read Only",
-              permissions: ["Portal Access", "Coverage Only"],
+              permissions: ["Coverage Only"],
               facilitySelections: ["Blend Metro"],
               audit: [
                 {
@@ -1522,6 +1725,12 @@
           lookupYear: "",
           accountExecutive: "Jordan Hargrave",
           sso: "OTP",
+          accessDefaults: {
+            role: "Facility Manager",
+            visibility: "Assigned facilities only",
+            permissions: ["Coverage Only", "MD/AD/LE Only", "Salary Data"],
+            facilities: ["Coastal East"]
+          },
           facilityCatalog: ["Coastal East", "Coastal West", "Coastal Rehab"],
           facilities: [
             {
@@ -1558,7 +1767,7 @@
               phone: "(555) 333-0291",
               status: "Active",
               role: "Facility Manager",
-              permissions: ["Portal Access", "Customer"],
+              permissions: ["Coverage Only", "MD/AD/LE Only", "Salary Data"],
               facilitySelections: ["Coastal East", "Coastal West"],
               audit: [
                 {
@@ -1581,7 +1790,7 @@
               phone: "(555) 333-0187",
               status: "Disabled",
               role: "Read Only",
-              permissions: ["Portal Access", "Coverage Only"],
+              permissions: ["Coverage Only"],
               facilitySelections: ["Coastal East"],
               audit: [
                 {
@@ -1597,6 +1806,38 @@
           ]
         }
       ];
+
+      subscribers.forEach((subscriber) => {
+        subscriber.accessDefaults.permissions = subscriber.accessDefaults.permissions.filter((permission) =>
+          permissionCatalog.includes(permission)
+        );
+        subscriber.accessDefaults.facilities = subscriber.accessDefaults.facilities.filter((facility) =>
+          subscriber.facilityCatalog.includes(facility)
+        );
+        subscriber.facilities = subscriber.facilities.map((facility) => ({
+          name: facility.name,
+          mdrId: facility.mdrId,
+          status: facility.status || (facility.owned ? "Active" : "Inactive"),
+          owned: facility.owned
+        }));
+
+        subscriber.users.forEach((user) => {
+          const retainedPermissions = (user.permissions || [])
+            .map(normalizePermissionName)
+            .filter((permission) =>
+              allPermissionCatalog.includes(permission)
+          );
+          const inheritedPermissions =
+            rolePermissionDefaults[user.role] || subscriber.accessDefaults.permissions;
+          user.permissions = Array.from(
+            new Set([...(inheritedPermissions || []), ...retainedPermissions])
+          );
+          user.visibility = user.visibility || roleVisibilityDefaults[user.role] || subscriber.accessDefaults.visibility;
+          if (!user.facilitySelections.length && subscriber.accessDefaults.facilities.length) {
+            user.facilitySelections = subscriber.accessDefaults.facilities.slice();
+          }
+        });
+      });
 
       const params = new URLSearchParams(window.location.search);
       const state = {
@@ -1634,6 +1875,11 @@
         lookupYear: document.getElementById("lookup-year"),
         accountExec: document.getElementById("account-exec"),
         sso: document.getElementById("sso"),
+        defaultRole: document.getElementById("default-role"),
+        defaultVisibility: document.getElementById("default-visibility"),
+        subscriberInheritedSummary: document.getElementById("subscriber-inherited-summary"),
+        subscriberPermissionGrid: document.getElementById("subscriber-permission-grid"),
+        subscriberAdvancedPermissionGrid: document.getElementById("subscriber-advanced-permission-grid"),
         facilityAdd: document.getElementById("facility-add"),
         facilityOptions: document.getElementById("facility-options"),
         facilitiesBody: document.getElementById("facilities-body"),
@@ -1651,6 +1897,15 @@
       const getSubscriber = () =>
         subscribers.find((subscriber) => subscriber.key === state.subscriberId);
 
+      const formatPermissionList = (permissions) =>
+        permissions.length ? permissions.join(", ") : "No permissions selected";
+
+      const getCorePermissions = (permissions) =>
+        permissions.filter((permission) => permissionCatalog.includes(permission));
+
+      const getAdvancedPermissions = (permissions) =>
+        permissions.filter((permission) => advancedPermissionCatalog.includes(permission));
+
       const latestAuditTimestamp = (user) =>
         user.audit
           .slice()
@@ -1662,6 +1917,40 @@
       };
 
       const getSubscriberUserCounts = (subscriber) => `${subscriber.users.length} users`;
+
+      const renderSubscriberPermissions = (subscriber) => {
+        elements.subscriberPermissionGrid.innerHTML = permissionCatalog
+          .map(
+            (permission) => `
+              <label>
+                <input
+                  class="subscriber-editable"
+                  type="checkbox"
+                  value="${permission}"
+                  ${subscriber.accessDefaults.permissions.includes(permission) ? "checked" : ""}
+                />
+                <span>${permission}</span>
+              </label>
+            `
+          )
+          .join("");
+
+        elements.subscriberAdvancedPermissionGrid.innerHTML = advancedPermissionCatalog
+          .map(
+            (permission) => `
+              <label>
+                <input
+                  class="subscriber-editable"
+                  type="checkbox"
+                  value="${permission}"
+                  ${subscriber.accessDefaults.permissions.includes(permission) ? "checked" : ""}
+                />
+                <span>${permission}</span>
+              </label>
+            `
+          )
+          .join("");
+      };
 
       const statusClass = (status) => {
         if (status === "Active") return "status-active";
@@ -1793,6 +2082,12 @@
         elements.scopeSelector.value = state.subscriberId;
       };
 
+      const renderAccountExecOptions = () => {
+        elements.accountExec.innerHTML = ecgUsers
+          .map((name) => `<option value="${name}">${name}</option>`)
+          .join("");
+      };
+
       const renderScopeBar = (subscriber) => {
         elements.scopeSubscriberName.textContent = subscriber.label;
         elements.scopeUserCounts.textContent = getSubscriberUserCounts(subscriber);
@@ -1817,7 +2112,7 @@
               <tr>
                 <td>${facility.name}</td>
                 <td>${facility.mdrId}</td>
-                <td>${facility.checklistUrl}</td>
+                <td><span class="status-badge ${facility.status === "Active" ? "status-active" : "status-disabled"}">${facility.status}</span></td>
                 <td>${facility.owned ? "Yes" : "No"}</td>
                 <td>
                   ${
@@ -1855,7 +2150,7 @@
         if (!filteredUsers.length) {
           elements.usersBody.innerHTML = `
             <tr>
-              <td colspan="9">
+              <td colspan="11">
                 <div class="search-empty">
                   No users matched the current search and filter settings.
                 </div>
@@ -1873,9 +2168,11 @@
                 <td>${user.first}</td>
                 <td>${user.username}</td>
                 <td>${getEffectiveSignIn(subscriber, user)}</td>
+                <td>${user.visibility}</td>
                 <td>${user.role}</td>
                 <td>${user.facilitySelections.length}</td>
-                <td>${user.permissions.join(", ")}</td>
+                <td>${formatPermissionList(getCorePermissions(user.permissions))}</td>
+                <td>${formatPermissionList(getAdvancedPermissions(user.permissions))}</td>
                 <td><span class="status-badge ${statusClass(user.status)}">${user.status}</span></td>
                 <td>${latestAuditTimestamp(user)}</td>
               </tr>
@@ -1949,10 +2246,16 @@
         elements.lookupYear.value = subscriber.lookupYear;
         elements.accountExec.value = subscriber.accountExecutive;
         elements.sso.value = subscriber.sso;
+        elements.defaultRole.value = subscriber.accessDefaults.role;
+        elements.defaultVisibility.value = subscriber.accessDefaults.visibility;
+        elements.subscriberInheritedSummary.textContent = `${subscriber.accessDefaults.role} by default, ${subscriber.accessDefaults.visibility}, ${formatPermissionList(
+          subscriber.accessDefaults.permissions
+        )}.`;
         state.draftFacilities = state.subscriberEditing
           ? (state.draftFacilities || subscriber.facilities.map((facility) => ({ ...facility })))
           : null;
 
+        renderSubscriberPermissions(subscriber);
         renderFacilities(subscriber);
         renderUsers(subscriber);
         renderAudit(subscriber);
@@ -1965,6 +2268,7 @@
         if (!subscriber) return;
 
         const previousName = subscriber.label;
+        const previousDefaults = `${subscriber.accessDefaults.role} | ${subscriber.accessDefaults.visibility}`;
         subscriber.id = elements.subscriberId.value.trim();
         subscriber.label = elements.subscriberName.value.trim();
         subscriber.shortName = elements.subscriberShortName.value.trim();
@@ -1973,6 +2277,16 @@
         subscriber.lookupYear = elements.lookupYear.value.trim();
         subscriber.accountExecutive = elements.accountExec.value.trim();
         subscriber.sso = elements.sso.value;
+        subscriber.accessDefaults.role = elements.defaultRole.value;
+        subscriber.accessDefaults.visibility = elements.defaultVisibility.value;
+        subscriber.accessDefaults.permissions = [
+          ...Array.from(
+            elements.subscriberPermissionGrid.querySelectorAll("input:checked")
+          ).map((input) => input.value),
+          ...Array.from(
+            elements.subscriberAdvancedPermissionGrid.querySelectorAll("input:checked")
+          ).map((input) => input.value)
+        ];
         subscriber.facilities = (state.draftFacilities || subscriber.facilities).map((facility) => ({
           ...facility
         }));
@@ -1981,19 +2295,26 @@
             subscriber.facilityCatalog.push(facility.name);
           }
         });
+        subscriber.accessDefaults.facilities = subscriber.accessDefaults.facilities.filter((facility) =>
+          subscriber.facilityCatalog.includes(facility)
+        );
+        if (!subscriber.accessDefaults.facilities.length && subscriber.facilityCatalog.length) {
+          subscriber.accessDefaults.facilities = [subscriber.facilityCatalog[0]];
+        }
         elements.facilityAdd.value = "";
         state.draftFacilities = null;
 
         subscriber.audit.unshift({
           timestamp: "2026-04-07 11:15",
           record: "Subscriber",
-          field: "Fields Submitted",
-          before: previousName,
-          after: subscriber.label,
+          field: "Subscriber Defaults Submitted",
+          before: `${previousName} | ${previousDefaults}`,
+          after: `${subscriber.label} | ${subscriber.accessDefaults.role} | ${subscriber.accessDefaults.visibility}`,
           by: "Super User"
         });
       };
 
+      renderAccountExecOptions();
       renderPage();
       syncTooltips();
 
@@ -2072,7 +2393,7 @@
           state.draftFacilities.push({
             name: newFacility,
             mdrId: `NEW${String(state.draftFacilities.length + 1).padStart(4, "0")}`,
-            checklistUrl: "new-checklist",
+            status: "Active",
             owned: false
           });
         }

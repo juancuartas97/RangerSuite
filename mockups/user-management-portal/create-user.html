@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create User Draft</title>
+    <title>Create User</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -30,16 +30,13 @@
         <span>/</span>
         <a id="back-to-users" href="user-detail.html">User Management</a>
         <span>/</span>
-        <span>Create User Draft</span>
+        <span>Create User</span>
       </div>
 
       <div class="page-header">
         <div>
-          <h1>Create User Draft</h1>
-          <p class="page-copy">
-            Draft a new user profile, assign the subscriber, choose facilities and permission
-            flags, then save or send the invite when ready.
-          </p>
+          <h1>Create User</h1>
+          <p class="page-copy">Create a user inside the selected subscriber scope.</p>
         </div>
         <div class="action-bar">
           <button class="btn-soft" id="save-draft-button" type="button">Save Draft</button>
@@ -50,8 +47,8 @@
       <div class="workspace-grid">
         <div class="workspace-main">
           <section class="panel detail-panel">
-            <h2>Subscriber Assignment</h2>
-            <p>Choose the subscriber first so facilities and related defaults stay in sync.</p>
+            <h2>Subscriber Scope</h2>
+            <p>Choose the subscriber first so access, facilities, and sign-in stay in sync.</p>
             <div class="detail-fields">
               <div class="detail-field">
                 <label class="field-label" for="subscriber-select">
@@ -108,9 +105,13 @@
           </section>
 
           <section class="panel detail-panel">
-            <h2>Role and Permission Flags</h2>
-            <p>Set the user hierarchy, searchable facility list, and permission flags for the draft.</p>
+            <h2>Access and Hierarchy</h2>
+            <p>Subscriber defaults prefill the user model below. Adjust only where this user needs an exception.</p>
             <div class="assignment-grid">
+              <div class="summary-item full-span">
+                <strong>Inherited From Subscriber</strong>
+                <span id="inherited-access-summary"></span>
+              </div>
               <div class="detail-field">
                 <label class="field-label" for="role"><span>Role</span></label>
                 <select id="role" class="select">
@@ -127,6 +128,38 @@
                   <option selected>Email Invite</option>
                   <option>Manual Provisioning</option>
                   <option>SSO Pre-Provision</option>
+                </select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="sign-in-policy">
+                  <span>User Sign In</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="New users inherit the subscriber's sign-in method by default. Override only when the individual user needs OTP or Single Sign-On."
+                    >i</span
+                  >
+                </label>
+                <select id="sign-in-policy" class="select">
+                  <option value="inherit">Inherit organization default</option>
+                  <option value="otp">OTP override</option>
+                  <option value="sso">Single Sign-On override</option>
+                </select>
+              </div>
+              <div class="detail-field">
+                <label class="field-label" for="visibility-scope">
+                  <span>Visibility</span>
+                  <span
+                    class="info-icon"
+                    tabindex="0"
+                    title="Visibility starts with the subscriber default and can be narrowed or broadened for this specific user."
+                    >i</span
+                  >
+                </label>
+                <select id="visibility-scope" class="select">
+                  <option>All subscriber facilities</option>
+                  <option>Assigned facilities only</option>
+                  <option>Cross-subscriber support</option>
                 </select>
               </div>
               <div class="detail-field full">
@@ -149,11 +182,26 @@
                 <div id="facility-chips" class="chip-list"></div>
               </div>
               <div class="detail-field full">
-                <label class="field-label"><span>Permission Flags</span></label>
+                <label class="field-label"><span>Permissions</span></label>
                 <div id="permission-grid" class="permission-grid"></div>
               </div>
             </div>
           </section>
+
+          <details class="advanced-settings">
+            <summary>
+              <div>
+                <strong>Advanced Settings</strong>
+                <span>Specialty access controls inherited from the subscriber.</span>
+              </div>
+            </summary>
+            <div class="advanced-settings-body">
+              <div class="detail-field full">
+                <label class="field-label"><span>Specialty Access</span></label>
+                <div id="advanced-permission-grid" class="permission-grid"></div>
+              </div>
+            </div>
+          </details>
         </div>
 
         <div class="workspace-side">
@@ -161,7 +209,7 @@
             <div class="selected-user-shell">
               <section class="panel-subsection">
                 <h3>Linked Subscriber Summary</h3>
-                <p>Review the current customer before finalizing the draft user setup.</p>
+                <p>Current parent context for this new user.</p>
                 <div class="summary-card-grid">
                   <div class="summary-item"><strong>Customer</strong><span id="summary-customer"></span></div>
                   <div class="summary-item"><strong>Customer ID</strong><span id="summary-customer-id"></span></div>
@@ -171,34 +219,20 @@
               </section>
 
               <section class="panel-subsection">
-                <h3>Draft Checklist</h3>
-                <p>Suggested prep steps before sending an invite.</p>
-                <div class="permission-summary-grid">
-                  <div class="permission-summary-card">
-                    <strong>Identity Confirmed</strong>
-                    <span>Email, title, and username are ready for review.</span>
+                <h3>Inherited Access</h3>
+                <p>These subscriber defaults prefill the new user and can then be tailored by person.</p>
+                <div class="summary-card-grid">
+                  <div class="summary-item"><strong>Default Role</strong><span id="summary-default-role"></span></div>
+                  <div class="summary-item"><strong>Default Visibility</strong><span id="summary-default-visibility"></span></div>
+                  <div class="summary-item full-span">
+                    <strong>Default Permissions</strong>
+                    <span id="summary-default-permissions"></span>
                   </div>
-                  <div class="permission-summary-card">
-                    <strong>Facility Scope</strong>
-                    <span>At least one facility should be selected for non-admin roles.</span>
-                  </div>
-                  <div class="permission-summary-card">
-                    <strong>Permissions Reviewed</strong>
-                    <span>Validate archived, reporting, and salary-data access before invite.</span>
-                  </div>
-                  <div class="permission-summary-card">
-                    <strong>Invite Plan</strong>
-                    <span>Draft can be saved now or sent once stakeholder approval is complete.</span>
+                  <div class="summary-item full-span">
+                    <strong>Default Facilities</strong>
+                    <span id="summary-default-facilities"></span>
                   </div>
                 </div>
-              </section>
-
-              <section class="panel-subsection">
-                <h3>Internal Notes</h3>
-                <p class="table-note">
-                  Draft note: subscriber requested a new analyst seat for monthly benchmark review
-                  and export access.
-                </p>
               </section>
             </div>
           </section>
@@ -207,16 +241,23 @@
     </main>
 
     <script>
-      const permissionCatalog = [
-        "Subscriber",
-        "Portal Access",
-        "Reportable",
-        "Customer",
-        "Coverage Only",
-        "MD/AD/LE Only",
+      const permissionCatalog = ["Coverage Only", "MD/AD/LE Only"];
+
+      const advancedPermissionCatalog = [
+        "90th Percentile",
+        "Analytics/Customer BM Report",
+        "Audit Tool",
         "Salary Data",
-        "Demo"
+        "TCR Access",
+        "RFMV Access"
       ];
+
+      const allPermissionCatalog = [...permissionCatalog, ...advancedPermissionCatalog];
+
+      const normalizePermissionName = (permission) =>
+        permission === "Custom Benchmark Exports"
+          ? "Analytics/Customer BM Report"
+          : permission;
 
       const subscribers = [
         {
@@ -230,7 +271,13 @@
             "AMG Specialty Hospital - Albuquerque",
             "AMG Specialty Hospital - Central Indiana",
             "AMG Specialty Hospital - Zachary"
-          ]
+          ],
+          accessDefaults: {
+            role: "Analyst",
+            visibility: "Assigned facilities only",
+            permissions: ["MD/AD/LE Only", "Salary Data", "Analytics/Customer BM Report"],
+            facilities: ["AMG Specialty Hospital - Central Indiana"]
+          }
         },
         {
           key: "blend",
@@ -238,7 +285,18 @@
           id: "143",
           type: "Regional Health System",
           sso: "Single Sign-On",
-          facilities: ["Blend North", "Blend South", "Blend Coastal", "Blend Metro"]
+          facilities: ["Blend North", "Blend South", "Blend Coastal", "Blend Metro"],
+          accessDefaults: {
+            role: "Subscriber Admin",
+            visibility: "All subscriber facilities",
+            permissions: [
+              "Coverage Only",
+              "MD/AD/LE Only",
+              "Salary Data",
+              "90th Percentile"
+            ],
+            facilities: ["Blend North", "Blend South"]
+          }
         },
         {
           key: "coastal",
@@ -246,7 +304,13 @@
           id: "244",
           type: "Specialty Network",
           sso: "OTP",
-          facilities: ["Coastal East", "Coastal West", "Coastal Rehab"]
+          facilities: ["Coastal East", "Coastal West", "Coastal Rehab"],
+          accessDefaults: {
+            role: "Facility Manager",
+            visibility: "Assigned facilities only",
+            permissions: ["Coverage Only", "MD/AD/LE Only", "Salary Data"],
+            facilities: ["Coastal East"]
+          }
         }
       ];
 
@@ -257,21 +321,34 @@
 
       const state = {
         subscriberId: defaultSubscriberKey,
-        facilities: ["AMG Specialty Hospital - Central Indiana"],
-        permissions: ["Portal Access", "Reportable", "MD/AD/LE Only"]
+        facilities: [],
+        permissions: [],
+        role: "",
+        visibility: "",
+        signInPolicy: "inherit"
       };
 
       const elements = {
         backToUsers: document.getElementById("back-to-users"),
         subscriberSelect: document.getElementById("subscriber-select"),
+        role: document.getElementById("role"),
+        inviteType: document.getElementById("invite-type"),
+        signInPolicy: document.getElementById("sign-in-policy"),
+        visibilityScope: document.getElementById("visibility-scope"),
         facilitySearch: document.getElementById("facility-search"),
         facilityOptions: document.getElementById("facility-options"),
         facilityChips: document.getElementById("facility-chips"),
         permissionGrid: document.getElementById("permission-grid"),
+        advancedPermissionGrid: document.getElementById("advanced-permission-grid"),
+        inheritedAccessSummary: document.getElementById("inherited-access-summary"),
         summaryCustomer: document.getElementById("summary-customer"),
         summaryCustomerId: document.getElementById("summary-customer-id"),
         summaryType: document.getElementById("summary-type"),
         summarySso: document.getElementById("summary-sso"),
+        summaryDefaultRole: document.getElementById("summary-default-role"),
+        summaryDefaultVisibility: document.getElementById("summary-default-visibility"),
+        summaryDefaultPermissions: document.getElementById("summary-default-permissions"),
+        summaryDefaultFacilities: document.getElementById("summary-default-facilities"),
         saveDraft: document.getElementById("save-draft-button"),
         sendInvite: document.getElementById("send-invite-button")
       };
@@ -279,33 +356,32 @@
       const getSubscriber = () =>
         subscribers.find((subscriber) => subscriber.key === state.subscriberId);
 
+      const formatPermissionList = (permissions) =>
+        permissions.length ? permissions.join(", ") : "No permissions selected";
+
+      const getCorePermissions = (permissions) =>
+        permissions.filter((permission) => permissionCatalog.includes(permission));
+
+      const getAdvancedPermissions = (permissions) =>
+        permissions.filter((permission) => advancedPermissionCatalog.includes(permission));
+
       const syncTooltips = () => {
         document.querySelectorAll(".info-icon[title]").forEach((icon) => {
           icon.dataset.tooltip = icon.getAttribute("title");
         });
       };
 
-      const renderSubscriber = () => {
+      const applySubscriberDefaults = () => {
         const subscriber = getSubscriber();
-        elements.backToUsers.href = `user-detail.html?subscriber=${encodeURIComponent(subscriber.key)}`;
-        elements.summaryCustomer.textContent = subscriber.label;
-        elements.summaryCustomerId.textContent = subscriber.id;
-        elements.summaryType.textContent = subscriber.type;
-        elements.summarySso.textContent = subscriber.sso;
-        elements.facilityOptions.innerHTML = subscriber.facilities
-          .map((facility) => `<option value="${facility}"></option>`)
-          .join("");
+        if (!subscriber) return;
 
-        elements.facilityChips.innerHTML = state.facilities
-          .map(
-            (facility) => `
-              <button type="button" class="chip chip-remove-button" data-remove-draft-facility="${facility}">
-                <span>${facility}</span>
-                <span aria-hidden="true">×</span>
-              </button>
-            `
-          )
-          .join("");
+        state.role = subscriber.accessDefaults.role;
+        state.visibility = subscriber.accessDefaults.visibility;
+        state.permissions = subscriber.accessDefaults.permissions
+          .map(normalizePermissionName)
+          .filter((permission) => allPermissionCatalog.includes(permission));
+        state.facilities = subscriber.accessDefaults.facilities.slice();
+        state.signInPolicy = "inherit";
       };
 
       const renderPermissions = () => {
@@ -323,6 +399,62 @@
             `
           )
           .join("");
+
+        elements.advancedPermissionGrid.innerHTML = advancedPermissionCatalog
+          .map(
+            (permission) => `
+              <label>
+                <input
+                  type="checkbox"
+                  value="${permission}"
+                  ${state.permissions.includes(permission) ? "checked" : ""}
+                />
+                <span>${permission}</span>
+              </label>
+            `
+          )
+          .join("");
+      };
+
+      const renderSubscriber = () => {
+        const subscriber = getSubscriber();
+        if (!subscriber) return;
+
+        elements.backToUsers.href = `user-detail.html?subscriber=${encodeURIComponent(subscriber.key)}`;
+        elements.summaryCustomer.textContent = subscriber.label;
+        elements.summaryCustomerId.textContent = subscriber.id;
+        elements.summaryType.textContent = subscriber.type;
+        elements.summarySso.textContent = subscriber.sso;
+        elements.summaryDefaultRole.textContent = subscriber.accessDefaults.role;
+        elements.summaryDefaultVisibility.textContent = subscriber.accessDefaults.visibility;
+        elements.summaryDefaultPermissions.textContent = formatPermissionList(
+          subscriber.accessDefaults.permissions
+        );
+        elements.summaryDefaultFacilities.textContent = subscriber.accessDefaults.facilities.join(", ");
+        elements.inheritedAccessSummary.textContent = `${subscriber.accessDefaults.role} by default, ${subscriber.accessDefaults.visibility}, ${formatPermissionList(
+          subscriber.accessDefaults.permissions
+        )}.`;
+
+        elements.role.value = state.role;
+        elements.visibilityScope.value = state.visibility;
+        elements.signInPolicy.value = state.signInPolicy;
+
+        elements.facilityOptions.innerHTML = subscriber.facilities
+          .map((facility) => `<option value="${facility}"></option>`)
+          .join("");
+
+        elements.facilityChips.innerHTML = state.facilities
+          .map(
+            (facility) => `
+              <button type="button" class="chip chip-remove-button" data-remove-draft-facility="${facility}">
+                <span>${facility}</span>
+                <span aria-hidden="true">×</span>
+              </button>
+            `
+          )
+          .join("");
+
+        renderPermissions();
       };
 
       elements.subscriberSelect.innerHTML = subscribers
@@ -334,14 +466,26 @@
         )
         .join("");
 
+      applySubscriberDefaults();
       renderSubscriber();
-      renderPermissions();
       syncTooltips();
 
       elements.subscriberSelect.addEventListener("change", () => {
         state.subscriberId = elements.subscriberSelect.value;
-        state.facilities = [getSubscriber().facilities[0]];
+        applySubscriberDefaults();
         renderSubscriber();
+      });
+
+      elements.role.addEventListener("change", () => {
+        state.role = elements.role.value;
+      });
+
+      elements.signInPolicy.addEventListener("change", () => {
+        state.signInPolicy = elements.signInPolicy.value;
+      });
+
+      elements.visibilityScope.addEventListener("change", () => {
+        state.visibility = elements.visibilityScope.value;
       });
 
       elements.facilitySearch.addEventListener("change", () => {
@@ -363,17 +507,33 @@
       });
 
       elements.permissionGrid.addEventListener("change", () => {
-        state.permissions = Array.from(
-          elements.permissionGrid.querySelectorAll("input:checked")
-        ).map((input) => input.value);
+        state.permissions = [
+          ...Array.from(elements.permissionGrid.querySelectorAll("input:checked")).map(
+            (input) => input.value
+          ),
+          ...Array.from(elements.advancedPermissionGrid.querySelectorAll("input:checked")).map(
+            (input) => input.value
+          )
+        ];
+      });
+
+      elements.advancedPermissionGrid.addEventListener("change", () => {
+        state.permissions = [
+          ...Array.from(elements.permissionGrid.querySelectorAll("input:checked")).map(
+            (input) => input.value
+          ),
+          ...Array.from(elements.advancedPermissionGrid.querySelectorAll("input:checked")).map(
+            (input) => input.value
+          )
+        ];
       });
 
       elements.saveDraft.addEventListener("click", () => {
-        window.alert("Draft user saved locally for review.");
+        window.alert(`Draft user saved locally under ${getSubscriber().label}.`);
       });
 
       elements.sendInvite.addEventListener("click", () => {
-        if (!window.confirm("Send invite for this draft user?")) return;
+        if (!window.confirm(`Send invite for this ${getSubscriber().label} user?`)) return;
         window.alert("Invite queued for approval.");
       });
     </script>

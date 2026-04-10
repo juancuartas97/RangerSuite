@@ -511,8 +511,64 @@
       .summary-item, .permission-summary-card { padding: 14px 16px; }
       .summary-item strong, .permission-summary-card strong { display: block; margin-bottom: 6px; color: var(--navy); }
       .summary-item span, .permission-summary-card span { color: var(--muted); font-weight: 600; }
+      .summary-item.full-span { grid-column: 1 / -1; }
 
       .panel-subsection { padding: 16px; }
+
+      .advanced-settings {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface-soft);
+        overflow: hidden;
+      }
+
+      .advanced-settings summary {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 20px;
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .advanced-settings summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .advanced-settings summary::after {
+        content: "+";
+        flex: 0 0 auto;
+        color: var(--navy-soft);
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .advanced-settings[open] summary::after {
+        content: "–";
+      }
+
+      .advanced-settings summary div {
+        display: grid;
+        gap: 4px;
+      }
+
+      .advanced-settings summary strong {
+        color: var(--navy);
+        font-size: 1.02rem;
+      }
+
+      .advanced-settings summary span {
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+
+      .advanced-settings-body {
+        padding: 0 20px 20px;
+        border-top: 1px solid var(--border);
+      }
 
       .pill, .chip {
         display: inline-flex;
