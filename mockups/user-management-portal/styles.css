@@ -117,6 +117,14 @@ button, input, select, textarea { font: inherit; }
 .page-header { margin-bottom: 18px; }
 .page-header h1 { margin: 0 0 10px; font-size: 2rem; }
 .page-copy { margin: 0; max-width: 760px; color: var(--muted); line-height: 1.55; }
+.page-header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
 
 .panel {
   background: var(--surface);
@@ -169,12 +177,7 @@ button, input, select, textarea { font: inherit; }
   grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
 }
 
-#subscriber-detail-page .scope-bar-actions {
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-#subscriber-detail-page .scope-bar-actions .action-bar {
+#subscriber-detail-page .page-header-actions .action-bar {
   justify-content: flex-end;
 }
 
@@ -876,7 +879,7 @@ button, input, select, textarea { font: inherit; }
   }
 }
 
-@media (max-width: 1560px) {
+@media (max-width: 1179px) {
   #subscriber-detail-page .workspace-grid {
     grid-template-columns: 1fr;
   }
@@ -886,12 +889,29 @@ button, input, select, textarea { font: inherit; }
     align-items: stretch;
   }
 
-  #subscriber-detail-page .scope-bar-actions {
-    margin-left: 0;
-    justify-content: flex-start;
-  }
-
   #subscriber-detail-page .table-filter-grid {
     grid-template-columns: 1fr;
   }
+}
+
+@media (min-width: 1180px) {
+  #subscriber-detail-page .workspace-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "profile inherited"
+      "advanced facilities"
+      "users users";
+    align-items: start;
+  }
+
+  #subscriber-detail-page .workspace-main,
+  #subscriber-detail-page .workspace-side {
+    display: contents;
+  }
+
+  #subscriber-detail-page .subscriber-profile-card { grid-area: profile; }
+  #subscriber-detail-page .subscriber-inherited-card { grid-area: inherited; }
+  #subscriber-detail-page .subscriber-advanced-card { grid-area: advanced; }
+  #subscriber-detail-page .subscriber-facilities-card { grid-area: facilities; }
+  #subscriber-detail-page .subscriber-users-card { grid-area: users; }
 }

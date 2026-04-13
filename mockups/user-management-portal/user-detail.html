@@ -492,35 +492,6 @@
 
       const allPermissionCatalog = [...permissionCatalog, ...advancedPermissionCatalog];
 
-      const rolePermissionDefaults = {
-        "Subscriber Admin": [
-          "Coverage Only",
-          "MD/AD/LE Only",
-          "Analytics/Customer BM Report",
-          "Audit Tool",
-          "Salary Data",
-          "90th Percentile",
-          "TCR Access"
-        ],
-        "Facility Manager": ["Coverage Only", "MD/AD/LE Only", "Audit Tool", "Salary Data"],
-        Analyst: [
-          "MD/AD/LE Only",
-          "Analytics/Customer BM Report",
-          "Salary Data",
-          "90th Percentile"
-        ],
-        "Read Only": ["Coverage Only"],
-        "MDR Staff": [
-          "Coverage Only",
-          "MD/AD/LE Only",
-          "Analytics/Customer BM Report",
-          "Audit Tool",
-          "Salary Data",
-          "TCR Access",
-          "RFMV Access"
-        ]
-      };
-
       const roleVisibilityDefaults = {
         "Subscriber Admin": "All subscriber facilities",
         "Facility Manager": "Assigned facilities only",
@@ -816,62 +787,53 @@
         sayala: {
           state: "LA",
           signInOverride: null,
-          additionalMdrIds: ["1364", "1988"],
-          regionalBenchmarks: ["All Acute Hospitals", "Regional Peers"]
+          additionalMdrIds: ["1364", "1988"]
         },
         tfontenot: {
           state: "IN",
           signInOverride: "Single Sign-On",
-          additionalMdrIds: ["2040", "2040-ALT"],
-          regionalBenchmarks: ["All Acute Non-Trauma", "Regional Peers"]
+          additionalMdrIds: ["2040", "2040-ALT"]
         },
         ahankton: {
           state: "LA",
           signInOverride: null,
-          additionalMdrIds: ["1184"],
-          regionalBenchmarks: ["All Acute Hospitals"]
+          additionalMdrIds: ["1184"]
         },
         jhargrave: {
           state: "LA",
           signInOverride: "OTP",
-          additionalMdrIds: ["0911"],
-          regionalBenchmarks: ["Regional Peers"]
+          additionalMdrIds: ["0911"]
         },
         rvasquez: {
           state: "TX",
           signInOverride: null,
-          additionalMdrIds: ["3001", "3001-W"],
-          regionalBenchmarks: ["All Acute Trauma", "Regional Peers"]
+          additionalMdrIds: ["3001", "3001-W"]
         },
         mlewis: {
           state: "CA",
           signInOverride: null,
-          additionalMdrIds: ["3177"],
-          regionalBenchmarks: ["All Acute Trauma", "All Facilities Trauma"]
+          additionalMdrIds: ["3177"]
         },
         cgaines: {
           state: "CA",
           signInOverride: "OTP",
-          additionalMdrIds: ["3189-OLD"],
-          regionalBenchmarks: ["All Acute Hospitals"]
+          additionalMdrIds: ["3189-OLD"]
         },
         sgibbs: {
           state: "FL",
           signInOverride: null,
-          additionalMdrIds: ["4107", "4107-A"],
-          regionalBenchmarks: ["Regional Peers", "Rehab Facilities"]
+          additionalMdrIds: ["4107", "4107-A"]
         },
         cmoore: {
           state: "FL",
           signInOverride: null,
-          additionalMdrIds: ["4112"],
-          regionalBenchmarks: ["Children's Hospitals"]
+          additionalMdrIds: ["4112"]
         }
       };
 
       subscribers.forEach((subscriber) => {
         subscriber.accessDefaults.permissions = subscriber.accessDefaults.permissions.filter((permission) =>
-          permissionCatalog.includes(permission)
+          allPermissionCatalog.includes(permission)
         );
         subscriber.accessDefaults.facilities = subscriber.accessDefaults.facilities.filter((facility) =>
           subscriber.facilityCatalog.includes(facility)
@@ -884,8 +846,7 @@
             .filter((permission) =>
               allPermissionCatalog.includes(permission)
           );
-          const inheritedPermissions =
-            rolePermissionDefaults[user.role] || subscriber.accessDefaults.permissions;
+          const inheritedPermissions = subscriber.accessDefaults.permissions;
           user.state = profile.state || "";
           user.signInOverride = Object.prototype.hasOwnProperty.call(profile, "signInOverride")
             ? profile.signInOverride

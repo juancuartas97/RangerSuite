@@ -124,6 +124,14 @@
       .page-header { margin-bottom: 18px; }
       .page-header h1 { margin: 0 0 10px; font-size: 2rem; }
       .page-copy { margin: 0; max-width: 760px; color: var(--muted); line-height: 1.55; }
+      .page-header-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        margin-left: auto;
+      }
 
       .panel {
         background: var(--surface);
@@ -176,12 +184,7 @@
         grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
       }
 
-      #subscriber-detail-page .scope-bar-actions {
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-
-      #subscriber-detail-page .scope-bar-actions .action-bar {
+      #subscriber-detail-page .page-header-actions .action-bar {
         justify-content: flex-end;
       }
 
@@ -883,7 +886,7 @@
         }
       }
 
-      @media (max-width: 1560px) {
+      @media (max-width: 1179px) {
         #subscriber-detail-page .workspace-grid {
           grid-template-columns: 1fr;
         }
@@ -893,14 +896,31 @@
           align-items: stretch;
         }
 
-        #subscriber-detail-page .scope-bar-actions {
-          margin-left: 0;
-          justify-content: flex-start;
-        }
-
         #subscriber-detail-page .table-filter-grid {
           grid-template-columns: 1fr;
         }
+      }
+
+      @media (min-width: 1180px) {
+        #subscriber-detail-page .workspace-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-areas:
+            "profile inherited"
+            "advanced facilities"
+            "users users";
+          align-items: start;
+        }
+
+        #subscriber-detail-page .workspace-main,
+        #subscriber-detail-page .workspace-side {
+          display: contents;
+        }
+
+        #subscriber-detail-page .subscriber-profile-card { grid-area: profile; }
+        #subscriber-detail-page .subscriber-inherited-card { grid-area: inherited; }
+        #subscriber-detail-page .subscriber-advanced-card { grid-area: advanced; }
+        #subscriber-detail-page .subscriber-facilities-card { grid-area: facilities; }
+        #subscriber-detail-page .subscriber-users-card { grid-area: users; }
       }
     </style>
   </head>
@@ -1390,35 +1410,6 @@
 
       const allPermissionCatalog = [...permissionCatalog, ...advancedPermissionCatalog];
 
-      const rolePermissionDefaults = {
-        "Subscriber Admin": [
-          "Coverage Only",
-          "MD/AD/LE Only",
-          "Analytics/Customer BM Report",
-          "Audit Tool",
-          "Salary Data",
-          "90th Percentile",
-          "TCR Access"
-        ],
-        "Facility Manager": ["Coverage Only", "MD/AD/LE Only", "Audit Tool", "Salary Data"],
-        Analyst: [
-          "MD/AD/LE Only",
-          "Analytics/Customer BM Report",
-          "Salary Data",
-          "90th Percentile"
-        ],
-        "Read Only": ["Coverage Only"],
-        "MDR Staff": [
-          "Coverage Only",
-          "MD/AD/LE Only",
-          "Analytics/Customer BM Report",
-          "Audit Tool",
-          "Salary Data",
-          "TCR Access",
-          "RFMV Access"
-        ]
-      };
-
       const roleVisibilityDefaults = {
         "Subscriber Admin": "All subscriber facilities",
         "Facility Manager": "Assigned facilities only",
@@ -1714,62 +1705,53 @@
         sayala: {
           state: "LA",
           signInOverride: null,
-          additionalMdrIds: ["1364", "1988"],
-          regionalBenchmarks: ["All Acute Hospitals", "Regional Peers"]
+          additionalMdrIds: ["1364", "1988"]
         },
         tfontenot: {
           state: "IN",
           signInOverride: "Single Sign-On",
-          additionalMdrIds: ["2040", "2040-ALT"],
-          regionalBenchmarks: ["All Acute Non-Trauma", "Regional Peers"]
+          additionalMdrIds: ["2040", "2040-ALT"]
         },
         ahankton: {
           state: "LA",
           signInOverride: null,
-          additionalMdrIds: ["1184"],
-          regionalBenchmarks: ["All Acute Hospitals"]
+          additionalMdrIds: ["1184"]
         },
         jhargrave: {
           state: "LA",
           signInOverride: "OTP",
-          additionalMdrIds: ["0911"],
-          regionalBenchmarks: ["Regional Peers"]
+          additionalMdrIds: ["0911"]
         },
         rvasquez: {
           state: "TX",
           signInOverride: null,
-          additionalMdrIds: ["3001", "3001-W"],
-          regionalBenchmarks: ["All Acute Trauma", "Regional Peers"]
+          additionalMdrIds: ["3001", "3001-W"]
         },
         mlewis: {
           state: "CA",
           signInOverride: null,
-          additionalMdrIds: ["3177"],
-          regionalBenchmarks: ["All Acute Trauma", "All Facilities Trauma"]
+          additionalMdrIds: ["3177"]
         },
         cgaines: {
           state: "CA",
           signInOverride: "OTP",
-          additionalMdrIds: ["3189-OLD"],
-          regionalBenchmarks: ["All Acute Hospitals"]
+          additionalMdrIds: ["3189-OLD"]
         },
         sgibbs: {
           state: "FL",
           signInOverride: null,
-          additionalMdrIds: ["4107", "4107-A"],
-          regionalBenchmarks: ["Regional Peers", "Rehab Facilities"]
+          additionalMdrIds: ["4107", "4107-A"]
         },
         cmoore: {
           state: "FL",
           signInOverride: null,
-          additionalMdrIds: ["4112"],
-          regionalBenchmarks: ["Children's Hospitals"]
+          additionalMdrIds: ["4112"]
         }
       };
 
       subscribers.forEach((subscriber) => {
         subscriber.accessDefaults.permissions = subscriber.accessDefaults.permissions.filter((permission) =>
-          permissionCatalog.includes(permission)
+          allPermissionCatalog.includes(permission)
         );
         subscriber.accessDefaults.facilities = subscriber.accessDefaults.facilities.filter((facility) =>
           subscriber.facilityCatalog.includes(facility)
@@ -1782,8 +1764,7 @@
             .filter((permission) =>
               allPermissionCatalog.includes(permission)
           );
-          const inheritedPermissions =
-            rolePermissionDefaults[user.role] || subscriber.accessDefaults.permissions;
+          const inheritedPermissions = subscriber.accessDefaults.permissions;
           user.state = profile.state || "";
           user.signInOverride = Object.prototype.hasOwnProperty.call(profile, "signInOverride")
             ? profile.signInOverride
