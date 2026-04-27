@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin</title>
+    <title>Custom Reports</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="portal-body">
@@ -27,11 +27,13 @@
         <a href="../preview.html">Portal Overview</a>
         <span>/</span>
         <span>Admin</span>
+        <span>/</span>
+        <span>Custom Reports</span>
       </div>
 
       <div class="portal-page-header-bar">
         <div class="portal-header portal-header-compact">
-          <h1>Admin</h1>
+          <h1>Custom Reports</h1>
         </div>
       </div>
 
@@ -66,23 +68,31 @@
           <div>
             <span class="portal-kicker">Admin tools</span>
             <h2>Custom report builder</h2>
-            <p>Build a report with core inputs only, then generate from one action.</p>
+            <p>Create and run professional report and hospital-based report workflows from the admin area.</p>
           </div>
         </div>
 
-        <div class="custom-report-grid">
-          <label class="portal-field">
+        <div class="custom-report-grid custom-report-grid-inline">
+          <label class="portal-field custom-report-autocomplete">
             <span class="portal-field-label">Customer name</span>
-            <input class="portal-input" type="text" list="customer-suggestions" placeholder="Start typing a customer name" />
-            <datalist id="customer-suggestions">
-              <option value="CommonSpirit Health"></option>
-              <option value="Mayo Clinic"></option>
-              <option value="Kaiser Permanente"></option>
-              <option value="Cleveland Clinic"></option>
-              <option value="Ascension"></option>
-            </datalist>
+            <input
+              class="portal-input"
+              id="customer-name"
+              type="text"
+              autocomplete="off"
+              placeholder="Start typing a customer name"
+              value="CommonSpirit Health"
+            />
+            <ul class="custom-report-suggestions" id="customer-name-suggestions"></ul>
           </label>
 
+          <label class="portal-field">
+            <span class="portal-field-label">Report Title</span>
+            <input class="portal-input" type="text" value="IDK" />
+          </label>
+        </div>
+
+        <div class="custom-report-grid">
           <label class="portal-field">
             <span class="portal-field-label">Region(s)</span>
             <select class="portal-select custom-report-multiselect" multiple>
@@ -95,14 +105,10 @@
           </label>
         </div>
 
-        <label class="portal-field custom-report-title-field">
-          <span class="portal-field-label">Report Title</span>
-          <input class="portal-input" type="text" value="IDK" />
-        </label>
-
         <section class="custom-report-dnd" aria-label="Report service selection">
           <article class="custom-report-dnd-column">
             <h3>Available services</h3>
+            <input class="portal-input custom-report-search-input" id="available-service-search" type="search" placeholder="Search available services" />
             <ul class="custom-report-dropzone" data-dropzone="available">
               <li draggable="true">Chemical Dependency/Addiction</li>
               <li draggable="true">Chest X-Ray</li>
@@ -125,8 +131,9 @@
         </section>
 
         <details class="custom-report-optional">
-          <summary>Optional: Hospital-based report</summary>
+          <summary>Hospital-based report</summary>
           <div class="custom-report-optional-body">
+            <p class="custom-report-segment-note">Use this separate report when you need hospital-based service output.</p>
             <label class="portal-field">
               <span class="portal-field-label">Hospital-based services</span>
               <select class="portal-select custom-report-multiselect" multiple>
@@ -148,7 +155,21 @@
     <script>
       (function () {
         const zones = document.querySelectorAll(".custom-report-dropzone");
+        const availableSearch = document.getElementById("available-service-search");
+        const availableList = document.querySelector('[data-dropzone="available"]');
+        const customerNameInput = document.getElementById("customer-name");
+        const customerSuggestionList = document.getElementById("customer-name-suggestions");
         let draggedItem = null;
+        const customerNames = [
+          "CommonSpirit Health",
+          "Commonspirit",
+          "Mayo Clinic",
+          "Kaiser Permanente",
+          "Cleveland Clinic",
+          "Ascension",
+          "Baylor Scott & White Health",
+          "Providence"
+        ];
 
         zones.forEach((zone) => {
           zone.addEventListener("dragstart", (event) => {
@@ -183,6 +204,65 @@
             }
           });
         });
+
+        if (availableSearch instanceof HTMLInputElement && availableList instanceof HTMLUListElement) {
+          availableSearch.addEventListener("input", () => {
+            const query = availableSearch.value.trim().toLowerCase();
+            availableList.querySelectorAll("li").forEach((item) => {
+              const matches = item.textContent.toLowerCase().includes(query);
+              item.hidden = !matches;
+            });
+          });
+        }
+
+        function renderCustomerSuggestions(query) {
+          if (!(customerSuggestionList instanceof HTMLUListElement)) return;
+          customerSuggestionList.innerHTML = "";
+
+          if (!query) {
+            customerSuggestionList.classList.remove("is-open");
+            return;
+          }
+
+          const matches = customerNames.filter((name) => name.toLowerCase().includes(query.toLowerCase())).slice(0, 6);
+
+          if (!matches.length) {
+            customerSuggestionList.classList.remove("is-open");
+            return;
+          }
+
+          matches.forEach((name) => {
+            const option = document.createElement("li");
+            option.textContent = name;
+            option.addEventListener("mousedown", () => {
+              if (customerNameInput instanceof HTMLInputElement) {
+                customerNameInput.value = name;
+              }
+              customerSuggestionList.classList.remove("is-open");
+            });
+            customerSuggestionList.appendChild(option);
+          });
+
+          customerSuggestionList.classList.add("is-open");
+        }
+
+        if (customerNameInput instanceof HTMLInputElement) {
+          customerNameInput.addEventListener("input", () => {
+            renderCustomerSuggestions(customerNameInput.value.trim());
+          });
+
+          customerNameInput.addEventListener("focus", () => {
+            renderCustomerSuggestions(customerNameInput.value.trim());
+          });
+
+          customerNameInput.addEventListener("blur", () => {
+            setTimeout(() => {
+              if (customerSuggestionList instanceof HTMLUListElement) {
+                customerSuggestionList.classList.remove("is-open");
+              }
+            }, 120);
+          });
+        }
       })();
     </script>
   </body>

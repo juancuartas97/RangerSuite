@@ -977,8 +977,47 @@ input, button, select { font: inherit; }
 
 .custom-report-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
+}
+
+.custom-report-grid-inline {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.custom-report-autocomplete {
+  position: relative;
+}
+
+.custom-report-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid #c9d8ef;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(12, 31, 74, 0.14);
+  list-style: none;
+  display: none;
+  z-index: 30;
+}
+
+.custom-report-suggestions.is-open {
+  display: grid;
+}
+
+.custom-report-suggestions li {
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #31476f;
+  cursor: pointer;
+}
+
+.custom-report-suggestions li:hover {
+  background: #edf4ff;
 }
 
 .custom-report-multiselect {
@@ -1001,6 +1040,10 @@ input, button, select { font: inherit; }
 .custom-report-dnd-column h3 {
   margin: 0 0 8px;
   color: #243c73;
+}
+
+.custom-report-search-input {
+  margin-bottom: 10px;
 }
 
 .custom-report-dropzone {
@@ -1059,6 +1102,11 @@ input, button, select { font: inherit; }
 .custom-report-optional-body {
   border-top: 1px solid #dfe6f2;
   padding: 12px 14px 14px;
+}
+
+.custom-report-segment-note {
+  margin: 0 0 12px;
+  color: #5d6f8f;
 }
 
 .custom-report-actions {
@@ -1145,6 +1193,7 @@ input, button, select { font: inherit; }
   .portal-hub-grid,
   .portal-hub-grid-admin,
   .custom-report-grid,
+  .custom-report-grid-inline,
   .custom-report-dnd {
     grid-template-columns: 1fr;
   }
