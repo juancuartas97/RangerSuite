@@ -26,7 +26,7 @@
       <div class="portal-breadcrumbs">
         <a href="../preview.html">Portal Overview</a>
         <span>/</span>
-        <span>Admin</span>
+        <a href="admin.html">Admin</a>
         <span>/</span>
         <span>Custom Reports</span>
       </div>
@@ -37,38 +37,10 @@
         </div>
       </div>
 
-      <section class="portal-hub-grid portal-hub-grid-admin">
-        <a class="portal-hub-card portal-hub-card-primary" href="../user-management-portal/subscriber-detail.html">
-          <span class="portal-kicker">Subscribers</span>
-          <h2>Subscriber Management</h2>
-          <p>Edit existing subscribers and inherited access rules.</p>
-        </a>
-
-        <a class="portal-hub-card" href="../user-management-portal/create-subscriber.html">
-          <span class="portal-kicker">Subscribers</span>
-          <h2>Create Subscriber</h2>
-          <p>Start a new subscriber with default user access rules.</p>
-        </a>
-
-        <a class="portal-hub-card" href="../user-management-portal/user-detail.html">
-          <span class="portal-kicker">Users</span>
-          <h2>User Management</h2>
-          <p>Edit users inside subscriber scope.</p>
-        </a>
-
-        <a class="portal-hub-card portal-hub-card-muted" href="custom-reports.html">
-          <span class="portal-kicker">Reports</span>
-          <h2>Custom Reports</h2>
-          <p>Create standard and hospital-based custom reports.</p>
-        </a>
-      </section>
-
       <section class="portal-panel custom-report-panel">
         <div class="portal-section-header portal-section-header-compact">
           <div>
-            <span class="portal-kicker">Admin tools</span>
-            <h2>Custom report builder</h2>
-            <p>Create and run professional report and hospital-based report workflows from the admin area.</p>
+            <h2>Customer Report Builder</h2>
           </div>
         </div>
 
@@ -105,10 +77,16 @@
           </label>
         </div>
 
+        <div class="custom-report-search-row">
+          <label class="portal-field">
+            <span class="portal-field-label">Search available services</span>
+            <input class="portal-input" id="available-service-search" type="search" placeholder="Search available services" />
+          </label>
+        </div>
+
         <section class="custom-report-dnd" aria-label="Report service selection">
           <article class="custom-report-dnd-column">
             <h3>Available services</h3>
-            <input class="portal-input custom-report-search-input" id="available-service-search" type="search" placeholder="Search available services" />
             <ul class="custom-report-dropzone" data-dropzone="available">
               <li draggable="true">Chemical Dependency/Addiction</li>
               <li draggable="true">Chest X-Ray</li>

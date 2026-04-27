@@ -1042,6 +1042,9 @@ input, button, select { font: inherit; }
   color: #243c73;
 }
 
+.custom-report-search-row {
+  margin-top: 4px;
+  max-width: 520px;
 .custom-report-search-input {
   margin-bottom: 10px;
 }
