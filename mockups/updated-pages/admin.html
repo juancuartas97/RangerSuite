@@ -60,6 +60,130 @@
           <p>Reserved for future admin tools.</p>
         </section>
       </section>
+
+      <section class="portal-panel custom-report-panel">
+        <div class="portal-section-header portal-section-header-compact">
+          <div>
+            <span class="portal-kicker">Admin tools</span>
+            <h2>Custom report builder</h2>
+            <p>Build a report with core inputs only, then generate from one action.</p>
+          </div>
+        </div>
+
+        <div class="custom-report-grid">
+          <label class="portal-field">
+            <span class="portal-field-label">Customer name</span>
+            <input class="portal-input" type="text" list="customer-suggestions" placeholder="Start typing a customer name" />
+            <datalist id="customer-suggestions">
+              <option value="CommonSpirit Health"></option>
+              <option value="Mayo Clinic"></option>
+              <option value="Kaiser Permanente"></option>
+              <option value="Cleveland Clinic"></option>
+              <option value="Ascension"></option>
+            </datalist>
+          </label>
+
+          <label class="portal-field">
+            <span class="portal-field-label">Region(s)</span>
+            <select class="portal-select custom-report-multiselect" multiple>
+              <option>All Acute Hospitals</option>
+              <option>All Facility Types</option>
+              <option>All Acute Trauma</option>
+              <option>All Acute Non-Trauma</option>
+              <option>All Facilities Trauma</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="portal-field custom-report-title-field">
+          <span class="portal-field-label">Report Title</span>
+          <input class="portal-input" type="text" value="IDK" />
+        </label>
+
+        <section class="custom-report-dnd" aria-label="Report service selection">
+          <article class="custom-report-dnd-column">
+            <h3>Available services</h3>
+            <ul class="custom-report-dropzone" data-dropzone="available">
+              <li draggable="true">Chemical Dependency/Addiction</li>
+              <li draggable="true">Chest X-Ray</li>
+              <li draggable="true">Chief Medical Officer/Director, Medical Affairs</li>
+              <li draggable="true">Chief of Staff</li>
+              <li draggable="true">Clinical Trials</li>
+              <li draggable="true">Committee Chair</li>
+              <li draggable="true">COVID</li>
+            </ul>
+          </article>
+
+          <article class="custom-report-dnd-column">
+            <h3>Selected services</h3>
+            <ul class="custom-report-dropzone custom-report-dropzone-selected" data-dropzone="selected">
+              <li draggable="true">Dental</li>
+              <li draggable="true">Cardiology - Interventional &amp; Non-Interventional</li>
+              <li draggable="true">Department Chair: Anesthesia</li>
+            </ul>
+          </article>
+        </section>
+
+        <details class="custom-report-optional">
+          <summary>Optional: Hospital-based report</summary>
+          <div class="custom-report-optional-body">
+            <label class="portal-field">
+              <span class="portal-field-label">Hospital-based services</span>
+              <select class="portal-select custom-report-multiselect" multiple>
+                <option>Pathology/Clinical Laboratory</option>
+                <option>Perinatology/Maternal Fetal (MFM)</option>
+                <option>Radiology</option>
+                <option>Trauma Surgery</option>
+              </select>
+            </label>
+          </div>
+        </details>
+
+        <div class="custom-report-actions">
+          <button class="portal-btn-primary" type="button">Generate</button>
+        </div>
+      </section>
     </main>
+
+    <script>
+      (function () {
+        const zones = document.querySelectorAll(".custom-report-dropzone");
+        let draggedItem = null;
+
+        zones.forEach((zone) => {
+          zone.addEventListener("dragstart", (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLLIElement)) return;
+            draggedItem = target;
+            target.classList.add("is-dragging");
+          });
+
+          zone.addEventListener("dragend", (event) => {
+            const target = event.target;
+            if (target instanceof HTMLLIElement) {
+              target.classList.remove("is-dragging");
+            }
+            draggedItem = null;
+          });
+
+          zone.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            zone.classList.add("is-active");
+          });
+
+          zone.addEventListener("dragleave", () => {
+            zone.classList.remove("is-active");
+          });
+
+          zone.addEventListener("drop", (event) => {
+            event.preventDefault();
+            zone.classList.remove("is-active");
+            if (draggedItem) {
+              zone.appendChild(draggedItem);
+            }
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
