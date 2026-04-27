@@ -1025,6 +1025,11 @@ input, button, select { font: inherit; }
   padding-top: 10px;
 }
 
+.custom-report-title-field {
+  margin-top: 14px;
+  max-width: 560px;
+}
+
 .custom-report-dnd {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
