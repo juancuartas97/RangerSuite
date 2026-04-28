@@ -973,6 +973,8 @@ input, button, select { font: inherit; }
 .custom-report-panel {
   margin-top: 18px;
   padding: 24px;
+  display: grid;
+  gap: 16px;
 }
 
 .custom-report-grid {
@@ -1043,10 +1045,12 @@ input, button, select { font: inherit; }
 }
 
 .custom-report-search-row {
-  margin-top: 4px;
+  margin-top: 2px;
   max-width: 520px;
-.custom-report-search-input {
-  margin-bottom: 10px;
+}
+
+.custom-report-search-row .portal-input {
+  background: #ffffff;
 }
 
 .custom-report-dropzone {
@@ -1069,6 +1073,7 @@ input, button, select { font: inherit; }
   border-radius: 10px;
   background: #ffffff;
   font-weight: 600;
+  line-height: 1.35;
   color: #31476f;
   cursor: grab;
 }

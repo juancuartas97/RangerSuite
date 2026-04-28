@@ -40,13 +40,13 @@
       <section class="portal-panel custom-report-panel">
         <div class="portal-section-header portal-section-header-compact">
           <div>
-            <h2>Customer Report Builder</h2>
+            <h2>Custom Report Builder</h2>
           </div>
         </div>
 
         <div class="custom-report-grid custom-report-grid-inline">
           <label class="portal-field custom-report-autocomplete">
-            <span class="portal-field-label">Customer name</span>
+            <span class="portal-field-label">Customer Name</span>
             <input
               class="portal-input"
               id="customer-name"
@@ -60,13 +60,13 @@
 
           <label class="portal-field">
             <span class="portal-field-label">Report Title</span>
-            <input class="portal-input" type="text" value="IDK" />
+            <input class="portal-input" type="text" value="CommonSpirit Service Coverage Report" />
           </label>
         </div>
 
         <div class="custom-report-grid">
           <label class="portal-field">
-            <span class="portal-field-label">Region(s)</span>
+            <span class="portal-field-label">Regions</span>
             <select class="portal-select custom-report-multiselect" multiple>
               <option>All Acute Hospitals</option>
               <option>All Facility Types</option>
@@ -79,14 +79,14 @@
 
         <div class="custom-report-search-row">
           <label class="portal-field">
-            <span class="portal-field-label">Search available services</span>
+            <span class="portal-field-label">Search Available Services</span>
             <input class="portal-input" id="available-service-search" type="search" placeholder="Search available services" />
           </label>
         </div>
 
         <section class="custom-report-dnd" aria-label="Report service selection">
           <article class="custom-report-dnd-column">
-            <h3>Available services</h3>
+            <h3>Available Services</h3>
             <ul class="custom-report-dropzone" data-dropzone="available">
               <li draggable="true">Chemical Dependency/Addiction</li>
               <li draggable="true">Chest X-Ray</li>
@@ -99,7 +99,7 @@
           </article>
 
           <article class="custom-report-dnd-column">
-            <h3>Selected services</h3>
+            <h3>Selected Services</h3>
             <ul class="custom-report-dropzone custom-report-dropzone-selected" data-dropzone="selected">
               <li draggable="true">Dental</li>
               <li draggable="true">Cardiology - Interventional &amp; Non-Interventional</li>
@@ -109,7 +109,7 @@
         </section>
 
         <details class="custom-report-optional">
-          <summary>Hospital-based report</summary>
+          <summary>Hospital-Based Report</summary>
           <div class="custom-report-optional-body">
             <p class="custom-report-segment-note">Use this separate report when you need hospital-based service output.</p>
             <label class="portal-field">
@@ -153,6 +153,10 @@
           zone.addEventListener("dragstart", (event) => {
             const target = event.target;
             if (!(target instanceof HTMLLIElement)) return;
+            if (event.dataTransfer) {
+              event.dataTransfer.effectAllowed = "move";
+              event.dataTransfer.setData("text/plain", target.textContent || "");
+            }
             draggedItem = target;
             target.classList.add("is-dragging");
           });
@@ -167,6 +171,9 @@
 
           zone.addEventListener("dragover", (event) => {
             event.preventDefault();
+            if (event.dataTransfer) {
+              event.dataTransfer.dropEffect = "move";
+            }
             zone.classList.add("is-active");
           });
 
