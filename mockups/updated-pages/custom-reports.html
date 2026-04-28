@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Reports</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="portal-body">
+    <header class="portal-topbar">
+      <span class="portal-menu-icon">☰</span>
+      <details class="portal-user-menu">
+        <summary class="portal-user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="portal-summary-caret">▾</span>
+        </summary>
+        <div class="portal-user-dropdown">
+          <a class="portal-user-link" href="account.html">My Account</a>
+          <a class="portal-user-link is-active" href="admin.html">Admin</a>
+        </div>
+      </details>
+    </header>
+
+    <main class="portal-page">
+      <div class="portal-breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <a href="admin.html">Admin</a>
+        <span>/</span>
+        <span>Custom Reports</span>
+      </div>
+
+      <div class="portal-page-header-bar">
+        <div class="portal-header portal-header-compact">
+          <h1>Custom Reports</h1>
+        </div>
+        <div class="portal-action-row">
+          <a class="portal-btn-muted" href="admin.html">Back to Admin</a>
+        </div>
+      </div>
+
+      <section class="portal-panel custom-report-panel">
+        <div class="portal-section-header portal-section-header-compact">
+          <div>
+            <h2>Customer Report Builder</h2>
+          </div>
+        </div>
+
+        <div class="custom-report-grid custom-report-grid-inline">
+          <label class="portal-field custom-report-autocomplete">
+            <span class="portal-field-label">Customer name</span>
+            <input
+              class="portal-input"
+              id="customer-name"
+              type="text"
+              autocomplete="off"
+              placeholder="Start typing a customer name"
+              value="CommonSpirit Health"
+            />
+            <ul class="custom-report-suggestions" id="customer-name-suggestions"></ul>
+          </label>
+
+          <label class="portal-field">
+            <span class="portal-field-label">Report Title</span>
+            <input class="portal-input" type="text" value="IDK" />
+          </label>
+        </div>
+
+        <div class="custom-report-grid">
+          <label class="portal-field">
+            <span class="portal-field-label">Region(s)</span>
+            <select class="portal-select custom-report-multiselect" multiple>
+              <option>All Acute Hospitals</option>
+              <option>All Facility Types</option>
+              <option>All Acute Trauma</option>
+              <option>All Acute Non-Trauma</option>
+              <option>All Facilities Trauma</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="custom-report-search-row">
+          <label class="portal-field">
+            <span class="portal-field-label">Search available services</span>
+            <input class="portal-input" id="available-service-search" type="search" placeholder="Search available services" />
+          </label>
+        </div>
+
+        <section class="custom-report-dnd" aria-label="Report service selection">
+          <article class="custom-report-dnd-column">
+            <h3>Available services</h3>
+            <ul class="custom-report-dropzone" data-dropzone="available">
+              <li draggable="true">Chemical Dependency/Addiction</li>
+              <li draggable="true">Chest X-Ray</li>
+              <li draggable="true">Chief Medical Officer/Director, Medical Affairs</li>
+              <li draggable="true">Chief of Staff</li>
+              <li draggable="true">Clinical Trials</li>
+              <li draggable="true">Committee Chair</li>
+              <li draggable="true">COVID</li>
+            </ul>
+          </article>
+
+          <article class="custom-report-dnd-column">
+            <h3>Selected services</h3>
+            <ul class="custom-report-dropzone custom-report-dropzone-selected" data-dropzone="selected">
+              <li draggable="true">Dental</li>
+              <li draggable="true">Cardiology - Interventional &amp; Non-Interventional</li>
+              <li draggable="true">Department Chair: Anesthesia</li>
+            </ul>
+          </article>
+        </section>
+
+        <details class="custom-report-optional">
+          <summary>Hospital-based report</summary>
+          <div class="custom-report-optional-body">
+            <p class="custom-report-segment-note">Use this separate report when you need hospital-based service output.</p>
+            <label class="portal-field">
+              <span class="portal-field-label">Hospital-based services</span>
+              <select class="portal-select custom-report-multiselect" multiple>
+                <option>Pathology/Clinical Laboratory</option>
+                <option>Perinatology/Maternal Fetal (MFM)</option>
+                <option>Radiology</option>
+                <option>Trauma Surgery</option>
+              </select>
+            </label>
+          </div>
+        </details>
+
+        <div class="custom-report-actions">
+          <button class="portal-btn-primary" type="button">Generate</button>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        const zones = document.querySelectorAll(".custom-report-dropzone");
+        const availableSearch = document.getElementById("available-service-search");
+        const availableList = document.querySelector('[data-dropzone="available"]');
+        const customerNameInput = document.getElementById("customer-name");
+        const customerSuggestionList = document.getElementById("customer-name-suggestions");
+        let draggedItem = null;
+        const customerNames = [
+          "CommonSpirit Health",
+          "Commonspirit",
+          "Mayo Clinic",
+          "Kaiser Permanente",
+          "Cleveland Clinic",
+          "Ascension",
+          "Baylor Scott & White Health",
+          "Providence"
+        ];
+
+        zones.forEach((zone) => {
+          zone.addEventListener("dragstart", (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLLIElement)) return;
+            draggedItem = target;
+            target.classList.add("is-dragging");
+          });
+
+          zone.addEventListener("dragend", (event) => {
+            const target = event.target;
+            if (target instanceof HTMLLIElement) {
+              target.classList.remove("is-dragging");
+            }
+            draggedItem = null;
+          });
+
+          zone.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            zone.classList.add("is-active");
+          });
+
+          zone.addEventListener("dragleave", () => {
+            zone.classList.remove("is-active");
+          });
+
+          zone.addEventListener("drop", (event) => {
+            event.preventDefault();
+            zone.classList.remove("is-active");
+            if (draggedItem) {
+              zone.appendChild(draggedItem);
+            }
+          });
+        });
+
+        if (availableSearch instanceof HTMLInputElement && availableList instanceof HTMLUListElement) {
+          availableSearch.addEventListener("input", () => {
+            const query = availableSearch.value.trim().toLowerCase();
+            availableList.querySelectorAll("li").forEach((item) => {
+              const matches = item.textContent.toLowerCase().includes(query);
+              item.hidden = !matches;
+            });
+          });
+        }
+
+        function renderCustomerSuggestions(query) {
+          if (!(customerSuggestionList instanceof HTMLUListElement)) return;
+          customerSuggestionList.innerHTML = "";
+
+          if (!query) {
+            customerSuggestionList.classList.remove("is-open");
+            return;
+          }
+
+          const matches = customerNames.filter((name) => name.toLowerCase().includes(query.toLowerCase())).slice(0, 6);
+
+          if (!matches.length) {
+            customerSuggestionList.classList.remove("is-open");
+            return;
+          }
+
+          matches.forEach((name) => {
+            const option = document.createElement("li");
+            option.textContent = name;
+            option.addEventListener("mousedown", () => {
+              if (customerNameInput instanceof HTMLInputElement) {
+                customerNameInput.value = name;
+              }
+              customerSuggestionList.classList.remove("is-open");
+            });
+            customerSuggestionList.appendChild(option);
+          });
+
+          customerSuggestionList.classList.add("is-open");
+        }
+
+        if (customerNameInput instanceof HTMLInputElement) {
+          customerNameInput.addEventListener("input", () => {
+            renderCustomerSuggestions(customerNameInput.value.trim());
+          });
+
+          customerNameInput.addEventListener("focus", () => {
+            renderCustomerSuggestions(customerNameInput.value.trim());
+          });
+
+          customerNameInput.addEventListener("blur", () => {
+            setTimeout(() => {
+              if (customerSuggestionList instanceof HTMLUListElement) {
+                customerSuggestionList.classList.remove("is-open");
+              }
+            }, 120);
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
