@@ -5,42 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Custom Reports</title>
     <link rel="stylesheet" href="styles.css" />
-    <style>
-      /* Critical fallback styles kept local so drag/drop stays visible even if global CSS merge regresses. */
-      .custom-report-dropzone {
-        margin: 0;
-        padding: 14px;
-        min-height: 210px;
-        border: 2px dashed #8ca9d6;
-        border-radius: 14px;
-        background: #f8fbff;
-        list-style: none;
-        display: grid;
-        gap: 8px;
-        align-content: start;
-      }
-
-      .custom-report-dropzone li {
-        list-style: none;
-        margin: 0;
-        padding: 10px 12px;
-        border: 1px solid #c9d8ef;
-        border-radius: 10px;
-        background: #fff;
-        cursor: grab;
-        font-weight: 600;
-      }
-
-      .custom-report-dropzone li.is-dragging {
-        opacity: 0.55;
-        cursor: grabbing;
-      }
-
-      .custom-report-dropzone.is-active {
-        border-color: #36548e;
-        background: #edf4ff;
-      }
-    </style>
   </head>
   <body class="portal-body">
     <header class="portal-topbar">
@@ -71,22 +35,18 @@
         <div class="portal-header portal-header-compact">
           <h1>Custom Reports</h1>
         </div>
-        <div class="portal-action-row">
-          <a class="portal-btn-muted" href="admin.html">Back to Admin</a>
-        </div>
       </div>
 
-      <div class="custom-report-shell">
-        <section class="portal-panel custom-report-panel">
+      <section class="portal-panel custom-report-panel">
         <div class="portal-section-header portal-section-header-compact">
           <div>
             <h2>Customer Report Builder</h2>
           </div>
         </div>
 
-        <div class="custom-report-grid custom-report-grid-inline custom-report-section">
+        <div class="custom-report-grid custom-report-grid-inline">
           <label class="portal-field custom-report-autocomplete">
-            <span class="portal-field-label">Customer Name</span>
+            <span class="portal-field-label">Customer name</span>
             <input
               class="portal-input"
               id="customer-name"
@@ -104,9 +64,9 @@
           </label>
         </div>
 
-        <div class="custom-report-grid custom-report-section">
+        <div class="custom-report-grid">
           <label class="portal-field">
-            <span class="portal-field-label">Regions</span>
+            <span class="portal-field-label">Region(s)</span>
             <select class="portal-select custom-report-multiselect" multiple>
               <option>All Acute Hospitals</option>
               <option>All Facility Types</option>
@@ -117,16 +77,16 @@
           </label>
         </div>
 
-        <div class="custom-report-search-row custom-report-section">
+        <div class="custom-report-search-row">
           <label class="portal-field">
-            <span class="portal-field-label">Search Available Services</span>
+            <span class="portal-field-label">Search available services</span>
             <input class="portal-input" id="available-service-search" type="search" placeholder="Search available services" />
           </label>
         </div>
 
-        <section class="custom-report-dnd custom-report-section" aria-label="Report service selection">
+        <section class="custom-report-dnd" aria-label="Report service selection">
           <article class="custom-report-dnd-column">
-            <h3>Available Services</h3>
+            <h3>Available services</h3>
             <ul class="custom-report-dropzone" data-dropzone="available">
               <li draggable="true">Chemical Dependency/Addiction</li>
               <li draggable="true">Chest X-Ray</li>
@@ -139,7 +99,7 @@
           </article>
 
           <article class="custom-report-dnd-column">
-            <h3>Selected Services</h3>
+            <h3>Selected services</h3>
             <ul class="custom-report-dropzone custom-report-dropzone-selected" data-dropzone="selected">
               <li draggable="true">Dental</li>
               <li draggable="true">Cardiology - Interventional &amp; Non-Interventional</li>
@@ -149,11 +109,11 @@
         </section>
 
         <details class="custom-report-optional">
-          <summary>Hospital-Based Report</summary>
+          <summary>Hospital-based report</summary>
           <div class="custom-report-optional-body">
             <p class="custom-report-segment-note">Use this separate report when you need hospital-based service output.</p>
             <label class="portal-field">
-              <span class="portal-field-label">Hospital-Based Services</span>
+              <span class="portal-field-label">Hospital-based services</span>
               <select class="portal-select custom-report-multiselect" multiple>
                 <option>Pathology/Clinical Laboratory</option>
                 <option>Perinatology/Maternal Fetal (MFM)</option>
@@ -167,8 +127,7 @@
         <div class="custom-report-actions">
           <button class="portal-btn-primary" type="button">Generate</button>
         </div>
-        </section>
-      </div>
+      </section>
     </main>
 
     <script>
@@ -179,9 +138,6 @@
         const customerNameInput = document.getElementById("customer-name");
         const customerSuggestionList = document.getElementById("customer-name-suggestions");
         let draggedItem = null;
-        document.querySelectorAll(".custom-report-dropzone li").forEach((item) => {
-          item.setAttribute("draggable", "true");
-        });
         const customerNames = [
           "CommonSpirit Health",
           "Commonspirit",
@@ -193,24 +149,21 @@
           "Providence"
         ];
 
-        document.addEventListener("dragstart", (event) => {
-          const target = event.target;
-          if (!(target instanceof HTMLLIElement) || !target.closest(".custom-report-dropzone")) return;
-          draggedItem = target;
-          target.classList.add("is-dragging");
-          event.dataTransfer.effectAllowed = "move";
-          event.dataTransfer.setData("text/plain", target.textContent || "");
-        });
-
-        document.addEventListener("dragend", (event) => {
-          const target = event.target;
-          if (target instanceof HTMLLIElement) {
-            target.classList.remove("is-dragging");
-          }
-          draggedItem = null;
-        });
-
         zones.forEach((zone) => {
+          zone.addEventListener("dragstart", (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLLIElement)) return;
+            draggedItem = target;
+            target.classList.add("is-dragging");
+          });
+
+          zone.addEventListener("dragend", (event) => {
+            const target = event.target;
+            if (target instanceof HTMLLIElement) {
+              target.classList.remove("is-dragging");
+            }
+            draggedItem = null;
+          });
 
           zone.addEventListener("dragover", (event) => {
             event.preventDefault();
@@ -224,7 +177,7 @@
           zone.addEventListener("drop", (event) => {
             event.preventDefault();
             zone.classList.remove("is-active");
-            if (draggedItem && zone !== draggedItem.parentElement) {
+            if (draggedItem) {
               zone.appendChild(draggedItem);
             }
           });
