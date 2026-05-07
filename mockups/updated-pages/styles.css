@@ -1222,3 +1222,41 @@ input, button, select { font: inherit; }
     padding: 18px;
   }
 }
+
+/* Contracts redesign */
+.contracts-main { grid-template-rows: auto 1fr; }
+.contracts-layout {
+  padding: 12px 20px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.contract-editor, .contract-service { padding: 18px; box-shadow: none; }
+.form-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+.form-grid-2 label, .full-row { font-weight: 700; font-size: 0.92rem; color: #13244f; display: grid; gap: 8px; }
+.align-end { align-items: end; }
+.input-with-action { display: grid; grid-template-columns: 1fr 40px; gap: 8px; }
+.icon-btn { border: 0; border-radius: 6px; background: #05145f; color: #fff; }
+.check-list { display: grid; gap: 8px; padding-bottom: 6px; }
+.check-list label, .radio-stack label, .restriction-grid label { font-weight: 500; color: #36486a; }
+.quick-links { display: grid; gap: 8px; margin: 8px 0 18px; }
+.quick-links button { background: none; border: 0; text-align: left; color: #1a2f5e; font-weight: 500; cursor: pointer; }
+.primary-btn { background: #05145f; color: #fff; border: 0; border-radius: 8px; padding: 10px 14px; font-weight: 600; }
+.contract-service h2 { margin: 0 0 10px; font-size: 1.2rem; }
+.contract-service h3 { margin: 14px 0 8px; font-size: 1rem; }
+.compact-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.92rem; }
+.compact-table th, .compact-table td { border: 1px solid var(--line); padding: 8px; text-align: left; }
+.compact-table th { color: #607294; font-size: 0.78rem; text-transform: uppercase; letter-spacing: .04em; }
+.compact-table tbody tr:first-child { background: #eef2f9; }
+.radio-stack { display: grid; gap: 8px; margin: 10px 0; }
+.terms-head { display: grid; grid-template-columns: 1fr 90px; gap: 8px; }
+.terms-head h3 { margin: 8px 0 6px; }
+.terms-grid { display: grid; grid-template-columns: 1fr 90px; gap: 8px; }
+.restriction-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.restriction-grid p { margin: 8px 0 4px; font-weight: 600; color: #253b6e; }
+.form-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
+.form-grid-3 label { font-weight: 700; font-size: 0.92rem; color: #13244f; display: grid; gap: 8px; }
+.inline-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.review-row { margin-top: 6px; }
+@media (max-width: 980px) { .form-grid-3 { grid-template-columns: 1fr; } }
+@media (max-width: 1200px) { .contracts-layout { grid-template-columns: 1fr; } }
