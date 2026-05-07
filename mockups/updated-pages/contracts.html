@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contracts</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="doc-shell">
+      <aside class="doc-sidebar">
+        <div>
+          <div class="logo">MD<span>RANGER</span></div>
+          <div class="logo-sub">Powered by ECG</div>
+
+          <nav class="doc-nav" aria-label="Primary">
+            <a class="doc-link" href="#">Home</a>
+            <a class="doc-link" href="#">Benchmarks</a>
+            <a class="doc-link" href="documentation.html">Documentation</a>
+            <a class="doc-link active" href="contracts.html">Contracts</a>
+            <a class="doc-link" href="survey-demographics.html">Trends</a>
+            <a class="doc-link" href="facility-maintenance.html">Facility Maintenance</a>
+          </nav>
+        </div>
+
+        <a class="doc-support" href="#">Help</a>
+      </aside>
+
+      <main class="doc-main contracts-main">
+        <header class="doc-topbar">
+          <h1>Contracts</h1>
+          <div class="user-actions">
+            <span>Saved</span>
+            <span>Data Tool</span>
+            <span>Audit</span>
+            <span>Customers</span>
+          </div>
+        </header>
+
+        <section class="contracts-layout">
+          <article class="card contract-editor">
+            <div class="form-grid-2">
+              <label>Label<input class="text-field" value="RangerSuite" /></label>
+              <label>Counterparty<input class="text-field" /></label>
+            </div>
+
+            <label class="full-row">Dates
+              <div class="input-with-action">
+                <input class="text-field" placeholder="Select a date" />
+                <button class="icon-btn" aria-label="Open date picker">📅</button>
+              </div>
+            </label>
+
+            <div class="form-grid-2 align-end">
+              <label>Facility
+                <select class="select-field">
+                  <option>-- select --</option>
+                </select>
+              </label>
+              <div class="check-list">
+                <label><input type="checkbox" /> Not renewed</label>
+                <label><input type="checkbox" /> Payee?</label>
+                <label><input type="checkbox" /> Select if Hospital Based Arrangement</label>
+              </div>
+            </div>
+
+            <label class="full-row">Notes<textarea class="text-field" rows="4"></textarea></label>
+
+            <div class="quick-links">
+              <button>+ Add ED coverage position</button>
+              <button>+ Add direction position</button>
+              <button>+ Add test</button>
+              <button>+ Add clinical/professional service</button>
+              <button>+ Add telemedicine position</button>
+              <button>+ Add locums position</button>
+              <button>+ Add employment/salary position</button>
+              <button>+ Upload file</button>
+            </div>
+
+            <button class="primary-btn">Save &amp; Close</button>
+          </article>
+
+          <article class="card contract-service">
+            <h2>Contract items</h2>
+            <table class="compact-table">
+              <thead><tr><th>Actions</th><th>Type</th><th>Service</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td>📄 🗑️</td><td>Coverage</td><td>No service</td><td>N/A</td></tr>
+                <tr><td>📄 🗑️</td><td>Direction</td><td>No service</td><td>N/A</td></tr>
+                <tr><td>📄 🗑️</td><td>Locums</td><td>No service</td><td>N/A</td></tr>
+              </tbody>
+            </table>
+
+            <hr />
+            <h3>Service</h3>
+            <input class="text-field" placeholder="Search for services" />
+            <div class="radio-stack">
+              <label><input checked type="radio" name="svc" /> ED coverage</label>
+              <label><input type="radio" name="svc" /> Consultation</label>
+              <label><input type="radio" name="svc" /> Other</label>
+            </div>
+
+            <div class="terms-head"><h3>Terms</h3><h3>Rate</h3></div>
+            <div class="terms-grid">
+              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
+              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
+              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
+              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
+            </div>
+
+            <label class="full-row">Number of physicians assigned to this service<input class="text-field" /></label>
+
+            <h3>Coverage restrictions</h3>
+            <div class="restriction-grid">
+              <div>
+                <p>In-house</p>
+                <label><input type="radio" name="inh" /> Yes</label><label><input checked type="radio" name="inh" /> No</label>
+                <p>Limited to one facility</p>
+                <label><input type="radio" name="lim" /> Yes</label><label><input checked type="radio" name="lim" /> No</label>
+              </div>
+              <div>
+                <p>Restricted</p>
+                <label><input type="radio" name="res" /> Yes</label><label><input checked type="radio" name="res" /> No</label>
+                <p>Coverage by residents/fellows</p>
+                <label><input type="radio" name="fell" /> Yes</label><label><input checked type="radio" name="fell" /> No</label>
+              </div>
+            </div>
+
+            <label class="full-row">Notes<textarea class="text-field" rows="3" placeholder="Type notes here..."></textarea></label>
+          </article>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
