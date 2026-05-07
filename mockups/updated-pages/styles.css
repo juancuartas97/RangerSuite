@@ -1254,9 +1254,4 @@ input, button, select { font: inherit; }
 .terms-grid { display: grid; grid-template-columns: 1fr 90px; gap: 8px; }
 .restriction-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .restriction-grid p { margin: 8px 0 4px; font-weight: 600; color: #253b6e; }
-.form-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
-.form-grid-3 label { font-weight: 700; font-size: 0.92rem; color: #13244f; display: grid; gap: 8px; }
-.inline-choices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.review-row { margin-top: 6px; }
-@media (max-width: 980px) { .form-grid-3 { grid-template-columns: 1fr; } }
 @media (max-width: 1200px) { .contracts-layout { grid-template-columns: 1fr; } }

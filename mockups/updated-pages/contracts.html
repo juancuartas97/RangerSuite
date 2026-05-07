@@ -6,91 +6,130 @@
     <title>Contracts</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="portal-body">
-    <header class="portal-topbar">
-      <span class="portal-menu-icon">☰</span>
-      <details class="portal-user-menu">
-        <summary class="portal-user-summary">
-          <span>🔔</span>
-          <span>Super User</span>
-          <span class="portal-summary-caret">▾</span>
-        </summary>
-        <div class="portal-user-dropdown">
-          <a class="portal-user-link" href="account.html">My Account</a>
-          <a class="portal-user-link is-active" href="admin.html">Admin</a>
+  <body>
+    <div class="doc-shell">
+      <aside class="doc-sidebar">
+        <div>
+          <div class="logo">MD<span>RANGER</span></div>
+          <div class="logo-sub">Powered by ECG</div>
+
+          <nav class="doc-nav" aria-label="Primary">
+            <a class="doc-link" href="#">Home</a>
+            <a class="doc-link" href="#">Benchmarks</a>
+            <a class="doc-link" href="documentation.html">Documentation</a>
+            <a class="doc-link active" href="contracts.html">Contracts</a>
+            <a class="doc-link" href="survey-demographics.html">Trends</a>
+            <a class="doc-link" href="facility-maintenance.html">Facility Maintenance</a>
+          </nav>
         </div>
-      </details>
-    </header>
 
-    <main class="portal-page">
-      <div class="portal-breadcrumbs">
-        <a href="../preview.html">Portal Overview</a>
-        <span>/</span><span>Admin</span><span>/</span><span>Contracts</span>
-      </div>
+        <a class="doc-support" href="#">Help</a>
+      </aside>
 
-      <div class="portal-page-header-bar">
-        <div class="portal-header portal-header-compact"><h1>Contracts</h1></div>
-      </div>
-
-      <section class="portal-panel contracts-layout">
-        <article class="card contract-editor">
-          <div class="form-grid-3">
-            <label>Customer<select class="select-field"><option>Northstar Medical Group</option></select></label>
-            <label>Status<select class="select-field"><option>In progress</option></select></label>
-            <label>Reference ID<input class="text-field" value="CN-47219" /></label>
+      <main class="doc-main contracts-main">
+        <header class="doc-topbar">
+          <h1>Contracts</h1>
+          <div class="user-actions">
+            <span>Saved</span>
+            <span>Data Tool</span>
+            <span>Audit</span>
+            <span>Customers</span>
           </div>
-          <div class="form-grid-2">
-            <label>Label<input class="text-field" value="Lakeside Acute Coverage Program" /></label>
-            <label>Counterparty<input class="text-field" value="Northpoint Community Hospital" /></label>
-          </div>
-          <label class="full-row">Dates<div class="input-with-action"><input class="text-field" placeholder="Select a date" /><button class="icon-btn">📅</button></div></label>
-          <div class="form-grid-2 align-end">
-            <label>Facility<select class="select-field"><option>Harbor Ridge Medical Center</option></select></label>
-            <div class="check-list">
-              <label><input type="checkbox" /> Not renewed</label>
-              <label><input type="checkbox" /> Payee?</label>
-              <label><input type="checkbox" /> Select if Hospital Based Arrangement</label>
+        </header>
+
+        <section class="contracts-layout">
+          <article class="card contract-editor">
+            <div class="form-grid-2">
+              <label>Label<input class="text-field" value="RangerSuite" /></label>
+              <label>Counterparty<input class="text-field" /></label>
             </div>
-          </div>
-          <div class="form-grid-2 align-end">
-            <label>Service<select class="select-field"><option>Critical Care</option><option>Emergency Medicine</option></select></label>
-            <div class="check-list">
-              <label><input checked type="checkbox" /> Unknown additional subsidy/payment</label>
-              <label><input type="checkbox" /> Formula calculation rights for service</label>
-              <label><input type="checkbox" /> Closed service</label>
-            </div>
-          </div>
-          <label class="full-row">Summary Notes<textarea class="text-field" rows="5">Compensation summary for overnight ICU response coverage and daytime consult availability. Includes admin stipend, call burden protection, and quality trigger bonus.</textarea></label>
-          <div class="quick-links">
-            <button>+ Add ED coverage position</button><button>+ Add direction position</button><button>+ Add test</button><button>+ Add clinical/professional service</button><button>+ Add telemedicine position</button><button>+ Add locums position</button><button>+ Add employment/salary position</button><button>+ Upload file</button>
-          </div>
-          <div class="form-grid-2 review-row">
-            <label>Review status<select class="select-field"><option>Reviewed</option><option>Set Reviewed</option></select></label>
-            <label>Follow-up<select class="select-field"><option>Final review</option><option>Need payer response</option></select></label>
-          </div>
-          <button class="primary-btn">Save &amp; Close</button>
-        </article>
 
-        <article class="card contract-service">
-          <h2>Contract items</h2>
-          <table class="compact-table"><thead><tr><th>Actions</th><th>Type</th><th>Service</th><th>Notes</th></tr></thead><tbody>
-            <tr><td>📄 🗑️</td><td>Overall Payments</td><td>Systemwide</td><td>Annual stipend + productivity</td></tr>
-            <tr><td>📄 🗑️</td><td>Coverage</td><td>Critical Care</td><td>Night call included</td></tr>
-            <tr><td>📄 🗑️</td><td>Service-specific</td><td>Rapid Response</td><td>Quality thresholds attached</td></tr>
-          </tbody></table>
-          <hr /><h3>Service</h3><input class="text-field" placeholder="Search for services" />
-          <div class="radio-stack"><label><input checked type="radio" name="svc" /> ED coverage</label><label><input type="radio" name="svc" /> Consultation</label><label><input type="radio" name="svc" /> Other</label></div>
-          <div class="terms-head"><h3>Terms</h3><h3>Rate</h3></div>
-          <div class="terms-grid"><select class="select-field"><option>Daily coverage stipend</option></select><input class="text-field" value="$2,250" /><select class="select-field"><option>Weekend call differential</option></select><input class="text-field" value="$900" /><select class="select-field"><option>Rapid response activations</option></select><input class="text-field" value="$175" /><select class="select-field"><option>Administrative leadership</option></select><input class="text-field" value="$1,400" /></div>
-          <label class="full-row">Payments for uninsured patients<div class="terms-grid"><select class="select-field"><option>Fixed supplemental payment</option></select><input class="text-field" value="$1,100" /></div></label>
-          <label class="full-row">Number of physicians assigned to this service<input class="text-field" value="6" /></label>
-          <div class="form-grid-2"><label>Global payment cap<input class="text-field" value="$95,000" /></label><label>Max incentive<input class="text-field" value="$8,500" /></label></div>
-          <h3>Incentive factors</h3><div class="check-list inline-choices"><label><input checked type="checkbox" /> Cost effectiveness</label><label><input checked type="checkbox" /> Quality metrics</label><label><input type="checkbox" /> Patient satisfaction</label><label><input type="checkbox" /> Other</label></div>
-          <h3>Coverage restrictions</h3><div class="restriction-grid"><div><p>In-house</p><label><input type="radio" name="inh" /> Yes</label><label><input checked type="radio" name="inh" /> No</label><p>Limited to one facility</p><label><input type="radio" name="lim" /> Yes</label><label><input checked type="radio" name="lim" /> No</label></div><div><p>Restricted</p><label><input type="radio" name="res" /> Yes</label><label><input checked type="radio" name="res" /> No</label><p>Coverage by residents/fellows</p><label><input type="radio" name="fell" /> Yes</label><label><input checked type="radio" name="fell" /> No</label></div></div>
-          <label class="full-row">Escalator details<textarea class="text-field" rows="2" placeholder="Add escalator logic for annual adjustment..."></textarea></label>
-          <label class="full-row">Notes<textarea class="text-field" rows="3" placeholder="Type notes here...">Coverage requires two physicians on trauma-heavy weekends. Incentive applies when transfer-to-discharge time is below target.</textarea></label>
-        </article>
-      </section>
-    </main>
+            <label class="full-row">Dates
+              <div class="input-with-action">
+                <input class="text-field" placeholder="Select a date" />
+                <button class="icon-btn" aria-label="Open date picker">📅</button>
+              </div>
+            </label>
+
+            <div class="form-grid-2 align-end">
+              <label>Facility
+                <select class="select-field">
+                  <option>-- select --</option>
+                </select>
+              </label>
+              <div class="check-list">
+                <label><input type="checkbox" /> Not renewed</label>
+                <label><input type="checkbox" /> Payee?</label>
+                <label><input type="checkbox" /> Select if Hospital Based Arrangement</label>
+              </div>
+            </div>
+
+            <label class="full-row">Notes<textarea class="text-field" rows="4"></textarea></label>
+
+            <div class="quick-links">
+              <button>+ Add ED coverage position</button>
+              <button>+ Add direction position</button>
+              <button>+ Add test</button>
+              <button>+ Add clinical/professional service</button>
+              <button>+ Add telemedicine position</button>
+              <button>+ Add locums position</button>
+              <button>+ Add employment/salary position</button>
+              <button>+ Upload file</button>
+            </div>
+
+            <button class="primary-btn">Save &amp; Close</button>
+          </article>
+
+          <article class="card contract-service">
+            <h2>Contract items</h2>
+            <table class="compact-table">
+              <thead><tr><th>Actions</th><th>Type</th><th>Service</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td>📄 🗑️</td><td>Coverage</td><td>No service</td><td>N/A</td></tr>
+                <tr><td>📄 🗑️</td><td>Direction</td><td>No service</td><td>N/A</td></tr>
+                <tr><td>📄 🗑️</td><td>Locums</td><td>No service</td><td>N/A</td></tr>
+              </tbody>
+            </table>
+
+            <hr />
+            <h3>Service</h3>
+            <input class="text-field" placeholder="Search for services" />
+            <div class="radio-stack">
+              <label><input checked type="radio" name="svc" /> ED coverage</label>
+              <label><input type="radio" name="svc" /> Consultation</label>
+              <label><input type="radio" name="svc" /> Other</label>
+            </div>
+
+            <div class="terms-head"><h3>Terms</h3><h3>Rate</h3></div>
+            <div class="terms-grid">
+              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
+              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
+              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
+              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
+            </div>
+
+            <label class="full-row">Number of physicians assigned to this service<input class="text-field" /></label>
+
+            <h3>Coverage restrictions</h3>
+            <div class="restriction-grid">
+              <div>
+                <p>In-house</p>
+                <label><input type="radio" name="inh" /> Yes</label><label><input checked type="radio" name="inh" /> No</label>
+                <p>Limited to one facility</p>
+                <label><input type="radio" name="lim" /> Yes</label><label><input checked type="radio" name="lim" /> No</label>
+              </div>
+              <div>
+                <p>Restricted</p>
+                <label><input type="radio" name="res" /> Yes</label><label><input checked type="radio" name="res" /> No</label>
+                <p>Coverage by residents/fellows</p>
+                <label><input type="radio" name="fell" /> Yes</label><label><input checked type="radio" name="fell" /> No</label>
+              </div>
+            </div>
+
+            <label class="full-row">Notes<textarea class="text-field" rows="3" placeholder="Type notes here..."></textarea></label>
+          </article>
+        </section>
+      </main>
+    </div>
   </body>
 </html>
