@@ -3,108 +3,129 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search Benchmarks Redesign</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Benchmarks</title>
+    <link rel="stylesheet" href="../updated-pages/styles.css" />
+    <style>
+      .benchmarks-search-row { margin-top: 0; }
+      .benchmarks-chip-row { margin-top: 12px; display:flex; flex-wrap:wrap; gap:10px; }
+      .benchmarks-list { margin-top: 0; margin-bottom: 18px; color:#4d5f7d; }
+      .benchmarks-table-wrap { border:1px solid #dfe6f2; border-radius: 12px; overflow:auto; }
+      .benchmarks-table { width:100%; border-collapse:collapse; min-width:680px; }
+      .benchmarks-table th, .benchmarks-table td { padding:12px 14px; border-bottom:1px solid #e8eef8; text-align:left; }
+      .benchmarks-table th { background:#f8fbff; color:#243c73; font-size:.85rem; text-transform:uppercase; letter-spacing:.03em; }
+      .benchmarks-badge { display:inline-flex; padding:5px 9px; border-radius:999px; font-size:.78rem; font-weight:700; }
+      .benchmarks-badge-positive { background:#eaf8ee; color:#25623e; }
+      .benchmarks-badge-warning { background:#fff4e4; color:#8f5f08; }
+    </style>
   </head>
-  <body>
-    <div class="app-shell">
-      <aside class="sidebar">
-        <div>
-          <div class="logo">
-            <div class="logo-mark">MD<span>RANGER</span></div>
-            <div class="logo-sub">Powered by ECG</div>
-          </div>
-          <nav class="nav-group">
-            <a class="nav-item" href="index.html">Home</a>
-            <a class="nav-item active" href="benchmarks.html">Benchmarks</a>
-            <a class="nav-item" href="comp-report.html">Comp Report Builder</a>
-            <a class="nav-item" href="analytics.html">Analytics</a>
-            <a class="nav-item" href="flows.html">Recommended Flows</a>
-          </nav>
+  <body class="portal-body">
+    <header class="portal-topbar">
+      <span class="portal-menu-icon">☰</span>
+      <details class="portal-user-menu">
+        <summary class="portal-user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="portal-summary-caret">▾</span>
+        </summary>
+        <div class="portal-user-dropdown">
+          <a class="portal-user-link" href="../updated-pages/account.html">My Account</a>
+          <a class="portal-user-link" href="../updated-pages/admin.html">Admin</a>
         </div>
-        <a class="support" href="#">Support</a>
-      </aside>
+      </details>
+    </header>
 
-      <main class="main">
-        <header class="topbar">
-          <span class="breadcrumb">Benchmarks / Search</span>
-          <span class="user">Izabela</span>
-        </header>
+    <main class="portal-page">
+      <div class="portal-breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <span>Benchmarks</span>
+      </div>
 
-        <section class="page">
-          <div class="title-row">
-            <div>
-              <h1>Search benchmarks</h1>
-              <p class="subtle">Replace long static lists with a filterable service explorer.</p>
-            </div>
-            <input class="search" type="search" placeholder="Search by specialty, service, or CPT term" />
+      <div class="portal-page-header-bar">
+        <div class="portal-header portal-header-compact">
+          <h1>Search Benchmarks</h1>
+          <p>Find benchmarks faster with filter chips, saved views, and clean comparison-ready results.</p>
+        </div>
+      </div>
+
+      <section class="portal-panel" aria-label="Search controls">
+        <div class="portal-section-header portal-section-header-compact">
+          <div>
+            <h2>Filters</h2>
           </div>
+        </div>
 
-          <section class="grid-2">
-            <article class="card">
-              <h3>Active filters</h3>
-              <div class="pill-row">
-                <span class="pill active">Call Coverage</span>
-                <span class="pill">National</span>
-                <span class="pill">2024</span>
-                <span class="pill">All Surveys</span>
-              </div>
-              <p class="subtle">Use chips for removals so users can quickly recover from over-filtering.</p>
-            </article>
+        <div class="custom-report-search-row benchmarks-search-row">
+          <label class="portal-field">
+            <span class="portal-field-label">Search by specialty, service, or CPT term</span>
+            <input class="portal-input" type="search" placeholder="Start typing to refine results" />
+          </label>
+        </div>
 
-            <article class="card">
-              <h3>Saved views</h3>
-              <ul class="list">
-                <li>Hospitalist Call Coverage (recommended)</li>
-                <li>Cardiology percentile watchlist</li>
-                <li>Anesthesia contract renewal set</li>
-              </ul>
-            </article>
-          </section>
+        <div class="benchmarks-chip-row">
+          <span class="portal-pill">Call Coverage</span>
+          <span class="portal-pill">National</span>
+          <span class="portal-pill">2024</span>
+          <span class="portal-pill">All Surveys</span>
+        </div>
+      </section>
 
-          <section class="card">
+      <section class="portal-panel" aria-label="Saved views and results">
+        <div class="portal-section-header portal-section-header-compact">
+          <div>
+            <h2>Saved Views</h2>
+          </div>
+        </div>
+
+        <ul class="benchmarks-list">
+          <li>Hospitalist Call Coverage (recommended)</li>
+          <li>Cardiology percentile watchlist</li>
+          <li>Anesthesia contract renewal set</li>
+        </ul>
+
+        <div class="portal-section-header portal-section-header-compact">
+          <div>
             <h2>Results (18 services)</h2>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Service</th>
-                  <th>Survey Blend</th>
-                  <th>Median</th>
-                  <th>75th</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Anesthesia - All Types</td>
-                  <td>ECG / MGMA / AMGA</td>
-                  <td>$482,235</td>
-                  <td>$610,360</td>
-                  <td><span class="badge success">Strong coverage</span></td>
-                </tr>
-                <tr>
-                  <td>Cardiology - Interventional</td>
-                  <td>ECG / MGMA</td>
-                  <td>$640,170</td>
-                  <td>$812,410</td>
-                  <td><span class="badge warning">Low sample</span></td>
-                </tr>
-                <tr>
-                  <td>Hospitalists - Non-General</td>
-                  <td>ECG / AMGA</td>
-                  <td>$337,920</td>
-                  <td>$418,210</td>
-                  <td><span class="badge success">Stable</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
+          </div>
+        </div>
 
-          <section class="flow-note">
-            <strong>Flow upgrade:</strong> From this table, users can open a side panel to compare selected services without losing search context.
-          </section>
-        </section>
-      </main>
-    </div>
+        <div class="benchmarks-table-wrap">
+          <table class="benchmarks-table">
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>Survey Blend</th>
+                <th>Median</th>
+                <th>75th</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Anesthesia - All Types</td>
+                <td>ECG / MGMA / AMGA</td>
+                <td>$482,235</td>
+                <td>$610,360</td>
+                <td><span class="benchmarks-badge benchmarks-badge-positive">Strong coverage</span></td>
+              </tr>
+              <tr>
+                <td>Cardiology - Interventional</td>
+                <td>ECG / MGMA</td>
+                <td>$640,170</td>
+                <td>$812,410</td>
+                <td><span class="benchmarks-badge benchmarks-badge-warning">Low sample</span></td>
+              </tr>
+              <tr>
+                <td>Hospitalists - Non-General</td>
+                <td>ECG / AMGA</td>
+                <td>$337,920</td>
+                <td>$418,210</td>
+                <td><span class="benchmarks-badge benchmarks-badge-positive">Stable</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
   </body>
 </html>

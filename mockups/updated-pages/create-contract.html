@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Contract</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="portal-body">
+    <header class="portal-topbar">
+      <span class="portal-menu-icon">☰</span>
+      <details class="portal-user-menu">
+        <summary class="portal-user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="portal-summary-caret">▾</span>
+        </summary>
+        <div class="portal-user-dropdown">
+          <a class="portal-user-link" href="account.html">My Account</a>
+          <a class="portal-user-link is-active" href="admin.html">Admin</a>
+        </div>
+      </details>
+    </header>
+
+    <main class="portal-page contracts-page">
+      <div class="portal-breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <a href="preview.html">MDR Operations And Reference</a>
+        <span>/</span>
+        <a href="contracts.html">Contracts</a>
+        <span>/</span>
+        <span>Create Contract</span>
+      </div>
+
+      <div class="portal-page-header-bar contracts-header-bar">
+        <div class="portal-header portal-header-compact">
+          <span class="portal-kicker">Focused flow</span>
+          <h1>Create Contract</h1>
+          <p class="contracts-header-copy">
+            Build one contract at a time with explicit save actions, normalized facility search, and service items managed in a
+            dedicated workspace instead of the contract list grid.
+          </p>
+        </div>
+        <div class="portal-action-row">
+          <a class="portal-btn-muted" href="contracts.html">Cancel</a>
+          <button class="portal-btn-soft" type="button">Save draft</button>
+          <button class="portal-btn-primary" type="button">Save &amp; close</button>
+        </div>
+      </div>
+
+      <section class="contracts-create-layout">
+        <article class="portal-panel contracts-create-main">
+          <div class="portal-section-header portal-section-header-compact">
+            <div>
+              <span class="portal-kicker">Step 1</span>
+              <h2>Contract basics</h2>
+              <p>Capture the contract fields first. Nothing is auto-saved until the user explicitly saves the draft or closes.</p>
+            </div>
+          </div>
+
+          <div class="portal-field-grid contracts-field-grid-wide">
+            <label class="portal-field">
+              <span class="portal-field-label">Customer</span>
+              <input class="portal-input" type="text" value="MD Ranger Customer Use Only" />
+            </label>
+            <label class="portal-field">
+              <span class="portal-field-label">Counterparty</span>
+              <input class="portal-input" type="text" placeholder="Search or add counterparty" />
+            </label>
+            <label class="portal-field">
+              <span class="portal-field-label">Contract label</span>
+              <input class="portal-input" type="text" placeholder="Example: HW-3037" />
+            </label>
+            <label class="portal-field">
+              <span class="portal-field-label">Status</span>
+              <select class="portal-select">
+                <option>In process</option>
+                <option>Certified</option>
+                <option>Preloaded</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="portal-field-grid contracts-field-grid-wide contracts-form-section">
+            <label class="portal-field">
+              <span class="portal-field-label">Start date</span>
+              <input class="portal-input" type="date" />
+            </label>
+            <label class="portal-field">
+              <span class="portal-field-label">End date</span>
+              <input class="portal-input" type="date" />
+            </label>
+            <label class="portal-field">
+              <span class="portal-field-label">Renewal status</span>
+              <select class="portal-select">
+                <option>Not reviewed</option>
+                <option>Renewed</option>
+                <option>Not renewed</option>
+              </select>
+            </label>
+            <label class="portal-field">
+              <span class="portal-field-label">Payee</span>
+              <select class="portal-select">
+                <option>Unknown</option>
+                <option>Facility</option>
+                <option>Counterparty</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="contracts-form-section">
+            <label class="portal-field">
+              <span class="portal-field-label">Facility search</span>
+              <input class="portal-input" type="search" placeholder="Search by facility name, CCN, city, state, system, or campus" />
+            </label>
+            <div class="contracts-facility-match">
+              <strong>Recommended match</strong>
+              <span>Sutter-Coast · CCN 050798 · Crescent City, CA · System: Sutter</span>
+              <button class="portal-btn-soft" type="button">Use facility</button>
+            </div>
+          </div>
+
+          <div class="contracts-form-section">
+            <label class="portal-field">
+              <span class="portal-field-label">Contract notes</span>
+              <textarea class="portal-input contracts-textarea" placeholder="Type contract notes, audit context, or follow-up details here..."></textarea>
+            </label>
+          </div>
+        </article>
+
+        <aside class="portal-panel contracts-create-side">
+          <div class="portal-section-header portal-section-header-compact">
+            <div>
+              <span class="portal-kicker">Step 2</span>
+              <h2>Service items</h2>
+              <p>Add contract attributes as separate service records after the contract shell is created.</p>
+            </div>
+          </div>
+
+          <div class="contracts-service-actions">
+            <button class="portal-btn-soft" type="button">Add direction</button>
+            <button class="portal-btn-soft" type="button">Add coverage</button>
+            <button class="portal-btn-soft" type="button">Add clinical/professional</button>
+            <button class="portal-btn-soft" type="button">Add locums</button>
+            <button class="portal-btn-soft" type="button">Add salary</button>
+            <button class="portal-btn-soft" type="button">Upload file</button>
+          </div>
+
+          <div class="contracts-service-card">
+            <strong>Coverage · Path-laboratory</strong>
+            <span>Rate: $91,500 · Method: Annualized · Facility-limited: No</span>
+          </div>
+          <div class="contracts-service-card contracts-service-card-empty">
+            <strong>No additional services yet</strong>
+            <span>Use the buttons above to add direction, testing, telemedicine, locums, or salary items.</span>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
