@@ -6,130 +6,226 @@
     <title>Contracts</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
-    <div class="doc-shell">
-      <aside class="doc-sidebar">
-        <div>
-          <div class="logo">MD<span>RANGER</span></div>
-          <div class="logo-sub">Powered by ECG</div>
+  <body class="portal-body">
+    <header class="portal-topbar">
+      <span class="portal-menu-icon">☰</span>
+      <details class="portal-user-menu">
+        <summary class="portal-user-summary">
+          <span>🔔</span>
+          <span>Super User</span>
+          <span class="portal-summary-caret">▾</span>
+        </summary>
+        <div class="portal-user-dropdown">
+          <a class="portal-user-link" href="account.html">My Account</a>
+          <a class="portal-user-link is-active" href="admin.html">Admin</a>
+        </div>
+      </details>
+    </header>
 
-          <nav class="doc-nav" aria-label="Primary">
-            <a class="doc-link" href="#">Home</a>
-            <a class="doc-link" href="#">Benchmarks</a>
-            <a class="doc-link" href="documentation.html">Documentation</a>
-            <a class="doc-link active" href="contracts.html">Contracts</a>
-            <a class="doc-link" href="survey-demographics.html">Trends</a>
-            <a class="doc-link" href="facility-maintenance.html">Facility Maintenance</a>
-          </nav>
+    <main class="portal-page contracts-page">
+      <div class="portal-breadcrumbs">
+        <a href="../preview.html">Portal Overview</a>
+        <span>/</span>
+        <a href="preview.html">MDR Operations And Reference</a>
+        <span>/</span>
+        <span>Contracts</span>
+      </div>
+
+      <div class="portal-page-header-bar contracts-header-bar">
+        <div class="portal-header portal-header-compact">
+          <span class="portal-kicker">Contract management</span>
+          <h1>Contracts</h1>
+          <p class="contracts-header-copy">
+            Search and manage the contract inventory separately from contract creation. Start a new contract in a focused flow,
+            then return here to review, audit, and maintain existing records.
+          </p>
+        </div>
+        <div class="portal-action-row">
+          <a class="portal-btn-muted" href="facility-maintenance.html">Review facilities</a>
+          <a class="portal-btn-primary" href="create-contract.html">Create contract</a>
+        </div>
+      </div>
+
+      <section class="contracts-metric-grid" aria-label="Contract summary">
+        <article class="portal-summary-block contracts-metric-card">
+          <strong>58,973</strong>
+          <span>Total contracts</span>
+        </article>
+        <article class="portal-summary-block contracts-metric-card">
+          <strong>1,284</strong>
+          <span>Need review</span>
+        </article>
+        <article class="portal-summary-block contracts-metric-card">
+          <strong>426</strong>
+          <span>Missing facility link</span>
+        </article>
+        <article class="portal-summary-block contracts-metric-card">
+          <strong>214</strong>
+          <span>Potential duplicates</span>
+        </article>
+      </section>
+
+      <section class="portal-panel contracts-filter-panel" aria-label="Contract search filters">
+        <div class="portal-section-header portal-section-header-compact">
+          <div>
+            <span class="portal-kicker">Find contracts</span>
+            <h2>Contract list search</h2>
+            <p>Search across customer, counterparty, facility, label, service, notes, and status fields from one place.</p>
+          </div>
+          <button class="portal-btn-soft" type="button">Save view</button>
         </div>
 
-        <a class="doc-support" href="#">Help</a>
-      </aside>
+        <div class="contracts-search-row">
+          <label class="portal-field contracts-search-field">
+            <span class="portal-field-label">Universal search</span>
+            <input class="portal-input" type="search" placeholder="Search anything: customer, facility, service, label, counterparty…" />
+          </label>
+          <label class="portal-field">
+            <span class="portal-field-label">Customer</span>
+            <select class="portal-select">
+              <option>All customers</option>
+              <option>MD Ranger Customer Use Only</option>
+              <option>CommonSpirit Health</option>
+              <option>Prime Healthcare</option>
+            </select>
+          </label>
+          <label class="portal-field">
+            <span class="portal-field-label">Status</span>
+            <select class="portal-select">
+              <option>All statuses</option>
+              <option>In process</option>
+              <option>Certified</option>
+              <option>Preloaded</option>
+            </select>
+          </label>
+        </div>
 
-      <main class="doc-main contracts-main">
-        <header class="doc-topbar">
-          <h1>Contracts</h1>
-          <div class="user-actions">
-            <span>Saved</span>
-            <span>Data Tool</span>
-            <span>Audit</span>
-            <span>Customers</span>
+        <div class="portal-pill-row contracts-filter-pills" aria-label="Quick filters">
+          <span class="portal-pill">Certified</span>
+          <span class="portal-pill">In process</span>
+          <span class="portal-pill">Hospital-based</span>
+          <span class="portal-pill">Coverage</span>
+          <span class="portal-pill">Direction</span>
+          <span class="portal-pill">Missing facility</span>
+          <span class="portal-pill">Duplicates</span>
+        </div>
+      </section>
+
+      <section class="contracts-content-grid">
+        <article class="portal-panel contracts-list-panel">
+          <div class="portal-section-header portal-section-header-compact">
+            <div>
+              <span class="portal-kicker">Inventory</span>
+              <h2>Contract list</h2>
+              <p>Creation is no longer embedded in this grid. Select a row to inspect or edit contract details.</p>
+            </div>
           </div>
-        </header>
 
-        <section class="contracts-layout">
-          <article class="card contract-editor">
-            <div class="form-grid-2">
-              <label>Label<input class="text-field" value="RangerSuite" /></label>
-              <label>Counterparty<input class="text-field" /></label>
-            </div>
-
-            <label class="full-row">Dates
-              <div class="input-with-action">
-                <input class="text-field" placeholder="Select a date" />
-                <button class="icon-btn" aria-label="Open date picker">📅</button>
-              </div>
-            </label>
-
-            <div class="form-grid-2 align-end">
-              <label>Facility
-                <select class="select-field">
-                  <option>-- select --</option>
-                </select>
-              </label>
-              <div class="check-list">
-                <label><input type="checkbox" /> Not renewed</label>
-                <label><input type="checkbox" /> Payee?</label>
-                <label><input type="checkbox" /> Select if Hospital Based Arrangement</label>
-              </div>
-            </div>
-
-            <label class="full-row">Notes<textarea class="text-field" rows="4"></textarea></label>
-
-            <div class="quick-links">
-              <button>+ Add ED coverage position</button>
-              <button>+ Add direction position</button>
-              <button>+ Add test</button>
-              <button>+ Add clinical/professional service</button>
-              <button>+ Add telemedicine position</button>
-              <button>+ Add locums position</button>
-              <button>+ Add employment/salary position</button>
-              <button>+ Upload file</button>
-            </div>
-
-            <button class="primary-btn">Save &amp; Close</button>
-          </article>
-
-          <article class="card contract-service">
-            <h2>Contract items</h2>
-            <table class="compact-table">
-              <thead><tr><th>Actions</th><th>Type</th><th>Service</th><th>Notes</th></tr></thead>
+          <div class="contracts-table-wrap">
+            <table class="contracts-table">
+              <thead>
+                <tr>
+                  <th>Contract</th>
+                  <th>Facility</th>
+                  <th>System</th>
+                  <th>Service</th>
+                  <th>Status</th>
+                  <th>End date</th>
+                  <th>Issues</th>
+                </tr>
+              </thead>
               <tbody>
-                <tr><td>📄 🗑️</td><td>Coverage</td><td>No service</td><td>N/A</td></tr>
-                <tr><td>📄 🗑️</td><td>Direction</td><td>No service</td><td>N/A</td></tr>
-                <tr><td>📄 🗑️</td><td>Locums</td><td>No service</td><td>N/A</td></tr>
+                <tr class="is-selected">
+                  <td>
+                    <strong>HW-3037</strong>
+                    <span>Hospital-based · No-sec Pmt</span>
+                  </td>
+                  <td>Sutter-Coast</td>
+                  <td>Sutter</td>
+                  <td>Path-laboratory</td>
+                  <td><span class="contracts-badge contracts-badge-success">Certified</span></td>
+                  <td>04/20/2027</td>
+                  <td>Ready</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Maiterid 29494</strong>
+                    <span>Hospital-based · Annualized</span>
+                  </td>
+                  <td>Sequoia Hospital</td>
+                  <td>Dignity</td>
+                  <td>Anesthesia Comprehensive</td>
+                  <td><span class="contracts-badge contracts-badge-warning">Review</span></td>
+                  <td>09/01/2026</td>
+                  <td>Facility match</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Maiterid 79847</strong>
+                    <span>Hospital-based · No-sec Pmt</span>
+                  </td>
+                  <td>St Rose Dominican - Rose</td>
+                  <td>Dignity</td>
+                  <td>Critical Care</td>
+                  <td><span class="contracts-badge contracts-badge-success">Certified</span></td>
+                  <td>09/20/2026</td>
+                  <td>Ready</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Maiterid 88089</strong>
+                    <span>Hospital-based · No-sec Pmt</span>
+                  </td>
+                  <td>St Mary's Regional Medical</td>
+                  <td>Prime</td>
+                  <td>Path-Laboratory</td>
+                  <td><span class="contracts-badge contracts-badge-danger">Duplicate risk</span></td>
+                  <td>07/20/2026</td>
+                  <td>Duplicate facility</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Maiterid 72142</strong>
+                    <span>Hospital-based · No-sec Pmt</span>
+                  </td>
+                  <td>St Mary's Regional Medical</td>
+                  <td>Prime</td>
+                  <td>Radiology</td>
+                  <td><span class="contracts-badge contracts-badge-muted">Preloaded</span></td>
+                  <td>01/26/2027</td>
+                  <td>Needs service audit</td>
+                </tr>
               </tbody>
             </table>
+          </div>
+        </article>
 
-            <hr />
-            <h3>Service</h3>
-            <input class="text-field" placeholder="Search for services" />
-            <div class="radio-stack">
-              <label><input checked type="radio" name="svc" /> ED coverage</label>
-              <label><input type="radio" name="svc" /> Consultation</label>
-              <label><input type="radio" name="svc" /> Other</label>
+        <aside class="portal-panel contracts-detail-panel" aria-label="Selected contract summary">
+          <span class="portal-kicker">Selected contract</span>
+          <h2>HW-3037</h2>
+          <p>Sutter-Coast · Path-laboratory · Certified</p>
+
+          <div class="contracts-detail-stack">
+            <div>
+              <strong>Facility confidence</strong>
+              <span>Matched to Sutter-Coast with no duplicate warning.</span>
             </div>
-
-            <div class="terms-head"><h3>Terms</h3><h3>Rate</h3></div>
-            <div class="terms-grid">
-              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
-              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
-              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
-              <select class="select-field"><option></option></select><input class="text-field" placeholder="$" />
+            <div>
+              <strong>Contract data</strong>
+              <span>Label, counterparty, dates, notes, and service items are complete.</span>
             </div>
-
-            <label class="full-row">Number of physicians assigned to this service<input class="text-field" /></label>
-
-            <h3>Coverage restrictions</h3>
-            <div class="restriction-grid">
-              <div>
-                <p>In-house</p>
-                <label><input type="radio" name="inh" /> Yes</label><label><input checked type="radio" name="inh" /> No</label>
-                <p>Limited to one facility</p>
-                <label><input type="radio" name="lim" /> Yes</label><label><input checked type="radio" name="lim" /> No</label>
-              </div>
-              <div>
-                <p>Restricted</p>
-                <label><input type="radio" name="res" /> Yes</label><label><input checked type="radio" name="res" /> No</label>
-                <p>Coverage by residents/fellows</p>
-                <label><input type="radio" name="fell" /> Yes</label><label><input checked type="radio" name="fell" /> No</label>
-              </div>
+            <div>
+              <strong>Next action</strong>
+              <span>Open the focused contract editor if you need to change details or add a new service item.</span>
             </div>
+          </div>
 
-            <label class="full-row">Notes<textarea class="text-field" rows="3" placeholder="Type notes here..."></textarea></label>
-          </article>
-        </section>
-      </main>
-    </div>
+          <div class="contracts-side-actions">
+            <a class="portal-btn-primary" href="create-contract.html">Open editor</a>
+            <button class="portal-btn-muted" type="button">Audit history</button>
+          </div>
+        </aside>
+      </section>
+    </main>
   </body>
 </html>
